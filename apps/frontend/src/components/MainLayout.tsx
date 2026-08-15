@@ -1,9 +1,11 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { ShieldCheck, ArrowRight } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Moon, Sun } from 'lucide-react';
+import { useTheme } from '../hooks/useTheme';
 import styles from './MainLayout.module.css';
 
 export default function MainLayout() {
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -26,6 +28,9 @@ export default function MainLayout() {
           </nav>
           
           <div className={styles.actions}>
+            <button className={styles.iconBtn} onClick={toggleTheme} aria-label="Toggle theme">
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
             <Link to="/login" className={styles.loginBtn}>
               Dashboard <ArrowRight size={16} />
             </Link>

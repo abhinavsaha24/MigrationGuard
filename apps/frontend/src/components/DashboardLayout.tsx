@@ -1,16 +1,18 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { ShieldCheck, LogOut, Moon, Sun, LayoutDashboard, Activity, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
-import { LayoutDashboard, Activity, LogOut, ArrowLeft } from 'lucide-react';
+import { useTheme } from '../hooks/useTheme';
 import styles from './DashboardLayout.module.css';
 
 export default function DashboardLayout() {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/');
   };
 
   const isActive = (path: string) => {
@@ -46,10 +48,14 @@ export default function DashboardLayout() {
           </Link>
         </nav>
 
-        <div className={styles.bottomNav}>
-          <button onClick={handleLogout} className={styles.logoutBtn}>
-            <LogOut size={18} />
-            Sign Out
+        <div className={styles.bottomActions}>
+          <button className={styles.navItem} onClick={toggleTheme}>
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+          </button>
+          <button className={styles.logoutBtn} onClick={handleLogout}>
+            <LogOut size={16} />
+            <span>Log out</span>
           </button>
         </div>
       </aside>

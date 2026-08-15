@@ -63,11 +63,22 @@
   align-items: flex-start;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 1rem 1.25rem;
-  transition: border-color 0.15s;
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.5rem;
+  transition: border-color 0.15s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
 }
-.milestoneCard:hover { border-color: #3a3a42; }
+.milestoneCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--border), var(--border-strong), var(--border));
+}
+.milestoneCard:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
 
 .milestoneLeft {
   flex-shrink: 0;
