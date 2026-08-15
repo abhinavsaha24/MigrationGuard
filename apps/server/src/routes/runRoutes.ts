@@ -1,0 +1,141 @@
+import { FastifyInstance } from 'fastify';
+import { prisma } from '../config/prisma.js';
+import { uploadFile, getFileUrl } from '../services/storageService.js';
+import * as crypto from 'crypto';
+import { z } from 'zod';
+
+const paramIdSchema = z.object({ id: z.string() });
+const runDecisionSchema = z.object({
+  decision: z.enum(['ACCEPTED', 'REJECTED']),
+  comment: z.string().optional(),
+});
+
+export async function setupRunRoutes(app: FastifyInstance) {
+  // Submit a Verification Run
+  app.post('/', { preValidation: [(app as any).authenticate] }, async (request, reply) => {
+    const body: any = request.body;
+    try {
+      const run = await prisma.verificationRun.create({
+        data: {
+          id: body.runId,
+          migrationName: body.migrationName,
+          status: body.status,
+          durationMs: body.durationMs,
+          artifactKey: body.artifactKey,
+          artifactHash: body.artifactHash,
+          compatibility: {
+            create: body.compatibility.map((c: any) => ({
+              appVersion: c.appVersion,
+              dbVersion: c.dbVersion,
+              status: c.status,
+              durationMs: c.durationMs,
+              error: c.error,
+            })),
+          },
+          evidence: {
+            create: body.evidence.map((e: any) => ({
+              faultType: e.faultType,
+              confidence: e.confidence,
+              operation: e.operation,
+              observedError: e.observedError,
+            })),
+          },
+        },
+        include: {
+          compatibility: true,
+          evidence: true,
+        },
+      });
+      return reply.send(run);
+    } catch (e: any) {
+      return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: e.message } });
+    }
+  });
+
+  // Upload Artifact
+  app.post('/artifact', { preValidation: [(app as any).authenticate] }, async (request, reply) => {
+    const data = await request.file();
+    if (!data) {
+      return reply
+        .status(400)
+        .send({ error: { code: 'VALIDATION_ERROR', message: 'No file uploaded' } });
+    }
+
+    const buffer = await data.toBuffer();
+    if (data.file.truncated) {
+      return reply
+        .status(413)
+        .send({ error: { code: 'PAYLOAD_TOO_LARGE', message: 'File exceeds maximum size' } });
+    }
+    if (buffer.length === 0) {
+      return reply
+        .status(400)
+        .send({ error: { code: 'VALIDATION_ERROR', message: 'File is empty' } });
+    }
+
+    const hash = crypto.createHash('sha256').update(buffer).digest('hex');
+    const storageKey = await uploadFile(buffer, data.mimetype, 'json');
+
+    return reply.send({ artifactKey: storageKey, artifactHash: hash });
+  });
+
+  // Get all Runs
+  app.get('/', async (request, reply) => {
+    const runs = await prisma.verificationRun.findMany({
+      orderBy: { timestamp: 'desc' },
+    });
+    return reply.send(runs);
+  });
+
+  // Get specific Run with Evidence and Decisions
+  app.get('/:id', async (request, reply) => {
+    const { id } = paramIdSchema.parse(request.params);
+    const run = await prisma.verificationRun.findUnique({
+      where: { id },
+      include: {
+        compatibility: true,
+        evidence: true,
+        ReviewerDecision: { include: { reviewer: { select: { email: true } } } },
+      },
+    });
+    if (!run) return reply.status(404).send();
+
+    let artifactUrl = null;
+    if (run.artifactKey) {
+      artifactUrl = await getFileUrl(run.artifactKey);
+    }
+
+    return reply.send({ ...run, artifactUrl });
+  });
+
+  // Reviewer Decision
+  app.post(
+    '/:id/decisions',
+    { preValidation: [(app as any).authenticate] },
+    async (request, reply) => {
+      const user = (request as any).user;
+      if (user.role !== 'REVIEWER' && user.role !== 'ADMIN') {
+        return reply
+          .status(403)
+          .send({ error: { code: 'FORBIDDEN', message: 'Reviewer role required' } });
+      }
+
+      const { id } = paramIdSchema.parse(request.params);
+      const { decision, comment } = runDecisionSchema.parse(request.body);
+
+      try {
+        const reviewerDecision = await prisma.reviewerDecision.create({
+          data: {
+            runId: id,
+            reviewerId: user.id,
+            decision,
+            comment,
+          },
+        });
+        return reply.send(reviewerDecision);
+      } catch (e: any) {
+        return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: e.message } });
+      }
+    },
+  );
+}

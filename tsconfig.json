@@ -1,0 +1,16 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/core" },
+    { "path": "packages/sandbox" },
+    { "path": "packages/evidence" },
+    { "path": "packages/migration-engine" },
+    { "path": "packages/application-runner" },
+    { "path": "packages/workload" },
+    { "path": "packages/matrix-engine" },
+    { "path": "packages/compatibility" },
+    { "path": "packages/benchmark-runner" },
+    { "path": "apps/poc-app" },
+    { "path": "cli" }
+  ]
+}

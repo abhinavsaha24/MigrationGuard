@@ -1,0 +1,25 @@
+{
+  "id": "W-TYPE-NARROWING",
+  "name": "Type Narrowing Workload",
+  "operations": [
+    {
+      "id": "get-user-1",
+      "name": "Get User 1",
+      "method": "GET",
+      "path": "/users/1",
+      "expectedStatus": 200,
+      "timeoutMs": 1000
+    },
+    {
+      "id": "update-large-age",
+      "name": "Update Large Age",
+      "method": "PUT",
+      "path": "/users/1",
+      "body": {
+        "age": 40000
+      },
+      "expectedStatus": 200,
+      "timeoutMs": 1000
+    }
+  ]
+}

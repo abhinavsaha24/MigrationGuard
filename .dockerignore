@@ -1,0 +1,7 @@
+.git
+benchmark/
+reports/
+dist
+coverage
+*.log
+node_modules

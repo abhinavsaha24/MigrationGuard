@@ -1,0 +1,257 @@
+/* ============================================================
+   SHARED PAGE STYLES — MigrationGuard
+   Replaces the old "section/uppercase-header/divider/text" pattern
+   ============================================================ */
+
+/* Page wrapper */
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  width: 100%;
+}
+
+.pageWide {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  width: 100%;
+}
+
+/* ---- Page header ---- */
+.pageHeader {
+  margin-bottom: 3rem;
+}
+
+.pageLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 0.875rem;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+
+.pageSubtitle {
+  font-size: 1rem;
+  color: var(--text);
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+/* ---- Section ---- */
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+/* ---- Cards ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: border-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: #3a3a42;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* ---- Metric cards ---- */
+.metricsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.875rem;
+}
+
+.metricCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+}
+
+.metricValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.375rem;
+  font-family: var(--font-mono);
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.metricGreen .metricValue { color: var(--green); }
+.metricRed   .metricValue { color: var(--red); }
+.metricBlue  .metricValue { color: var(--blue); }
+
+/* ---- Status badges ---- */
+.badgeSafe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.2em 0.6em;
+  border-radius: 100px;
+  border: 1px solid var(--green-border);
+  color: var(--green);
+  background: var(--green-muted);
+  text-transform: uppercase;
+}
+
+.badgeUnsafe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.2em 0.6em;
+  border-radius: 100px;
+  border: 1px solid var(--red-border);
+  color: var(--red);
+  background: var(--red-muted);
+  text-transform: uppercase;
+}
+
+.badgeAmber {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.2em 0.6em;
+  border-radius: 100px;
+  border: 1px solid var(--amber-border);
+  color: var(--amber);
+  background: var(--amber-muted);
+  text-transform: uppercase;
+}
+
+/* ---- Callout/Notice ---- */
+.notice {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.noticeAmber {
+  background: var(--amber-muted);
+  border: 1px solid var(--amber-border);
+  color: var(--amber);
+}
+
+.noticeBlue {
+  background: var(--blue-muted);
+  border: 1px solid var(--blue-border);
+  color: var(--blue);
+}
+
+.noticeGreen {
+  background: var(--green-muted);
+  border: 1px solid var(--green-border);
+  color: var(--green);
+}
+
+/* ---- Table ---- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table thead {
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  padding: 0.625rem 1rem;
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.table td {
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tableWrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.green { color: var(--green) !important; font-weight: 600; }
+.red   { color: var(--red)   !important; font-weight: 600; }
+.blue  { color: var(--blue)  !important; font-weight: 600; }
+.amber { color: var(--amber) !important; font-weight: 600; }
+
+/* ---- Two-col layout ---- */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 680px) {
+  .twoCol { grid-template-columns: 1fr; }
+  .metricsRow { grid-template-columns: repeat(2, 1fr); }
+  .cardGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .page, .pageWide { padding: 2rem 1rem 4rem; }
+  .metricsRow { grid-template-columns: 1fr 1fr; }
+}

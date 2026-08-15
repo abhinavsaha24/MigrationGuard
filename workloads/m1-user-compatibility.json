@@ -1,0 +1,15 @@
+{
+  "id": "m1-user-compatibility",
+  "name": "M1 User Compatibility",
+  "description": "Representative user read operations to test destructive rename compatibility",
+  "operations": [
+    {
+      "id": "get-user-1",
+      "method": "GET",
+      "path": "/users/1",
+      "expect": {
+        "status": 200
+      }
+    }
+  ]
+}

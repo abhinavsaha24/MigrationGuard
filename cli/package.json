@@ -1,0 +1,27 @@
+{
+  "name": "@migrationguard/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "migrationguard": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "verify": "node ./dist/index.js verify",
+    "benchmark": "node ./dist/index.js benchmark"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.621.0",
+    "@migrationguard/application-runner": "*",
+    "@migrationguard/benchmark-runner": "*",
+    "@migrationguard/compatibility": "^0.1.0",
+    "@migrationguard/evidence": "^0.1.0",
+    "@migrationguard/matrix-engine": "^0.1.0",
+    "@migrationguard/migration-engine": "*",
+    "@migrationguard/sandbox": "*",
+    "@migrationguard/workload": "^0.1.0",
+    "@prisma/client": "^5.22.0",
+    "commander": "^15.0.0",
+    "formdata-node": "^6.0.3"
+  }
+}

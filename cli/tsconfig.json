@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../packages/sandbox" },
+    { "path": "../packages/migration-engine" },
+    { "path": "../packages/application-runner" },
+    { "path": "../packages/compatibility" },
+    { "path": "../packages/workload" },
+    { "path": "../packages/matrix-engine" },
+    { "path": "../packages/evidence" },
+    { "path": "../packages/benchmark-runner" }
+  ],
+  "include": ["src/**/*"]
+}

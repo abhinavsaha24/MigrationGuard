@@ -1,0 +1,16 @@
+{
+  "name": "@migrationguard/poc-app",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "generate": "npx prisma generate --schema ../../fixtures/prisma/schema-v1.prisma && npx prisma generate --schema ../../fixtures/prisma/schema-v2.prisma",
+    "build": "npm run generate && tsc -b",
+    "start:old": "node dist/old.js",
+    "start:new": "node dist/new.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "prisma": "^5.20.0"
+  },
+  "devDependencies": {}
+}

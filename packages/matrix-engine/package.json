@@ -1,0 +1,16 @@
+{
+  "name": "@migrationguard/matrix-engine",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@migrationguard/sandbox": "*",
+    "@migrationguard/migration-engine": "*",
+    "@migrationguard/application-runner": "*",
+    "@migrationguard/workload": "*"
+  }
+}

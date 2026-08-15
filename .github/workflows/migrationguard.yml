@@ -1,0 +1,113 @@
+name: MigrationGuard Verification
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+# Minimal permissions — read-only by default, write only for step summary
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  verify:
+    name: Build, Test & Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format Check
+        run: npm run format:check
+
+      - name: Unit & Integration Tests
+        run: npm run test
+
+      - name: Run MigrationGuard Verification
+        id: verify
+        # Exit code semantics (must not fail CI for codes 0 or 1):
+        #   0 = verified PASS — migration is compatible
+        #   1 = verified FAIL — migration detected as incompatible (expected for M1 fixture)
+        #   2 = configuration error
+        #   3 = infrastructure/execution failure
+        #   4 = unknown failure
+        #
+        # The default M1 regression fixture intentionally contains a
+        # DESTRUCTIVE_RENAME that MigrationGuard is designed to detect.
+        # Exit code 1 from this step means the verifier is working correctly,
+        # NOT that CI is broken. Codes 2, 3, 4 indicate real failures.
+        run: |
+          npm run verify > output.txt 2>&1
+          exit_code=$?
+          cat output.txt
+
+          echo "# MigrationGuard Verification" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ $exit_code -eq 0 ]; then
+            echo "**Status: ✅ PASS — Migration compatible**" >> $GITHUB_STEP_SUMMARY
+          elif [ $exit_code -eq 1 ]; then
+            echo "**Status: ⚠️ VERIFIED INCOMPATIBILITY DETECTED (expected for M1 fixture)**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "_Exit code 1 = verifier correctly detected a known-unsafe migration. This is the intended result for the default regression fixture._" >> $GITHUB_STEP_SUMMARY
+          elif [ $exit_code -eq 2 ]; then
+            echo "**Status: ❌ CONFIGURATION ERROR**" >> $GITHUB_STEP_SUMMARY
+          elif [ $exit_code -eq 3 ]; then
+            echo "**Status: 💥 INFRASTRUCTURE/EXECUTION FAILURE**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Status: ❓ UNKNOWN FAILURE (exit $exit_code)**" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          grep -A 10 "Compatibility Matrix:" output.txt | grep -E "PASS|FAIL|ERROR" >> $GITHUB_STEP_SUMMARY || true
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          grep -A 1 "^Fault:" output.txt | grep -v "^Fault:" | sed 's/^/**Fault:** /' >> $GITHUB_STEP_SUMMARY || true
+          grep -A 1 "^Confidence:" output.txt | grep -v "^Confidence:" | sed 's/^/**Confidence:** /' >> $GITHUB_STEP_SUMMARY || true
+
+          # Exit 0 or 1 = verifier executed correctly.
+          # Exit 2, 3, 4 = real failure — fail the CI step.
+          if [ $exit_code -le 1 ]; then
+            exit 0
+          else
+            exit $exit_code
+          fi
+
+      - name: Run Benchmark
+        run: |
+          npm run benchmark > benchmark_output.txt 2>&1
+          cat benchmark_output.txt
+          echo "# MigrationGuard Benchmark" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          grep -A 20 "Benchmark Results" benchmark_output.txt >> $GITHUB_STEP_SUMMARY || true
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Archive Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migrationguard-reports
+          path: |
+            reports/
+            docs/benchmark/RESULTS.md
+          retention-days: 30

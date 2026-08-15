@@ -1,0 +1,125 @@
+/* ============================================================
+   MILESTONES PAGE — local styles
+   ============================================================ */
+
+/* Timeline strip */
+.timelineSection {
+  margin-bottom: 3rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.timelineTrack {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: max-content;
+}
+
+.timelineNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.timelineDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--green-border);
+  flex-shrink: 0;
+}
+
+.timelineId {
+  font-size: 0.625rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+.timelineLine {
+  position: absolute;
+  top: 4px;
+  left: calc(50% + 5px);
+  width: 64px;
+  height: 2px;
+  background: var(--green-border);
+}
+
+/* Milestone list */
+.milestoneList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.milestoneCard {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  transition: border-color 0.15s;
+}
+.milestoneCard:hover { border-color: #3a3a42; }
+
+.milestoneLeft {
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.milestoneId {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--blue);
+  background: var(--blue-muted);
+  border: 1px solid var(--blue-border);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.5em;
+  min-width: 2.5rem;
+  text-align: center;
+}
+
+.milestoneBody {
+  flex: 1;
+}
+
+.milestoneHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.milestoneTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.milestoneStatus {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--green);
+  background: var(--green-muted);
+  border: 1px solid var(--green-border);
+  border-radius: 100px;
+  padding: 0.15em 0.6em;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.milestoneDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}

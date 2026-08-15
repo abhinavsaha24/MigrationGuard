@@ -1,0 +1,86 @@
+/* ============================================================
+   RESEARCH PAGE — local styles
+   ============================================================ */
+
+.questionCard {
+  background: var(--blue-muted);
+  border: 1px solid var(--blue-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+}
+.questionCard p {
+  font-size: 1.0625rem;
+  color: var(--text-primary);
+  font-style: italic;
+  line-height: 1.7;
+}
+
+.hypothesisCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 1.25rem 1.5rem;
+}
+.hypothesisCard p {
+  font-size: 0.9375rem;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.stepsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.step {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  transition: border-color 0.15s;
+}
+.step:hover { border-color: #3a3a42; }
+
+.stepNum {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  background: var(--blue-muted);
+  border: 1px solid var(--blue-border);
+  border-radius: var(--radius-sm);
+  padding: 0.2em 0.5em;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.stepBody {
+  flex: 1;
+}
+
+.stepTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 0.3rem;
+}
+
+.stepDesc {
+  font-size: 0.875rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.matrixIntro {
+  font-size: 0.9375rem;
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  max-width: 640px;
+}

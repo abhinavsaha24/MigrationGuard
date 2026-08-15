@@ -1,0 +1,40 @@
+{
+  "tests": [
+    {
+      "testId": "TRACK_B_COLUMN_REMOVAL",
+      "track": "B",
+      "repository": "benchmark/fixtures/column-removal",
+      "migration": "20240102000000_v2",
+      "faultType": "COLUMN_REMOVAL",
+      "groundTruth": "UNSAFE",
+      "workload": "workloads/m1-user-compatibility.json"
+    },
+    {
+      "testId": "TRACK_B_SAFE_ADD_COLUMN",
+      "track": "B",
+      "repository": "benchmark/fixtures/safe-add-column",
+      "migration": "20240102000000_v2",
+      "faultType": "NONE",
+      "groundTruth": "SAFE",
+      "workload": "workloads/m1-user-compatibility.json"
+    },
+    {
+      "testId": "TRACK_B_TYPE_NARROWING",
+      "track": "B",
+      "repository": "benchmark/fixtures/type-narrowing",
+      "migration": "20240102000000_v2",
+      "faultType": "TYPE_NARROWING",
+      "groundTruth": "UNSAFE",
+      "workload": "benchmark/workloads/type-narrowing.json"
+    },
+    {
+      "testId": "TRACK_A_EXPRESS_REAL",
+      "track": "A",
+      "repository": "benchmark/repositories/express-real",
+      "migration": "20240101000001_v2",
+      "faultType": "NONE",
+      "groundTruth": "SAFE",
+      "workload": "benchmark/workloads/express-real.json"
+    }
+  ]
+}

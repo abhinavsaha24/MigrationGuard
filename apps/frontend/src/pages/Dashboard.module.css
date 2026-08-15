@@ -1,0 +1,183 @@
+/* ============================================================
+   DASHBOARD — pages
+   ============================================================ */
+
+.container {
+  padding: 2.5rem 2rem;
+  max-width: 900px;
+}
+
+/* Page title */
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.875rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+}
+
+.statCard h3 {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  font-family: var(--font-mono);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Section */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.875rem;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: pointer;
+}
+.card:hover {
+  border-color: #3a3a42;
+  background: var(--surface-raised);
+}
+
+.card h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 0.375rem;
+}
+
+.card p {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+/* Back button */
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  padding: 0.375rem 0;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s;
+}
+.backBtn:hover { color: var(--text-primary); }
+
+/* Status badge inline */
+.statusSafe   { color: var(--green); font-weight: 600; }
+.statusUnsafe { color: var(--red);   font-weight: 600; }
+.statusPending { color: var(--amber); font-weight: 600; }
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+/* Matrix detail grid */
+.matrixGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.matrixCard {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.125rem;
+}
+
+.matrixCard.compatible {
+  border-color: var(--green-border);
+  background: var(--green-muted);
+}
+
+.matrixCard.incompatible {
+  border-color: var(--red-border);
+  background: var(--red-muted);
+}
+
+.matrixCell {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 0.25rem;
+}
+
+.matrixStatus {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.matrixFault {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 1.5rem 1rem; }
+  .matrixGrid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "multiple-read",
+  "name": "Multiple Read Workload",
+  "description": "Representative multiple user read operations",
+  "operations": [
+    {
+      "id": "get-user-1",
+      "method": "GET",
+      "path": "/users/1",
+      "expect": {
+        "status": 200
+      }
+    },
+    {
+      "id": "get-user-2",
+      "method": "GET",
+      "path": "/users/2",
+      "expect": {
+        "status": 200
+      }
+    }
+  ]
+}

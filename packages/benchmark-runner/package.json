@@ -1,0 +1,23 @@
+{
+  "name": "@migrationguard/benchmark-runner",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@migrationguard/core": "*",
+    "@migrationguard/sandbox": "*",
+    "@migrationguard/matrix-engine": "*",
+    "@migrationguard/evidence": "*",
+    "@migrationguard/compatibility": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^2.1.0"
+  }
+}

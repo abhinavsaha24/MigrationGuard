@@ -1,0 +1,129 @@
+/* ============================================================
+   PROJECT PAGE — local styles
+   ============================================================ */
+
+/* Status row */
+.statusRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+}
+
+.statusCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+}
+
+.statusKey {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.375rem;
+}
+
+.statusVal {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  font-family: var(--font-mono);
+  word-break: break-word;
+}
+
+.statusVal code {
+  background: transparent;
+  border: none;
+  color: var(--blue);
+  padding: 0;
+  font-size: inherit;
+  font-family: var(--font-mono);
+}
+
+/* Description card */
+.descCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+}
+
+.descCard p {
+  font-size: 0.9375rem;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+/* Research metrics */
+.researchGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.875rem;
+}
+
+.researchCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.researchNum {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.375rem;
+}
+
+.researchLabel {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Explore links */
+.exploreCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.15s, background 0.15s;
+}
+.exploreCard:hover {
+  border-color: var(--blue-border);
+  background: var(--blue-muted);
+}
+
+.exploreTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 0.375rem;
+}
+
+.exploreCard p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .statusRow  { grid-template-columns: repeat(2, 1fr); }
+  .researchGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .statusRow    { grid-template-columns: 1fr; }
+  .researchGrid { grid-template-columns: repeat(2, 1fr); }
+}

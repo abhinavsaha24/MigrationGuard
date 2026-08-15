@@ -1,0 +1,22 @@
+{
+  "id": "W-EXPRESS-REAL",
+  "name": "Express Real Track A Workload",
+  "operations": [
+    {
+      "id": "health-check",
+      "name": "Check Health",
+      "method": "GET",
+      "path": "/health",
+      "expectedStatus": 200,
+      "timeoutMs": 1000
+    },
+    {
+      "id": "get-feed",
+      "name": "Get Feed",
+      "method": "GET",
+      "path": "/feed",
+      "expectedStatus": 200,
+      "timeoutMs": 2000
+    }
+  ]
+}

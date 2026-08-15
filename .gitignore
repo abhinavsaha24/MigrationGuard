@@ -1,0 +1,22 @@
+node_modules
+dist
+coverage
+.env
+.DS_Store
+*.log
+
+# Generated reports (local verification runs)
+reports/
+
+# Test artifact binaries (upload boundary testing)
+*.bin
+downloaded.json
+
+# Temporary benchmark working directories
+benchmark/tmp*/
+
+# CI/local script output
+output.txt
+
+# OS artifacts
+Thumbs.db

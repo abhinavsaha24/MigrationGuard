@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  REVIEWER
+}
+
+enum ReviewDecision {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model User {
+  id               String             @id @default(uuid())
+  email            String             @unique
+  passwordHash     String
+  role             Role               @default(REVIEWER)
+  createdAt        DateTime           @default(now())
+  ReviewerDecision ReviewerDecision[]
+}
+
+model Presentation {
+  id        String                @id @default(uuid())
+  title     String
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  versions  PresentationVersion[]
+}
+
+model PresentationVersion {
+  id               String       @id @default(uuid())
+  presentationId   String
+  presentation     Presentation @relation(fields: [presentationId], references: [id], onDelete: Cascade)
+  version          Int
+  authors          String?
+  changeSummary    String?
+  presentationDate DateTime?
+  originalFilename String
+  mimeType         String
+  size             Int
+  storageKey       String       @unique
+  publishedAt      DateTime?
+  createdAt        DateTime     @default(now())
+
+  @@unique([presentationId, version])
+}
+
+model VerificationRun {
+  id               String             @id // Client-provided runId, e.g. from CLI
+  migrationName    String
+  status           String // PASS, FAIL, etc.
+  durationMs       Int
+  artifactKey      String?
+  artifactHash     String?
+  timestamp        DateTime           @default(now())
+  compatibility    CompatibilityRun[]
+  evidence         EvidenceRecord[]
+  ReviewerDecision ReviewerDecision[]
+}
+
+model CompatibilityRun {
+  id         String          @id @default(uuid())
+  runId      String
+  run        VerificationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  appVersion String
+  dbVersion  String
+  status     String // PASS, FAIL
+  error      String?
+  durationMs Int
+}
+
+model EvidenceRecord {
+  id             String          @id @default(uuid())
+  runId          String
+  run            VerificationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  faultType      String
+  confidence     String
+  operation      String?
+  observedError  String?
+  storageKey     String? // If full JSON report is stored in S3
+  createdAt      DateTime        @default(now())
+}
+
+model ReviewerDecision {
+  id        String          @id @default(uuid())
+  runId     String
+  run       VerificationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  reviewerId String
+  reviewer  User            @relation(fields: [reviewerId], references: [id])
+  decision  ReviewDecision  @default(PENDING)
+  comment   String?
+  timestamp DateTime        @default(now())
+}
