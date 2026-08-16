@@ -1,0 +1,1219 @@
+AGENTS.md
+--- TITLE: # AGENTS constraints ---
+# AGENTS constraints\n## Rules\n- Never fabricate research.\n- Never fabricate benchmark results.\n- Never fabricate successful experiments.\n- Never hide errors.\n- Never remove failing tests just to pass CI.\n- Never add an LLM to the detection path.\n- Never generate a huge implementation without testing it.\n- Never change the frozen architecture without explicit approval.
+======================
+
+apps\frontend\README.md
+--- TITLE: # React + TypeScript + Vite ---
+# React + TypeScript + Vite\nThis template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.\nCurrently, two official plugins are available:\n- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)\n- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)\n## React Compiler\nThe React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).\n## Expanding the Oxlint configuration\nIf you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:\n```json
+======================
+
+benchmark\repositories\blues-stack\LICENSE.md
+--- TITLE: NO TITLE ---
+MIT License\nCopyright (c) Remix Software Inc. 2021\nCopyright (c) Shopify Inc. 2022-2023\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all
+======================
+
+benchmark\repositories\blues-stack\mocks\README.md
+--- TITLE: # Mocks ---
+# Mocks\nUse this to mock any third party HTTP resources that you don't have running locally and want to have mocked for local development as well as tests.\nLearn more about how to use this at [mswjs.io](https://mswjs.io/)\nFor an extensive example, see the [source code for kentcdodds.com](https://github.com/kentcdodds/kentcdodds.com/blob/main/mocks/index.ts)
+======================
+
+benchmark\repositories\blues-stack\README.md
+--- TITLE: # Remix Blues Stack ---
+> [!NOTE]\n> This repo has been archived. Please refer instead to:\n> - The official [React Router templates](https://github.com/remix-run/react-router-templates/) for simple templates to get started with\n> - [The Epic Stack](https://github.com/epicweb-dev/epic-stack) for a more comprehensive, batteries-included option\n> - [Remix Discord](https://rmx.as/discord) to ask and share community templates\n# Remix Blues Stack\n![The Remix Blues Stack](https://repository-images.githubusercontent.com/461012689/37d5bd8b-fa9c-4ab0-893c-f0a199d5012d)\nLearn more about [Remix Stacks](https://remix.run/stacks).\n```\nnpx create-remix@latest --template remix-run/blues-stack
+======================
+
+benchmark\repositories\express-real\README.md
+--- TITLE: # REST API Example with Express & Prisma Postgres ---
+# REST API Example with Express & Prisma Postgres\nThis example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/), Prisma ORM and a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```terminal\nnpx try-prisma@latest --template orm/express --install npm --name express\n```\nThen, navigate into the project directory:\n```terminal
+======================
+
+benchmark\repositories\prisma-examples\accelerate\accelerate-hacker-news\README.md
+--- TITLE: # Prisma Accelerate Hacker News Clone ---
+# Prisma Accelerate Hacker News Clone\nThis project showcases how to use Prisma ORM with Prisma Accelerate, leveraging caching and on-demand cache invalidation, in a Next.js application to build a minimal Hacker News clone.\nThis app retrieves and caches the [top 20 latest posts](/app/page.tsx#L8) with a long Time-to-Live ([TTL](https://www.prisma.io/docs/accelerate/caching#time-to-live-ttl)). The cache is invalidated on-demand whenever a post is [upvoted](/app/actions/addVotes.ts) or a [new post is added](/app/submit/actions/addPost.ts).\n![GIF of interaction](demo.gif)\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a PostgreSQL database\n- Your **Accelerate connection string** (containing your **Accelerate API key**) which you can get by enabling Accelerate in a project in your [Prisma Data Platform](https://pris.ly/pdp) account (learn more in the [docs](https://www.prisma.io/docs/platform/concepts/environments#api-keys))\n## Getting started\n### 1. Clone the repository
+======================
+
+benchmark\repositories\prisma-examples\accelerate\astro-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Astro Starter ---
+# Prisma Accelerate Example: Astro Starter\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Astro application. It [demonstrates](./src/pages/route.ts#L13-16) every available [caching strategy in Accelerate](https://www.prisma.io/docs/accelerate/caching#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a publicly accessible database.\n- Your **Accelerate connection string** (containing your **Accelerate API key**) which you can get by enabling Accelerate in a project in your [Prisma Data Platform](https://pris.ly/pdp) account (learn more in the [docs](https://www.prisma.io/docs/platform/about#api-keys)).\n## Getting started\n### 1. Clone the repository\nClone the repository, navigate into it and install dependencies:\n```
+======================
+
+benchmark\repositories\prisma-examples\accelerate\nextjs-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Next.js Starter ---
+# Prisma Accelerate Example: Next.js Starter\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Next.js application. It [demonstrates](./app/api/route.ts#L15-46) every available [caching strategy in Accelerate](https://www.prisma.io/docs/data-platform/accelerate/concepts#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a publicly accessible database\n- Your **Accelerate connection string** (containing your **Accelerate API key**) which you can get by enabling Accelerate in a project in your [Prisma Data Platform](https://pris.ly/pdp) account (learn more in the [docs](https://www.prisma.io/docs/platform/concepts/environments#api-keys))\n## Getting started\n### 1. Clone the repository\nClone the repository, navigate into it and install dependencies:\n```
+======================
+
+benchmark\repositories\prisma-examples\accelerate\nuxtjs-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Nuxt.js Starter ---
+# Prisma Accelerate Example: Nuxt.js Starter\n## Introduction\nThe quote generator retrieves the most recently added quote with and without caching enabled from a predefined set of quotes. In the context of your Nuxtjs application, the quote generator is a service that provides quotes, with some caching strategies applied to optimize performance and reduce the load on the database.\n## General Steps of the Quote Generator:\n- Fetch a quote: Retrieves the most recently added quote with and without caching enabled.\n- Apply caching strategy: Depending on the request, it may apply different caching strategies (e.g., TTL, SWR, TTL+SWR or no caching).\n- Return the quote: The selected quote is returned, along with metadata about the caching status and other relevant information.\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Nuxt.js application. It [demonstrates](./server/api/quotes.ts#L11-27) every available [caching strategy in Accelerate](https://www.prisma.io/docs/accelerate/caching#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:
+======================
+
+benchmark\repositories\prisma-examples\accelerate\remix-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Remix Starter ---
+# Prisma Accelerate Example: Remix Starter\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Remix application. It [demonstrates](./app/routes/_index.tsx#L10-13) every available [caching strategy in Accelerate](https://www.prisma.io/docs/data-platform/accelerate/concepts#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a publicly accessible database.\n- Your **Accelerate connection string** (containing your **Accelerate API key**) which you can get by enabling Accelerate in a project in your [Prisma Data Platform](https://pris.ly/pdp) account (learn more in the [docs](https://www.prisma.io/docs/platform/concepts/environments#api-keys)).\n## Getting started\n### 1. Clone the repository\nClone the repository, navigate into it and install dependencies:\n```
+======================
+
+benchmark\repositories\prisma-examples\accelerate\solidstart-starter\README.md
+--- TITLE: # Prisma Accelerate Example: SolidStart Starter ---
+# Prisma Accelerate Example: SolidStart Starter\n## Introduction\nThe quote generator retrieves the most recently added quote with and without caching enabled from a predefined set of quotes. In the context of your Solidstart application, the quote generator is a service that provides quotes, with some caching strategies applied to optimize performance and reduce the load on the database.\n## General Steps of the Quote Generator:\n- Fetch a quote: Retrieves the most recently added quote with and without caching enabled.\n- Apply caching strategy: Depending on the request, it may apply different caching strategies (e.g., TTL, SWR, TTL+SWR or no caching).\n- Return the quote: The selected quote is returned, along with metadata about the caching status and other relevant information.\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a SolidStart application. It [demonstrates](./src/routes/api/quotes.ts#L18-32) every available [caching strategy in Accelerate](https://www.prisma.io/docs/accelerate/caching#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:
+======================
+
+benchmark\repositories\prisma-examples\accelerate\starter\README.md
+--- TITLE: # Prisma Accelerate Example: TypeScript Starter ---
+# Prisma Accelerate Example: TypeScript Starter\nThis repository has been created to help you get started with [Prisma Accelerate](https://prisma.io/accelerate). This project comes with a basic [`schema.prisma`](./prisma/schema.prisma) configured with PostgreSQL and an example operation found in the [`index.ts`](./index.ts) file.\n## Prerequisites\nTo successfully run the project, you will need the following:\n- An Accelerate **connection string**. If you don't have one yet, you can get one in 2 minutes by signing up on console.prisma.io or following our [Getting Started guide](https://www.prisma.io/docs/accelerate/getting-started#1-enable-accelerate).\n## Getting started\n### 1. Download example and install dependencies\nDownload this example:\n```\nnpx try-prisma@latest --template typescript/starter
+======================
+
+benchmark\repositories\prisma-examples\accelerate\svelte-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Sveltekit Starter ---
+# Prisma Accelerate Example: Sveltekit Starter\n## Introduction\nThe quote generator retrieves the most recently added quote with and without caching enabled from a predefined set of quotes. In the context of your Sveltekit application, the quote generator is a service that provides quotes, with some caching strategies applied to optimize performance and reduce the load on the database.\n## General Steps of the Quote Generator:\n- Fetch a quote: Retrieves the most recently added quote with and without caching enabled.\n- Apply caching strategy: Depending on the request, it may apply different caching strategies (e.g., TTL, SWR, TTL+SWR or no caching).\n- Return the quote: The selected quote is returned, along with metadata about the caching status and other relevant information.\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Sveltekit application. It [demonstrates](./src/routes/api/quotes/+server.ts#L18-33) every available [caching strategy in Accelerate](https://www.prisma.io/docs/accelerate/caching#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:
+======================
+
+benchmark\repositories\prisma-examples\compute\hono\README.md
+--- TITLE: # Prisma Compute Hono example ---
+# Prisma Compute Hono example\nThis is a small Hono API that uses Prisma ORM with PostgreSQL and deploys to\nPrisma Compute with the latest `@prisma/cli`.\n## Run locally\n```bash\nbun install\ncp .env.example .env\n# Authenticate once, then create a Prisma Postgres database.\nbun run compute:login\nbun run compute:database:create
+======================
+
+benchmark\repositories\prisma-examples\compute\nextjs\README.md
+--- TITLE: # Prisma Compute Next.js example ---
+# Prisma Compute Next.js example\nThis is a Next.js App Router app that uses Prisma ORM with PostgreSQL and\ndeploys to Prisma Compute with the latest `@prisma/cli`.\nThe app sets `output: "standalone"` in `next.config.ts`, which is the output\nshape Prisma Compute expects for Next.js.\n## Run locally\n```bash\nbun install\ncp .env.example .env\n# Authenticate once, then create a Prisma Postgres database.
+======================
+
+benchmark\repositories\prisma-examples\compute\README.md
+--- TITLE: # Prisma Compute examples ---
+# Prisma Compute examples\nThese examples show Prisma ORM apps deployed to Prisma Compute with the\nlatest `@prisma/cli`.\n| Example | Description |\n| --- | --- |\n| [`hono`](./hono) | Hono API on Node.js. |\n| [`nextjs`](./nextjs) | Next.js App Router app using standalone output for Prisma Compute. |\n| [`tanstack-start`](./tanstack-start) | TanStack Start app using the Nitro Vite plugin output supported by Prisma Compute. |\nEach example includes Prisma ORM, a PostgreSQL schema, seed data, and scripts for\nlocal development and Prisma Compute deployment.
+======================
+
+benchmark\repositories\prisma-examples\compute\tanstack-start\README.md
+--- TITLE: # Prisma Compute TanStack Start example ---
+# Prisma Compute TanStack Start example\nThis is a TanStack Start app that uses Prisma ORM with PostgreSQL and deploys to\nPrisma Compute with the latest `@prisma/cli`.\nThe app uses the Nitro Vite plugin so `vite build` emits the `.output/server`\nshape supported by Prisma Compute.\n## Run locally\n```bash\nbun install\ncp .env.example .env\n# Authenticate once, then create a Prisma Postgres database.
+======================
+
+benchmark\repositories\prisma-examples\CONTRIBUTING.md
+--- TITLE: # Contribution Guidelines ---
+# Contribution Guidelines\n## Commit messages\nPlease use [conventional commits](https://www.conventionalcommits.org) (also known as _semantic commits_) to ensure consistent and descriptive commit messages when submitting PRs.\n## General guidelines\nEvery example should follow a number of guidelines.\n### Example guidelines\n- Simple and minimal instead of complex and production-ready\n- Focus on one specific Prisma use case\n- Easily extensible\n### README guidelines
+======================
+
+benchmark\repositories\prisma-examples\databases\cockroachdb\README.md
+--- TITLE: # CockroachDB example ---
+# CockroachDB example\nThis example shows how to:\n- Connect Prisma to a CockroachDB database\n- Create the database schema with raw SQL\n- Populate the Prisma schema using [`prisma db pull`](https://www.prisma.io/docs/reference/api-reference/command-reference#db-pull)\n- Read and write data to the database using [Prisma Client](https://www.prisma.io/client)\n> **Note:** CockroachDB support in Prisma is currently in [**Preview**](https://www.prisma.io/docs/about/prisma/releases#preview), and **Prisma Migrate isn't supported for now**. For this reason, you will create the database schema with raw SQL.\nThe example consists of two parts:\n- `tests/prisma.test.ts`: Jest test (in TypeScript) with a variety of Prisma Client queries and assertions to showcase access patterns\n- `src/script.ts`: Node.js script with queries similar to the ones in the test.
+======================
+
+benchmark\repositories\prisma-examples\databases\drizzle-prisma-postgres\README.md
+--- TITLE: # Drizzle with Prisma Postgres ---
+# Drizzle with Prisma Postgres\nThis example shows how to use [Drizzle ORM](https://orm.drizzle.team/) with [Prisma Postgres](https://www.prisma.io/postgres).\n## Getting started\n### 1. Download the example and install dependencies\nClone this repository and download this template:\n```bash\nnpx try-prisma@latest --template databases/drizzle-prisma-postgres\n```\nThen navigate into the project directory and install dependencies:\n```bash
+======================
+
+benchmark\repositories\prisma-examples\databases\kysely-prisma-postgres\README.md
+--- TITLE: # Kysely with Prisma Postgres ---
+# Kysely with Prisma Postgres\nThis example shows how to use [Kysely](https://kysely.dev/) with [Prisma Postgres](https://www.prisma.io/postgres).\n## Getting started\n### 1. Download the example and install dependencies\nClone this repository and download this template:\n```bash\nnpx try-prisma@latest --template databases/kysely-prisma-postgres\n```\nThen navigate into the project directory and install dependencies:\n```bash
+======================
+
+benchmark\repositories\prisma-examples\databases\mongodb\README.md
+--- TITLE: # MongoDB example ---
+# MongoDB example\nThis example shows how to use Prisma with MongoDB and use [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) in a **Node.js script** to read and write data in a MongoDB database. You can find the database schema in [`./prisma/schema.prisma`](./schema.sql).\nThe example consists of two parts:\n- `tests/prisma.test.ts`: Jest test (in TypeScript) with a variety of Prisma Client queries and assertions to showcase access patterns\n- `src/prisma-examples`: TypesScript files containing different Prisma Client queries\n## How to use\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template databases/mongodb
+======================
+
+benchmark\repositories\prisma-examples\databases\postgresql-supabase\README.md
+--- TITLE: # PostgreSQL example using Supabase ---
+# PostgreSQL example using Supabase\nThis example shows you how to connect to a PostgreSQL database on [Supabase](https://supabase.com/) using Prisma, and use [Prisma Client](https://www.prisma.io/client) in a TypeScript script to read and write data.\n## How to use\nDownload this example:\n```\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/databases/postgresql-supabase\n```\nInstall npm dependencies:\n```\ncd postgresql-supabase
+======================
+
+benchmark\repositories\prisma-examples\databases\prisma-postgres\README.md
+--- TITLE: # Prisma Postgres ---
+# Prisma Postgres\nThis example shows how to use [Prisma ORM](https://www.prisma.io/orm) with [Prisma Postgres](https://prisma.io/postgres).\n## Getting Started\n### 1. Download the example & install dependencies\nClone this repository and install dependencies:\n```bash\nnpx try-prisma@latest --template databases/prisma-postgres\n```\nThen navigate into the project directory and install dependencies:\n```bash
+======================
+
+benchmark\repositories\prisma-examples\databases\sql-server\README.md
+--- TITLE: # Microsoft SQL Server example ---
+# Microsoft SQL Server example\nThis example shows how to connect Prisma to an SQL Server database, create the database schema with [Prisma Migrate](https://www.prisma.io/migrate) and use [Prisma Client](https://www.prisma.io/client) in a **Node.js script** to read and write data in an SQL Server database.\nYou can find the Prisma schema in [`./prisma/schema.prisma`](./prisma/schema.prisma) from which the SQL for the database schema is generated.\nThe example consists of two parts:\n- `tests/prisma.test.ts`: Jest test (in TypeScript) with a variety of Prisma Client queries and assertions to showcase access patterns\n- `src/script.js`: Node.js script with queries similar to the ones in the test.\n## How to use\n### 1. Download example & install dependencies\nClone this repository:\n```
+======================
+
+benchmark\repositories\prisma-examples\databases\turso\README.md
+--- TITLE: # Prisma with Turso Example ---
+# Prisma with Turso Example\nThis example demonstrates how to use [Prisma ORM](https://www.prisma.io/) with [Turso](https://turso.tech/), a distributed database based on libSQL. The project showcases how to perform CRUD operations using [Prisma Client](https://www.prisma.io/docs/orm/prisma-client) in a **Node.js script**.\n## How to use\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template databases/turso\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\databases\typeorm-prisma-postgres\README.md
+--- TITLE: # TypeORM with Prisma Postgres ---
+# TypeORM with Prisma Postgres\nThis example shows how to use [TypeORM](https://typeorm.io/) with [Prisma Postgres](https://www.prisma.io/postgres).\n## Getting started\n### 1. Download the example and install dependencies\nClone this repository and download this template:\n```bash\nnpx try-prisma@latest --template databases/typeorm-prisma-postgres\n```\nThen navigate into the project directory and install dependencies:\n```bash
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\aws-lambda\README.md
+--- TITLE: # AWS Lambda deployment example ---
+# AWS Lambda deployment example\n[Deployment Guide](https://www.prisma.io/docs/guides/deployment/deploying-to-aws-lambda)\n## Download manually\n```bash\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/deployment-platforms/aws-lambda\ncd aws-lambda\n```\nThe Serverless configuration file includes a package pattern that excludes all Prisma Engine binaries but the one relevant for the Lambda runtime. You can read more in our [documentation](https://www.prisma.io/docs/guides/deployment/deployment-guides/deploying-to-aws-lambda#package-pattern-in-serverlessyml).\n## Resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\edge\cloudflare-workers\with-d1\README.md
+--- TITLE: # Deploy a Cloudflare Worker with D1 ---
+# Deploy a Cloudflare Worker with D1\nThis example demonstrates how to deploy a [Cloudflare Worker](https://workers.cloudflare.com/) with a [D1 database](https://developers.cloudflare.com/d1/). It's based on Cloudflare's [`hello-world`](https://github.com/cloudflare/workers-sdk/tree/4fdd8987772d914cf50725e9fa8cb91a82a6870d/packages/create-cloudflare/templates/hello-world) template for Workers.\n## Getting started\n### 1. Download example and install dependencies\nDownload this example:\n```\ngit clone git@github.com:prisma/prisma-examples.git --depth=1\n```\nNavigate into the project directory and install npm dependencies:\n```
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\google-cloud-functions\README.md
+--- TITLE: # Google Cloud Functions ---
+# Google Cloud Functions\n## Deployment\nWhen deploying on this platform, the build is created on the server and hence the correct binary is available as `prisma generate` runs on the server.\nHence, we do not need to provide additional platform targeting options like `platforms`. With no additional parameters necessary, the generate section of the Prisma schema file looks like the following:\n```\ngenerator photon {\nprovider = "photonjs"\n}\n```\n## Environment
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\heroku\README.md
+--- TITLE: # Heroku deployment example ---
+# Heroku deployment example\n[Deployment guide](https://www.prisma.io/docs/guides/deployment/deploying-to-heroku)\n## Download manually\n```bash\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/deployment-platforms/heroku\ncd heroku\n```\n## Resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)\n- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\railway\README.md
+--- TITLE: # Railway deployment example ---
+# Railway deployment example\n[Deployment guide](https://www.prisma.io/docs/guides/deployment/deploying-to-railway)\n## Download manually\n```bash\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/deployment-platforms/railway\ncd railway\n```\n## Resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)\n- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\README.md
+--- TITLE: # Deployment platforms ---
+# Deployment platforms\nThe projects in this directory show what "Prisma Client"-based deployment setups look like for various deployment providers. Learn more about [deployment](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/deployment) in the Prisma documentation.\n## Additional resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)\n- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.\n- [Subscribe to our YouTube channel](https://pris.ly/youtube?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for live demos and video tutorials.\n- [Follow us on X](https://pris.ly/x?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for the latest updates.\n- Report issues or ask [questions on GitHub](https://pris.ly/github?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section).
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\render\README.md
+--- TITLE: # Render deployment example ---
+# Render deployment example\nThis example demonstrates how to deploy an Express app with Prisma ORM on [Render](https://render.com).\nSee the [Render deployment guide](https://www.prisma.io/docs/guides/deployment/deploying-to-render) for full details.\n## Download this code\n```bash\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/deployment-platforms/render\ncd render\n```\n## About Render\nRender enables developers to easily host and scale full-stack web applications. Render natively supports [common runtimes](https://docs.render.com/language-support), including Node.js and Bun. Render also supports deploying from a Dockerfile or Docker registry.
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\rest-express-docker-aws-ec2\README.md
+--- TITLE: # REST API with Express, Docker & AWS EC2 ---
+# REST API with Express, Docker & AWS EC2\nThis example shows how to deploy a **Prisma REST API** (Express + TypeScript) to **AWS EC2** using **Docker** and **GitHub Actions**.\n## Prerequisites\n- [Docker](https://www.docker.com/) and Docker Compose (for the Docker path)\n- [Node.js](https://nodejs.org/) 20+ and a local PostgreSQL instance (for the non-Docker path)\n- An AWS account (for deployment only)\n## Getting started\n### 1. Clone the repository\n```sh\ngit clone https://github.com/prisma/prisma-examples.git --depth=1
+======================
+
+benchmark\repositories\prisma-examples\deployment-platforms\vercel\README.md
+--- TITLE: # Vercel deployment example ---
+# Vercel deployment example\nThe deployment example has moved to https://github.com/prisma/deployment-example-vercel\n[Deployment guide](https://www.prisma.io/docs/guides/deployment/deploying-to-vercel)\n## Additional resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)\n- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.\n- [Subscribe to our YouTube channel](https://pris.ly/youtube?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for live demos and video tutorials.\n- [Follow us on X](https://pris.ly/x?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for the latest updates.\n- Report issues or ask [questions on GitHub](https://pris.ly/github?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section).
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\aws-lambda-sst-esbuild\README.md
+--- TITLE: # Prisma Postgres Example: AWS Lambda + SST + Node.js + ESM ---
+# Prisma Postgres Example: AWS Lambda + SST + Node.js + ESM\nThis project showcases how to use the Prisma ORM with AWS Lambda and Prisma Postgres in an TypeScript ESM application.\n## Prerequisites\nTo successfully run the project, you will need the following:\n- A **Prisma Postgres** connection string which you can get by enabling Postgres in a project in your [Prisma Data Platform](https://pris.ly/pdp) account. This connection string will be used for both Prisma migrations and Prisma Client queries.\n## Tech Stack\n- SST 3 + AWS Lambda\n- Runtime: Nodejs 20.x\n- Bundler: esbuild (used via SST)\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\basic-typedsql\README.md
+--- TITLE: # TypedSQL Example ---
+# TypedSQL Example\nThis example shows how to use the TypedSQL feature of [Prisma ORM](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma) in a TypeScript project along with the [`prisma-client`](https://www.prisma.io/docs/orm/prisma-schema/overview/generators#prisma-client-preview) generator. TypedSQL allows you to write fully type-safe SQL queries and then run them via Prisma Client.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template generator-prisma-client/basic-typedsql --install npm --name basic-typedsql\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\bun\README.md
+--- TITLE: # Bun + Prisma ORM example ---
+# Bun + Prisma ORM example\n## Introduction\nA simple web server using [Bun](https://bun.sh/) and [Prisma ORM](https://www.prisma.io/) with [Prisma Postgres](https://www.prisma.io/postgres). Creates a new user on each request and returns the total user count.\nThis example uses:\n- Bun's built-in HTTP server\n- New [`prisma-client` generator](https://www.prisma.io/docs/orm/prisma-schema/overview/generators#prisma-client-preview) and the `bun` runtime\n## Prerequisites\n- **Bun**: Make sure you have Bun installed on your system. If not, install it from [bun.sh](https://bun.sh/)\n- **Database**: Use a Prisma Postgres database or [any other supported database by Prisma](https://www.prisma.io/docs/orm/reference/supported-databases) of your choosing. This example uses [Prisma Postgres](https://www.prisma.io/postgres).\n## Getting started
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\deno-deploy\README.md
+--- TITLE: # Prisma + Deno Deploy Example ---
+# Prisma + Deno Deploy Example\nThis project showcases how to use Prisma ORM with Prisma Postgres in a Deno Deploy application. It implements a simple Task API with full CRUD operations.\n## Prerequisites\n- [Deno](https://docs.deno.com/runtime/#install-deno) v2.0 or later installed\n- A [Prisma Data Platform](https://console.prisma.io/login) account for Prisma Postgres\n## Tech Stack\n- Deno 2\n- Prisma Client with the `prisma-client` generator and Deno runtime\n- Prisma Postgres\n## Getting Started
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\esbuild-cjs\README.md
+--- TITLE: # Prisma Postgres Example: ESBuild + Node.js + CJS ---
+# Prisma Postgres Example: ESBuild + Node.js + CJS\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an TypeScript application transpiled to CommonJS (CJS) using ESBuild.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Node.js\n- Runtime: Node.js 20.19.0\n- Bundler: ESBuild\n- CJS\n- `package.json` contains `{ "type": "commonjs" }`
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\nextjs-starter-turbopack\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Turbopack, Node.js, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Turbopack, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM Next.js application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Next.js 15\n- Runtime: Node.js 20.19.0\n- Bundler: Turbopack (stable for `dev`, alpha for `build`)\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\nextjs-starter-webpack\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Webpack, Node.js, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Webpack, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM Next.js application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Next.js 15\n- Runtime: Node.js 20.19.0\n- Bundler: Webpack 5\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\nextjs-starter-webpack-monorepo\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Monorepo, Webpack, Node.js, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Monorepo, Webpack, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM monorepo, containing a Next.js application and Prisma package definition.\nIt also demonstrates that [@prisma/nextjs-monorepo-workaround-plugin](https://www.npmjs.com/package/@prisma/nextjs-monorepo-workaround-plugin) is no longer needed, as the `prisma-client` generator supports ESM and monorepos out of the box.\n## Project Structure\n```\n.\n├── packages\n│   ├── next-app                     # Next.js application\n│   │   ├── app\n│   │   ├── components
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\nextjs-starter-webpack-turborepo\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Turborepo, Webpack, Node.js, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Turborepo, Webpack, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM monorepo, containing a Next.js application and Prisma package definition, and powered by Turborepo.\nIt also demonstrates that [@prisma/nextjs-monorepo-workaround-plugin](https://www.npmjs.com/package/@prisma/nextjs-monorepo-workaround-plugin) is no longer needed, as the `prisma-client` generator supports ESM and monorepos out of the box.\n## Project Structure\n```\n.\n├── apps                                   # Web application packages\n│   └── next-app                           # Next.js application\n│       ├── app\n│       ├── components
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\nextjs-starter-webpack-with-middleware\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Webpack, Node.js + Vercel Edge, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Webpack, Node.js + Vercel Edge, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM Next.js application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Next.js 15\n- Runtime:\n- Node.js 20.19.0 for normal server-side rendering (SSR) and API routes\n- Vercel Edge Light Runtime for middleware\n- Bundler: Webpack 5
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\nuxt3-starter-nodejs\README.md
+--- TITLE: # `prisma-client` Example: Nuxt 3 Starter (Vite, Node.js, ESM) ---
+# `prisma-client` Example: Nuxt 3 Starter (Vite, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with the `prisma-client` generator and the Prisma Postgres database in an ESM Nuxt 3 application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Nuxt 3\n- Runtime: Node.js\n- Bundler: Vite 6\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\nuxt4-starter-nodejs\README.md
+--- TITLE: # `prisma-client` Example: Nuxt 4 Starter (Vite, Node.js, ESM) ---
+# `prisma-client` Example: Nuxt 4 Starter (Vite, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with the `prisma-client` generator and the Prisma Postgres database in an ESM Nuxt 4 application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Nuxt 4\n- Runtime: Node.js\n- Bundler: Vite 7\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\react-router-starter-cloudflare-workerd\README.md
+--- TITLE: # Prisma Postgres Example: React Router 7 Starter (Vite, Cloudflare Workerd, ESM) ---
+# Prisma Postgres Example: React Router 7 Starter (Vite, Cloudflare Workerd, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM React Router 7 application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- React Router 7\n- Runtime: Cloudflare Workerd\n- Bundler: Vite 6\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\react-router-starter-nodejs\README.md
+--- TITLE: # Prisma Postgres Example: React Router 7 Starter (Vite, Node.js, ESM) ---
+# Prisma Postgres Example: React Router 7 Starter (Vite, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM React Router 7 application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- React Router 7\n- Runtime: Node.js\n- Bundler: Vite 6\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\repositories\prisma-examples\generator-prisma-client\vitest-esm-nodejs\README.md
+--- TITLE: # Prisma Client Example: Vitest + Node.js + ESM ---
+# Prisma Client Example: Vitest + Node.js + ESM\nThis project showcases how to use the Prisma ORM with the `prisma-client` generator in an TypeScript test suite using [Vitest 3](https://vitest.dev/) in an ESM Node.js environment.\n## Tech Stack\n- Vitest 3\n- Runtime: Node.js 20.19.0\n- Test runner: Vitest 3\n- `package.json` contains `{ "type": "module" }`\n- Prisma Client with the `prisma-client` generator\nSee the [Prisma schema file](./prisma/schema.prisma) for details.\n```prisma
+======================
+
+benchmark\repositories\prisma-examples\orm\ai-sdk-nextjs\README.md
+--- TITLE: # Vercel AI SDK V5 + Prisma example ---
+# Vercel AI SDK V5 + Prisma example\nThis example shows how to store AI chat messages using [Vercel's AI SDK V5](https://ai-sdk.dev/docs/introduction), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```bash\nnpx try-prisma@latest --template orm/ai-sdk-nextjs\n```\nThen, navigate into the project directory:\n```bash
+======================
+
+benchmark\repositories\prisma-examples\orm\astro\README.md
+--- TITLE: # Astro Example ---
+# Astro Example\nThis example shows how to implement a simple web app using [Astro](https://astro.build/) and [Prisma ORM](https://www.prisma.io/docs).\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/astro\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\authjs-nextjs\README.md
+--- TITLE: # Auth.js + Prisma example ---
+# Auth.js + Prisma example\nThis example shows how to implement **authentication** using [Auth.js](https://authjs.dev/), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/authjs-nextjs\n```\nThen, navigate into the project directory and install the dependencies:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\betterauth-astro\README.md
+--- TITLE: # Better-Auth + Prisma example ---
+# Better-Auth + Prisma example\nThis example shows how to implement **authentication** using [Better-Auth](https://better-auth.com/), [Astro](https://astro.build/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/betterauth-astro\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\betterauth-nextjs\README.md
+--- TITLE: # Better-Auth + Prisma example ---
+# Better-Auth + Prisma example\nThis example shows how to implement **authentication** using [Better-Auth](https://better-auth.com/), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/betterauth-nextjs\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\clerk-astro\README.md
+--- TITLE: # Clerk + Astro.js + Prisma example ---
+# Clerk + Astro.js + Prisma example\nThis example shows how to implement **authentication** using [Clerk](https://clerk.com/), [Astro.js](https://astro.build/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/clerk-astro\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\clerk-nextjs\README.md
+--- TITLE: # Clerk + Prisma example ---
+# Clerk + Prisma example\nThis example shows how to implement **authentication** using [Clerk](https://clerk.com/), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/clerk-nextjs\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\cloudflare-workers\README.md
+--- TITLE: # Cloudflare Workers Example ---
+# Cloudflare Workers Example\nThis example shows how to implement a simple API using [Cloudflare Workers](https://workers.cloudflare.com) and [Prisma ORM](https://www.prisma.io/docs). The example creates a serverless worker that interacts with a PostgreSQL database to create and count users.\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/cloudflare-workers\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\elysia\README.md
+--- TITLE: # REST API Example with Elysia & Prisma ---
+# REST API Example with Elysia & Prisma\nThis example shows how to implement a **simple Todo REST API with TypeScript** using [Elysia](https://elysiajs.com/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It connects to a Postgres database via the [`@prisma/adapter-pg`](https://www.prisma.io/docs/orm/overview/databases/postgresql/pg-driver-adapter) driver adapter.\nThis example uses [Prismabox](https://github.com/m1212e/prismabox) to automatically generate Elysia validation models from the Prisma schema, ensuring type safety and eliminating the need to manually define validation schemas.\n## Project structure\n- `src/index.ts` – defines the Elysia server and the REST routes for todos.\n- `src/lib/prisma.ts` – creates a Prisma Client using `@prisma/adapter-pg`.\n- `prisma/schema.prisma` – Prisma schema with the `Todo` model.\n- `prisma/seed.ts` – seeds the database with sample todos.\n## Getting started\n### 1. Download the example and install dependencies
+======================
+
+benchmark\repositories\prisma-examples\orm\express\README.md
+--- TITLE: # REST API Example with Express & Prisma Postgres ---
+# REST API Example with Express & Prisma Postgres\nThis example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/), Prisma ORM and a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```terminal\nnpx try-prisma@latest --template orm/express --install npm --name express\n```\nThen, navigate into the project directory:\n```terminal
+======================
+
+benchmark\repositories\prisma-examples\orm\fastify\README.md
+--- TITLE: # REST API Example with Fastify & Prisma Postgres ---
+# REST API Example with Fastify & Prisma Postgres\nThis example shows how to implement a **REST API** using [Fastify](https://fastify.io/), Prisma ORM and a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example, install dependencies, and navigate into the project directory\nDownload this example:\n```terminal\nnpx try-prisma@latest --template orm/fastify --install npm --name fastify\n```\nThen, navigate into the project directory:\n```terminal
+======================
+
+benchmark\repositories\prisma-examples\orm\fastify-graphql\README.md
+--- TITLE: # GraphQL Server Example with `fastify-graphql` & Prisma Postgres ---
+# GraphQL Server Example with `fastify-graphql` & Prisma Postgres\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**Mercurius**](https://mercurius.dev/): GraphQL adapter for Fastify\n- [**Fastify**](https://www.fastify.io/): Fast and low overhead web framework for building Node.js applications\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\repositories\prisma-examples\orm\fastify-graphql-sdl-first\README.md
+--- TITLE: # GraphQL Server Example with `fastify-graphql` & Prisma Postgres (SDL-first) ---
+# GraphQL Server Example with `fastify-graphql` & Prisma Postgres (SDL-first)\nThis example shows how to implement a **GraphQL server (SDL-first) with TypeScript** with the following stack:\n- [**Mercurius**](https://mercurius.dev/): GraphQL adapter for Fastify\n- [**Fastify**](https://www.fastify.io/): Fast and low overhead web framework for building Node.js applications\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\repositories\prisma-examples\orm\graphql\README.md
+--- TITLE: # GraphQL Server Example with GraphQL Yoga & Prisma Postgres ---
+# GraphQL Server Example with GraphQL Yoga & Prisma Postgres\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): GraphQL server\n- [**Pothos**](https://pothos-graphql.dev/): Code-first GraphQL schema definition library\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:
+======================
+
+benchmark\repositories\prisma-examples\orm\graphql-auth\README.md
+--- TITLE: # GraphQL Server with Authentication & Permissions using Apollo Server & Prisma Postgres ---
+# GraphQL Server with Authentication & Permissions using Apollo Server & Prisma Postgres\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**Apollo Server**](https://github.com/apollographql/apollo-server): HTTP server for GraphQL APIs\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**GraphQL Shield**](https://github.com/maticzav/graphql-shield): Authorization/permission layer for GraphQL schemas\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\repositories\prisma-examples\orm\graphql-gqloom\README.md
+--- TITLE: # GraphQL Server Example with GraphQL Yoga & Prisma Postgres & GQLoom ---
+# GraphQL Server Example with GraphQL Yoga & Prisma Postgres & GQLoom\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): GraphQL server\n- [**GQLoom**](https://gqloom.dev/): Code-First GraphQL Schema library that weaves TypeScript runtime types into GraphQL schemas\n- [**Zod**](https://zod.dev/): Schema validation library for input types\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\repositories\prisma-examples\orm\graphql-nexus\README.md
+--- TITLE: # GraphQL Server Example with Apollo Server & Prisma Postgres ---
+# GraphQL Server Example with Apollo Server & Prisma Postgres\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**Apollo Server**](https://github.com/apollographql/apollo-server): HTTP server for GraphQL APIs\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:
+======================
+
+benchmark\repositories\prisma-examples\orm\graphql-sdl-first\README.md
+--- TITLE: # GraphQL Server Example with GraphQL Yoga & Prisma Postgres (SDL-first) ---
+# GraphQL Server Example with GraphQL Yoga & Prisma Postgres (SDL-first)\nThis example shows how to implement an **GraphQL server (SDL-first) with TypeScript** with the following stack:\n- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): HTTP server for GraphQL APIs\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\graphql-subscriptions\README.md
+--- TITLE: # Real-time GraphQL Subscriptions Example with Apollo Server & Prisma Postgres ---
+# Real-time GraphQL Subscriptions Example with Apollo Server & Prisma Postgres\nThis example shows how to implement **GraphQL subscriptions in TypeScript** with the following stack:\n- [**Apollo Server**](https://github.com/apollographql/apollo-server): HTTP server for GraphQL APIs\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\nNote that **Apollo Server** includes the `PubSub` realtime component from the [`graphql-subscriptions`](https://github.com/apollographql/graphql-subscriptions) package that's needed to implement GraphQL subscriptions.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\repositories\prisma-examples\orm\graphql-typegraphql\README.md
+--- TITLE: # GraphQL Server Example with TypeGraphQL & Prisma Postgres ---
+# GraphQL Server Example with TypeGraphQL & Prisma Postgres\n> [!CAUTION]\n> This example was removed on 2025-03-10. If you would like an updated example, please open an issue requesting such.\n<details><summary>Previous content</summary>\nThis example shows how to **implement a GraphQL server with TypeScript** based on [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client), [apollo-server](https://www.apollographql.com/docs/apollo-server). It is based on a SQLite database - you can find the database file with some dummy data at [`./prisma/dev.db`](./prisma/dev.db).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/graphql-typegraphql --install npm --name graphql-typegraphql
+======================
+
+benchmark\repositories\prisma-examples\orm\graphql-typegraphql-crud\README.md
+--- TITLE: # GraphQL Server CRUD Example with TypeGraphQL & Prisma Postgres ---
+# GraphQL Server CRUD Example with TypeGraphQL & Prisma Postgres\n> [!CAUTION]\n> This example was removed on 2025-03-10. If you would like an updated example, please open an issue requesting such.\n<details><summary>Previous content</summary>\nThis example shows how to **implement a GraphQL server with TypeScript** based on [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client), [apollo-server](https://www.apollographql.com/docs/apollo-server). It is based on a SQLite database - you can find the database file with some dummy data at [`./prisma/dev.db`](./prisma/dev.db).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/graphql-typegraphql-crud --install npm --name graphql-typegraphql-crud
+======================
+
+benchmark\repositories\prisma-examples\orm\grpc\README.md
+--- TITLE: # gRPC Server Example with Prisma Postgres ---
+# gRPC Server Example with Prisma Postgres\nThis example shows how to implement a **gRPC API with TypeScript** and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/grpc --install npm --name grpc\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\hapi\README.md
+--- TITLE: # REST API Example with hapi & Prisma Postgres ---
+# REST API Example with hapi & Prisma Postgres\nThis example shows how to implement a **REST API** using [hapi](https://hapi.dev/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/hapi --install npm --name hapi\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\hapi-graphql\README.md
+--- TITLE: # GraphQL Server Example with hapi & Prisma Postgres (Code-First) ---
+# GraphQL Server Example with hapi & Prisma Postgres (Code-First)\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**hapi**](https://hapi.dev/): Web framework with a focus on security and scalability\n- [**Apollo Server Integration for Hapi**](https://www.npmjs.com/package/@as-integrations/hapi))\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\repositories\prisma-examples\orm\hapi-graphql-sdl-first\README.md
+--- TITLE: # GraphQL Server (SDL first) Example with hapi & Prisma Postgres ---
+# GraphQL Server (SDL first) Example with hapi & Prisma Postgres\nThis example shows how to implement an **GraphQL Server Example with Hapi (SDL first)** with the following stack:\n- [**hapi**](https://hapi.dev/): Web framework with a focus on security and scalability\n- [**Apollo Server Integration for Hapi**](https://www.npmjs.com/package/@as-integrations/hapi)\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:
+======================
+
+benchmark\repositories\prisma-examples\orm\hono\README.md
+--- TITLE: # REST API Example with Hono & Prisma ---
+# REST API Example with Hono & Prisma\nThis example shows how to implement a **REST API with TypeScript** using [Hono](https://hono.dev/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It connects to a Postgres database via the [`@prisma/adapter-pg`](https://www.prisma.io/docs/orm/overview/databases/postgresql/pg-driver-adapter) driver adapter and a normal `postgresql://` connection string (no Accelerate/Data Proxy required).\n## Project structure\n- `src/index.ts` – defines the Hono server and the REST routes (`/signup`, `/post`, `/feed`, …).\n- `src/lib/prisma.ts` – lightweight middleware that creates a Prisma Client using `@prisma/adapter-pg` and exposes it via Hono’s context.\n- `prisma/schema.prisma` – Prisma schema with the `User` and `Post` models that back the API.\n- `prisma/seed.ts` – seeds the database with sample users and posts.\n## Getting started\n### 1. Download the example and install dependencies\n```bash
+======================
+
+benchmark\repositories\prisma-examples\orm\koa\README.md
+--- TITLE: # REST API Example with Koa & Prisma Postgres ---
+# REST API Example with Koa & Prisma Postgres\nThis example shows how to implement a **REST API with TypeScript** using [Koa](https://koajs.com/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/koa --install npm --name koa\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\nest\README.md
+--- TITLE: # REST API Example with NestJS & Prisma Postgres ---
+# REST API Example with NestJS & Prisma Postgres\nThis example shows how to implement a **REST API** using [NestJS](https://docs.nestjs.com/) and Prisma ORM. It uses a [Prisma Postgres](https://www.prisma.io/postgres) database and was bootstrapped using the NestJS CLI command `nest new nest`.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/nest --install npm --name nest\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\nest-graphql\README.md
+--- TITLE: # GraphQL Server Example with NestJS (code-first) & Prisma Postgres ---
+# GraphQL Server Example with NestJS (code-first) & Prisma Postgres\nThis example shows how to implement an **GraphQL server (code-first) with TypeScript** with the following stack:\n- [NestJS](https://docs.nestjs.com/graphql/quick-start): Web framework for building scalable server-side applications\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\nThe example was bootstrapped using the NestJS CLI command `nest new nest-graphql`.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:
+======================
+
+benchmark\repositories\prisma-examples\orm\nest-graphql-sdl-first\README.md
+--- TITLE: # GraphQL Server Example with NestJS (SDL-first) & Prisma Postgres ---
+# GraphQL Server Example with NestJS (SDL-first) & Prisma Postgres\nThis example shows how to implement an **GraphQL server (SDL-first) with TypeScript** with the following stack:\n- [**NestJS**](https://docs.nestjs.com/graphql/quick-start): Web framework for building scalable server-side applications\n- [**graphql-tools**](https://www.apollographql.com/docs/graphql-tools/): A tool for combining resolvers and type-definitions into an executable schema\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\nThe example was bootstrapped using the NestJS CLI command `nest new nest-graphql-sdl-first`.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\repositories\prisma-examples\orm\nextjs\README.md
+--- TITLE: # Fullstack Next.js Example with Prisma Postgres ---
+# Fullstack Next.js Example with Prisma Postgres\nThis example shows how to implement a fullstack app using [Next.js 15](https://nextjs.org/) with App Router, Prisma ORM and a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/nextjs --install npm --name nextjs\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\nextjs-graphql\README.md
+--- TITLE: # Fullstack Example with Next.js (GraphQL API) & Prisma Postgres ---
+# Fullstack Example with Next.js (GraphQL API) & Prisma Postgres\nThis example shows how to implement a **Fullstack Next.js app with GraphQL** with the following stack:\nThis example shows how to implement a **fullstack app in TypeScript with :\n- [**Next.js**](https://nextjs.org/): A [React](https://reactjs.org/) framework\n- [**Apollo Client**](https://www.apollographql.com/docs/react/) (frontend),\n- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): GraphQL server\n- [**Pothos**](https://pothos-graphql.dev/): Code-first GraphQL schema definition library\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.
+======================
+
+benchmark\repositories\prisma-examples\orm\nextjs-trpc\README.md
+--- TITLE: # Next.js + tRPC + Prisma Todo App ---
+# Next.js + tRPC + Prisma Todo App\nA simple, clean todo application showcasing the integration of Next.js App Router, tRPC, and Prisma.\n## Tech Stack\n- **Next.js 15** - React framework with App Router\n- **tRPC 11** - End-to-end typesafe APIs\n- **Prisma** - Database ORM\n- **React Query** - Data fetching and caching\n- **TypeScript** - Type safety\n- **Tailwind CSS** - Styling\n## Project Structure
+======================
+
+benchmark\repositories\prisma-examples\orm\nuxt\README.md
+--- TITLE: # Fullstack Example with Nuxt & Prisma Postgres (REST API) ---
+# Fullstack Example with Nuxt & Prisma Postgres (REST API)\nThis example shows how to implement a **fullstack app with [Nuxt](https://nuxtjs.org//)** using [Vue](https://vuejs.org/) (frontend) and [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (backend). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nUse the `try-prisma` CLI to download this example:\n```terminal\nnpx try-prisma@latest --template orm/nuxt --install npm --name nuxt\n```\nThen, navigate into the project directory:\n```terminal
+======================
+
+benchmark\repositories\prisma-examples\orm\nuxt-prisma-module\README.md
+--- TITLE: # Example Nuxt App Using Prisma Nuxt Module ---
+# Example Nuxt App Using Prisma Nuxt Module\nThis example app showcases how to use the [Prisma Nuxt module](https://github.com/prisma/nuxt-prisma).\nThe app demonstrates:\n- How to use the `usePrismaClient` composable in a [server-side component](./components/FirstUser.server.vue) named [`FirstUser.server.vue`](./components/FirstUser.server.vue).\n- How to customize the `PrismaClient` in the file [lib/prisma.ts](./lib/prisma.ts), which is generated by the `@prisma/nuxt` module. This customization adds an `exists` method to the `PrismaClient` instance. The extended instance of the `PrismaClient` with the `exists` method is then used in the [API route](./server/api/user-exists.ts) located at the [`user-exists.ts`](./server/api/user-exists.ts) file.\n## Getting started\n1. Download example and install dependencies:\n```terminal\nnpx try-prisma@latest --template orm/nuxt-prisma-module\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\postgis-express\README.md
+--- TITLE: # Postgres Geolocation example ---
+# Postgres Geolocation example\nThis example shows how to implement **Geolocation in PostgreSQL** using [Express](https://expressjs.com/), [Postgis](http://postgis.net/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/postgis-express --install npm --name postgis-express\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\prisma-mocking-javascript\README.md
+--- TITLE: ## A simple mock example using Prisma in Javascript ---
+## A simple mock example using Prisma in Javascript\n## Installation\n1. Install dependencies:\n```\nnpm install\n```\n2. Ensure Prisma is properly configured in your project. Set up your Prisma schema file and database connection.\nRun Prisma commands to generate the client:\n```\nnpx prisma generate
+======================
+
+benchmark\repositories\prisma-examples\orm\react-router-7\README.md
+--- TITLE: # React Router 7 Example ---
+# React Router 7 Example\nThis example shows how to implement a simple web app using [React Router 7](https://reactrouter.com) and [Prisma ORM](https://www.prisma.io/docs). This example was bootstrapped using the React Router CLI tool `create-react-router`.\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/react-router-7\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\remix\README.md
+--- TITLE: # Fullstack example with Remix ---
+# Fullstack example with Remix\n> [!CAUTION]\n> This example was removed on 2025-03-14. If you would like an updated example, please open an issue requesting such.\nWe've removed the Remix 1 and 2 examples in favor of React Router 7. To get started with React Router 7, run\n```\nnpx try-prisma@latest --template orm/react-router-7\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\script\README.md
+--- TITLE: # Simple TypeScript CRUD Example with Prisma Postgres ---
+# Simple TypeScript CRUD Example with Prisma Postgres\nThis example shows how to use Prisma ORM in a **simple TypeScript script** to read and write data in a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/script --install npm --name script\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\solid-start\README.md
+--- TITLE: # SolidStart Example ---
+# SolidStart Example\nThis example shows how to implement a simple web app using [SolidStart](https://start.solidjs.com) and [Prisma ORM](https://www.prisma.io/docs).\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/solid-start\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\starter\README.md
+--- TITLE: # Prisma Example: TypeScript Starter ---
+# Prisma Example: TypeScript Starter\nThis repository has been created to help you get started with [Prisma ORM](https://prisma.io). This project comes with a basic [`schema.prisma`](./prisma/schema.prisma) configured with PostgreSQL and an example operation found in the [`index.ts`](./index.ts) file.\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a PostgreSQL database (if you don't have one yet, you can use Prisma Postgres)\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/starter
+======================
+
+benchmark\repositories\prisma-examples\orm\sveltekit\README.md
+--- TITLE: # SvelteKit Example ---
+# SvelteKit Example\nThis example shows how to implement a simple web app using [SvelteKit](https://svelte.dev/docs/kit) and [Prisma ORM](https://www.prisma.io/docs).\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/sveltekit  --install npm --name sveltekit\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\testing-express\README.md
+--- TITLE: # Testing Express ---
+# Testing Express\nThis example shows how to implement integration tests using [Express](https://expressjs.com/), [Supertest](https://github.com/visionmedia/supertest) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/testing-express --install npm --name testing-express\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\orm\typedsql\README.md
+--- TITLE: # TypedSQL Example ---
+# TypedSQL Example\nThis example shows how to use the TypedSQL feature of [Prisma ORM](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma) in a TypeScript project. TypedSQL allows you to write fully type-safe SQL queries and then run them via Prisma Client.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/typedsql --install npm --name typedsql\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\repositories\prisma-examples\README.md
+--- TITLE: ## Prisma ORM ---
+<br />\n<div align="center">\n<h1>Prisma Examples</h1>\n<p><h3 align="center">Ready-to-run Prisma example projects 🚀</h3></p>\n<a href="https://www.prisma.io/">Website</a>\n<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>\n<a href="https://www.prisma.io/docs/">Docs</a>\n<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>\n<a href="https://www.prisma.io/blog">Blog</a>\n<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+======================
+
+benchmark\tmp-prisma-examples\accelerate\accelerate-hacker-news\README.md
+--- TITLE: # Prisma Accelerate Hacker News Clone ---
+# Prisma Accelerate Hacker News Clone\nThis project showcases how to use Prisma ORM with Prisma Accelerate, leveraging caching and on-demand cache invalidation, in a Next.js application to build a minimal Hacker News clone.\nThis app retrieves and caches the [top 20 latest posts](/app/page.tsx#L8) with a long Time-to-Live ([TTL](https://www.prisma.io/docs/accelerate/caching#time-to-live-ttl)). The cache is invalidated on-demand whenever a post is [upvoted](/app/actions/addVotes.ts) or a [new post is added](/app/submit/actions/addPost.ts).\n![GIF of interaction](demo.gif)\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a PostgreSQL database\n- Your **Accelerate connection string** (containing your **Accelerate API key**) which you can get by enabling Accelerate in a project in your [Prisma Data Platform](https://pris.ly/pdp) account (learn more in the [docs](https://www.prisma.io/docs/platform/concepts/environments#api-keys))\n## Getting started\n### 1. Clone the repository
+======================
+
+benchmark\tmp-prisma-examples\accelerate\astro-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Astro Starter ---
+# Prisma Accelerate Example: Astro Starter\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Astro application. It [demonstrates](./src/pages/route.ts#L13-16) every available [caching strategy in Accelerate](https://www.prisma.io/docs/accelerate/caching#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a publicly accessible database.\n- Your **Accelerate connection string** (containing your **Accelerate API key**) which you can get by enabling Accelerate in a project in your [Prisma Data Platform](https://pris.ly/pdp) account (learn more in the [docs](https://www.prisma.io/docs/platform/about#api-keys)).\n## Getting started\n### 1. Clone the repository\nClone the repository, navigate into it and install dependencies:\n```
+======================
+
+benchmark\tmp-prisma-examples\accelerate\nextjs-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Next.js Starter ---
+# Prisma Accelerate Example: Next.js Starter\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Next.js application. It [demonstrates](./app/api/route.ts#L15-46) every available [caching strategy in Accelerate](https://www.prisma.io/docs/data-platform/accelerate/concepts#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a publicly accessible database\n- Your **Accelerate connection string** (containing your **Accelerate API key**) which you can get by enabling Accelerate in a project in your [Prisma Data Platform](https://pris.ly/pdp) account (learn more in the [docs](https://www.prisma.io/docs/platform/concepts/environments#api-keys))\n## Getting started\n### 1. Clone the repository\nClone the repository, navigate into it and install dependencies:\n```
+======================
+
+benchmark\tmp-prisma-examples\accelerate\nuxtjs-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Nuxt.js Starter ---
+# Prisma Accelerate Example: Nuxt.js Starter\n## Introduction\nThe quote generator retrieves the most recently added quote with and without caching enabled from a predefined set of quotes. In the context of your Nuxtjs application, the quote generator is a service that provides quotes, with some caching strategies applied to optimize performance and reduce the load on the database.\n## General Steps of the Quote Generator:\n- Fetch a quote: Retrieves the most recently added quote with and without caching enabled.\n- Apply caching strategy: Depending on the request, it may apply different caching strategies (e.g., TTL, SWR, TTL+SWR or no caching).\n- Return the quote: The selected quote is returned, along with metadata about the caching status and other relevant information.\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Nuxt.js application. It [demonstrates](./server/api/quotes.ts#L11-27) every available [caching strategy in Accelerate](https://www.prisma.io/docs/accelerate/caching#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:
+======================
+
+benchmark\tmp-prisma-examples\accelerate\remix-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Remix Starter ---
+# Prisma Accelerate Example: Remix Starter\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Remix application. It [demonstrates](./app/routes/_index.tsx#L10-13) every available [caching strategy in Accelerate](https://www.prisma.io/docs/data-platform/accelerate/concepts#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a publicly accessible database.\n- Your **Accelerate connection string** (containing your **Accelerate API key**) which you can get by enabling Accelerate in a project in your [Prisma Data Platform](https://pris.ly/pdp) account (learn more in the [docs](https://www.prisma.io/docs/platform/concepts/environments#api-keys)).\n## Getting started\n### 1. Clone the repository\nClone the repository, navigate into it and install dependencies:\n```
+======================
+
+benchmark\tmp-prisma-examples\accelerate\solidstart-starter\README.md
+--- TITLE: # Prisma Accelerate Example: SolidStart Starter ---
+# Prisma Accelerate Example: SolidStart Starter\n## Introduction\nThe quote generator retrieves the most recently added quote with and without caching enabled from a predefined set of quotes. In the context of your Solidstart application, the quote generator is a service that provides quotes, with some caching strategies applied to optimize performance and reduce the load on the database.\n## General Steps of the Quote Generator:\n- Fetch a quote: Retrieves the most recently added quote with and without caching enabled.\n- Apply caching strategy: Depending on the request, it may apply different caching strategies (e.g., TTL, SWR, TTL+SWR or no caching).\n- Return the quote: The selected quote is returned, along with metadata about the caching status and other relevant information.\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a SolidStart application. It [demonstrates](./src/routes/api/quotes.ts#L18-32) every available [caching strategy in Accelerate](https://www.prisma.io/docs/accelerate/caching#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:
+======================
+
+benchmark\tmp-prisma-examples\accelerate\starter\README.md
+--- TITLE: # Prisma Accelerate Example: TypeScript Starter ---
+# Prisma Accelerate Example: TypeScript Starter\nThis repository has been created to help you get started with [Prisma Accelerate](https://prisma.io/accelerate). This project comes with a basic [`schema.prisma`](./prisma/schema.prisma) configured with PostgreSQL and an example operation found in the [`index.ts`](./index.ts) file.\n## Prerequisites\nTo successfully run the project, you will need the following:\n- An Accelerate **connection string**. If you don't have one yet, you can get one in 2 minutes by signing up on console.prisma.io or following our [Getting Started guide](https://www.prisma.io/docs/accelerate/getting-started#1-enable-accelerate).\n## Getting started\n### 1. Download example and install dependencies\nDownload this example:\n```\nnpx try-prisma@latest --template typescript/starter
+======================
+
+benchmark\tmp-prisma-examples\accelerate\svelte-starter\README.md
+--- TITLE: # Prisma Accelerate Example: Sveltekit Starter ---
+# Prisma Accelerate Example: Sveltekit Starter\n## Introduction\nThe quote generator retrieves the most recently added quote with and without caching enabled from a predefined set of quotes. In the context of your Sveltekit application, the quote generator is a service that provides quotes, with some caching strategies applied to optimize performance and reduce the load on the database.\n## General Steps of the Quote Generator:\n- Fetch a quote: Retrieves the most recently added quote with and without caching enabled.\n- Apply caching strategy: Depending on the request, it may apply different caching strategies (e.g., TTL, SWR, TTL+SWR or no caching).\n- Return the quote: The selected quote is returned, along with metadata about the caching status and other relevant information.\nThis project showcases how to use Prisma ORM with Prisma Accelerate in a Sveltekit application. It [demonstrates](./src/routes/api/quotes/+server.ts#L18-33) every available [caching strategy in Accelerate](https://www.prisma.io/docs/accelerate/caching#cache-strategies).\n## Prerequisites\nTo successfully run the project, you will need the following:
+======================
+
+benchmark\tmp-prisma-examples\compute\hono\README.md
+--- TITLE: # Prisma Compute Hono example ---
+# Prisma Compute Hono example\nThis is a small Hono API that uses Prisma ORM with PostgreSQL and deploys to\nPrisma Compute with the latest `@prisma/cli`.\n## Run locally\n```bash\nbun install\ncp .env.example .env\n# Authenticate once, then create a Prisma Postgres database.\nbun run compute:login\nbun run compute:database:create
+======================
+
+benchmark\tmp-prisma-examples\compute\nextjs\README.md
+--- TITLE: # Prisma Compute Next.js example ---
+# Prisma Compute Next.js example\nThis is a Next.js App Router app that uses Prisma ORM with PostgreSQL and\ndeploys to Prisma Compute with the latest `@prisma/cli`.\nThe app sets `output: "standalone"` in `next.config.ts`, which is the output\nshape Prisma Compute expects for Next.js.\n## Run locally\n```bash\nbun install\ncp .env.example .env\n# Authenticate once, then create a Prisma Postgres database.
+======================
+
+benchmark\tmp-prisma-examples\compute\README.md
+--- TITLE: # Prisma Compute examples ---
+# Prisma Compute examples\nThese examples show Prisma ORM apps deployed to Prisma Compute with the\nlatest `@prisma/cli`.\n| Example | Description |\n| --- | --- |\n| [`hono`](./hono) | Hono API on Node.js. |\n| [`nextjs`](./nextjs) | Next.js App Router app using standalone output for Prisma Compute. |\n| [`tanstack-start`](./tanstack-start) | TanStack Start app using the Nitro Vite plugin output supported by Prisma Compute. |\nEach example includes Prisma ORM, a PostgreSQL schema, seed data, and scripts for\nlocal development and Prisma Compute deployment.
+======================
+
+benchmark\tmp-prisma-examples\compute\tanstack-start\README.md
+--- TITLE: # Prisma Compute TanStack Start example ---
+# Prisma Compute TanStack Start example\nThis is a TanStack Start app that uses Prisma ORM with PostgreSQL and deploys to\nPrisma Compute with the latest `@prisma/cli`.\nThe app uses the Nitro Vite plugin so `vite build` emits the `.output/server`\nshape supported by Prisma Compute.\n## Run locally\n```bash\nbun install\ncp .env.example .env\n# Authenticate once, then create a Prisma Postgres database.
+======================
+
+benchmark\tmp-prisma-examples\CONTRIBUTING.md
+--- TITLE: # Contribution Guidelines ---
+# Contribution Guidelines\n## Commit messages\nPlease use [conventional commits](https://www.conventionalcommits.org) (also known as _semantic commits_) to ensure consistent and descriptive commit messages when submitting PRs.\n## General guidelines\nEvery example should follow a number of guidelines.\n### Example guidelines\n- Simple and minimal instead of complex and production-ready\n- Focus on one specific Prisma use case\n- Easily extensible\n### README guidelines
+======================
+
+benchmark\tmp-prisma-examples\databases\cockroachdb\README.md
+--- TITLE: # CockroachDB example ---
+# CockroachDB example\nThis example shows how to:\n- Connect Prisma to a CockroachDB database\n- Create the database schema with raw SQL\n- Populate the Prisma schema using [`prisma db pull`](https://www.prisma.io/docs/reference/api-reference/command-reference#db-pull)\n- Read and write data to the database using [Prisma Client](https://www.prisma.io/client)\n> **Note:** CockroachDB support in Prisma is currently in [**Preview**](https://www.prisma.io/docs/about/prisma/releases#preview), and **Prisma Migrate isn't supported for now**. For this reason, you will create the database schema with raw SQL.\nThe example consists of two parts:\n- `tests/prisma.test.ts`: Jest test (in TypeScript) with a variety of Prisma Client queries and assertions to showcase access patterns\n- `src/script.ts`: Node.js script with queries similar to the ones in the test.
+======================
+
+benchmark\tmp-prisma-examples\databases\drizzle-prisma-postgres\README.md
+--- TITLE: # Drizzle with Prisma Postgres ---
+# Drizzle with Prisma Postgres\nThis example shows how to use [Drizzle ORM](https://orm.drizzle.team/) with [Prisma Postgres](https://www.prisma.io/postgres).\n## Getting started\n### 1. Download the example and install dependencies\nClone this repository and download this template:\n```bash\nnpx try-prisma@latest --template databases/drizzle-prisma-postgres\n```\nThen navigate into the project directory and install dependencies:\n```bash
+======================
+
+benchmark\tmp-prisma-examples\databases\kysely-prisma-postgres\README.md
+--- TITLE: # Kysely with Prisma Postgres ---
+# Kysely with Prisma Postgres\nThis example shows how to use [Kysely](https://kysely.dev/) with [Prisma Postgres](https://www.prisma.io/postgres).\n## Getting started\n### 1. Download the example and install dependencies\nClone this repository and download this template:\n```bash\nnpx try-prisma@latest --template databases/kysely-prisma-postgres\n```\nThen navigate into the project directory and install dependencies:\n```bash
+======================
+
+benchmark\tmp-prisma-examples\databases\mongodb\README.md
+--- TITLE: # MongoDB example ---
+# MongoDB example\nThis example shows how to use Prisma with MongoDB and use [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) in a **Node.js script** to read and write data in a MongoDB database. You can find the database schema in [`./prisma/schema.prisma`](./schema.sql).\nThe example consists of two parts:\n- `tests/prisma.test.ts`: Jest test (in TypeScript) with a variety of Prisma Client queries and assertions to showcase access patterns\n- `src/prisma-examples`: TypesScript files containing different Prisma Client queries\n## How to use\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template databases/mongodb
+======================
+
+benchmark\tmp-prisma-examples\databases\postgresql-supabase\README.md
+--- TITLE: # PostgreSQL example using Supabase ---
+# PostgreSQL example using Supabase\nThis example shows you how to connect to a PostgreSQL database on [Supabase](https://supabase.com/) using Prisma, and use [Prisma Client](https://www.prisma.io/client) in a TypeScript script to read and write data.\n## How to use\nDownload this example:\n```\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/databases/postgresql-supabase\n```\nInstall npm dependencies:\n```\ncd postgresql-supabase
+======================
+
+benchmark\tmp-prisma-examples\databases\prisma-postgres\README.md
+--- TITLE: # Prisma Postgres ---
+# Prisma Postgres\nThis example shows how to use [Prisma ORM](https://www.prisma.io/orm) with [Prisma Postgres](https://prisma.io/postgres).\n## Getting Started\n### 1. Download the example & install dependencies\nClone this repository and install dependencies:\n```bash\nnpx try-prisma@latest --template databases/prisma-postgres\n```\nThen navigate into the project directory and install dependencies:\n```bash
+======================
+
+benchmark\tmp-prisma-examples\databases\sql-server\README.md
+--- TITLE: # Microsoft SQL Server example ---
+# Microsoft SQL Server example\nThis example shows how to connect Prisma to an SQL Server database, create the database schema with [Prisma Migrate](https://www.prisma.io/migrate) and use [Prisma Client](https://www.prisma.io/client) in a **Node.js script** to read and write data in an SQL Server database.\nYou can find the Prisma schema in [`./prisma/schema.prisma`](./prisma/schema.prisma) from which the SQL for the database schema is generated.\nThe example consists of two parts:\n- `tests/prisma.test.ts`: Jest test (in TypeScript) with a variety of Prisma Client queries and assertions to showcase access patterns\n- `src/script.js`: Node.js script with queries similar to the ones in the test.\n## How to use\n### 1. Download example & install dependencies\nClone this repository:\n```
+======================
+
+benchmark\tmp-prisma-examples\databases\turso\README.md
+--- TITLE: # Prisma with Turso Example ---
+# Prisma with Turso Example\nThis example demonstrates how to use [Prisma ORM](https://www.prisma.io/) with [Turso](https://turso.tech/), a distributed database based on libSQL. The project showcases how to perform CRUD operations using [Prisma Client](https://www.prisma.io/docs/orm/prisma-client) in a **Node.js script**.\n## How to use\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template databases/turso\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\databases\typeorm-prisma-postgres\README.md
+--- TITLE: # TypeORM with Prisma Postgres ---
+# TypeORM with Prisma Postgres\nThis example shows how to use [TypeORM](https://typeorm.io/) with [Prisma Postgres](https://www.prisma.io/postgres).\n## Getting started\n### 1. Download the example and install dependencies\nClone this repository and download this template:\n```bash\nnpx try-prisma@latest --template databases/typeorm-prisma-postgres\n```\nThen navigate into the project directory and install dependencies:\n```bash
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\aws-lambda\README.md
+--- TITLE: # AWS Lambda deployment example ---
+# AWS Lambda deployment example\n[Deployment Guide](https://www.prisma.io/docs/guides/deployment/deploying-to-aws-lambda)\n## Download manually\n```bash\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/deployment-platforms/aws-lambda\ncd aws-lambda\n```\nThe Serverless configuration file includes a package pattern that excludes all Prisma Engine binaries but the one relevant for the Lambda runtime. You can read more in our [documentation](https://www.prisma.io/docs/guides/deployment/deployment-guides/deploying-to-aws-lambda#package-pattern-in-serverlessyml).\n## Resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\edge\cloudflare-workers\with-d1\README.md
+--- TITLE: # Deploy a Cloudflare Worker with D1 ---
+# Deploy a Cloudflare Worker with D1\nThis example demonstrates how to deploy a [Cloudflare Worker](https://workers.cloudflare.com/) with a [D1 database](https://developers.cloudflare.com/d1/). It's based on Cloudflare's [`hello-world`](https://github.com/cloudflare/workers-sdk/tree/4fdd8987772d914cf50725e9fa8cb91a82a6870d/packages/create-cloudflare/templates/hello-world) template for Workers.\n## Getting started\n### 1. Download example and install dependencies\nDownload this example:\n```\ngit clone git@github.com:prisma/prisma-examples.git --depth=1\n```\nNavigate into the project directory and install npm dependencies:\n```
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\google-cloud-functions\README.md
+--- TITLE: # Google Cloud Functions ---
+# Google Cloud Functions\n## Deployment\nWhen deploying on this platform, the build is created on the server and hence the correct binary is available as `prisma generate` runs on the server.\nHence, we do not need to provide additional platform targeting options like `platforms`. With no additional parameters necessary, the generate section of the Prisma schema file looks like the following:\n```\ngenerator photon {\nprovider = "photonjs"\n}\n```\n## Environment
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\heroku\README.md
+--- TITLE: # Heroku deployment example ---
+# Heroku deployment example\n[Deployment guide](https://www.prisma.io/docs/guides/deployment/deploying-to-heroku)\n## Download manually\n```bash\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/deployment-platforms/heroku\ncd heroku\n```\n## Resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)\n- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\railway\README.md
+--- TITLE: # Railway deployment example ---
+# Railway deployment example\n[Deployment guide](https://www.prisma.io/docs/guides/deployment/deploying-to-railway)\n## Download manually\n```bash\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/deployment-platforms/railway\ncd railway\n```\n## Resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)\n- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\README.md
+--- TITLE: # Deployment platforms ---
+# Deployment platforms\nThe projects in this directory show what "Prisma Client"-based deployment setups look like for various deployment providers. Learn more about [deployment](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/deployment) in the Prisma documentation.\n## Additional resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)\n- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.\n- [Subscribe to our YouTube channel](https://pris.ly/youtube?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for live demos and video tutorials.\n- [Follow us on X](https://pris.ly/x?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for the latest updates.\n- Report issues or ask [questions on GitHub](https://pris.ly/github?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section).
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\render\README.md
+--- TITLE: # Render deployment example ---
+# Render deployment example\nThis example demonstrates how to deploy an Express app with Prisma ORM on [Render](https://render.com).\nSee the [Render deployment guide](https://www.prisma.io/docs/guides/deployment/deploying-to-render) for full details.\n## Download this code\n```bash\ncurl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/deployment-platforms/render\ncd render\n```\n## About Render\nRender enables developers to easily host and scale full-stack web applications. Render natively supports [common runtimes](https://docs.render.com/language-support), including Node.js and Bun. Render also supports deploying from a Dockerfile or Docker registry.
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\rest-express-docker-aws-ec2\README.md
+--- TITLE: # REST API with Express, Docker & AWS EC2 ---
+# REST API with Express, Docker & AWS EC2\nThis example shows how to deploy a **Prisma REST API** (Express + TypeScript) to **AWS EC2** using **Docker** and **GitHub Actions**.\n## Prerequisites\n- [Docker](https://www.docker.com/) and Docker Compose (for the Docker path)\n- [Node.js](https://nodejs.org/) 20+ and a local PostgreSQL instance (for the non-Docker path)\n- An AWS account (for deployment only)\n## Getting started\n### 1. Clone the repository\n```sh\ngit clone https://github.com/prisma/prisma-examples.git --depth=1
+======================
+
+benchmark\tmp-prisma-examples\deployment-platforms\vercel\README.md
+--- TITLE: # Vercel deployment example ---
+# Vercel deployment example\nThe deployment example has moved to https://github.com/prisma/deployment-example-vercel\n[Deployment guide](https://www.prisma.io/docs/guides/deployment/deploying-to-vercel)\n## Additional resources\n- Check out the [Prisma docs](https://www.prisma.io/docs)\n- [Join our community on Discord](https://pris.ly/discord?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) to share feedback and interact with other users.\n- [Subscribe to our YouTube channel](https://pris.ly/youtube?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for live demos and video tutorials.\n- [Follow us on X](https://pris.ly/x?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for the latest updates.\n- Report issues or ask [questions on GitHub](https://pris.ly/github?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section).
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\aws-lambda-sst-esbuild\README.md
+--- TITLE: # Prisma Postgres Example: AWS Lambda + SST + Node.js + ESM ---
+# Prisma Postgres Example: AWS Lambda + SST + Node.js + ESM\nThis project showcases how to use the Prisma ORM with AWS Lambda and Prisma Postgres in an TypeScript ESM application.\n## Prerequisites\nTo successfully run the project, you will need the following:\n- A **Prisma Postgres** connection string which you can get by enabling Postgres in a project in your [Prisma Data Platform](https://pris.ly/pdp) account. This connection string will be used for both Prisma migrations and Prisma Client queries.\n## Tech Stack\n- SST 3 + AWS Lambda\n- Runtime: Nodejs 20.x\n- Bundler: esbuild (used via SST)\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\basic-typedsql\README.md
+--- TITLE: # TypedSQL Example ---
+# TypedSQL Example\nThis example shows how to use the TypedSQL feature of [Prisma ORM](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma) in a TypeScript project along with the [`prisma-client`](https://www.prisma.io/docs/orm/prisma-schema/overview/generators#prisma-client-preview) generator. TypedSQL allows you to write fully type-safe SQL queries and then run them via Prisma Client.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template generator-prisma-client/basic-typedsql --install npm --name basic-typedsql\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\bun\README.md
+--- TITLE: # Bun + Prisma ORM example ---
+# Bun + Prisma ORM example\n## Introduction\nA simple web server using [Bun](https://bun.sh/) and [Prisma ORM](https://www.prisma.io/) with [Prisma Postgres](https://www.prisma.io/postgres). Creates a new user on each request and returns the total user count.\nThis example uses:\n- Bun's built-in HTTP server\n- New [`prisma-client` generator](https://www.prisma.io/docs/orm/prisma-schema/overview/generators#prisma-client-preview) and the `bun` runtime\n## Prerequisites\n- **Bun**: Make sure you have Bun installed on your system. If not, install it from [bun.sh](https://bun.sh/)\n- **Database**: Use a Prisma Postgres database or [any other supported database by Prisma](https://www.prisma.io/docs/orm/reference/supported-databases) of your choosing. This example uses [Prisma Postgres](https://www.prisma.io/postgres).\n## Getting started
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\deno-deploy\README.md
+--- TITLE: # Prisma + Deno Deploy Example ---
+# Prisma + Deno Deploy Example\nThis project showcases how to use Prisma ORM with Prisma Postgres in a Deno Deploy application. It implements a simple Task API with full CRUD operations.\n## Prerequisites\n- [Deno](https://docs.deno.com/runtime/#install-deno) v2.0 or later installed\n- A [Prisma Data Platform](https://console.prisma.io/login) account for Prisma Postgres\n## Tech Stack\n- Deno 2\n- Prisma Client with the `prisma-client` generator and Deno runtime\n- Prisma Postgres\n## Getting Started
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\esbuild-cjs\README.md
+--- TITLE: # Prisma Postgres Example: ESBuild + Node.js + CJS ---
+# Prisma Postgres Example: ESBuild + Node.js + CJS\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an TypeScript application transpiled to CommonJS (CJS) using ESBuild.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Node.js\n- Runtime: Node.js 20.19.0\n- Bundler: ESBuild\n- CJS\n- `package.json` contains `{ "type": "commonjs" }`
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\nextjs-starter-turbopack\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Turbopack, Node.js, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Turbopack, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM Next.js application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Next.js 15\n- Runtime: Node.js 20.19.0\n- Bundler: Turbopack (stable for `dev`, alpha for `build`)\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\nextjs-starter-webpack\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Webpack, Node.js, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Webpack, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM Next.js application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Next.js 15\n- Runtime: Node.js 20.19.0\n- Bundler: Webpack 5\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\nextjs-starter-webpack-monorepo\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Monorepo, Webpack, Node.js, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Monorepo, Webpack, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM monorepo, containing a Next.js application and Prisma package definition.\nIt also demonstrates that [@prisma/nextjs-monorepo-workaround-plugin](https://www.npmjs.com/package/@prisma/nextjs-monorepo-workaround-plugin) is no longer needed, as the `prisma-client` generator supports ESM and monorepos out of the box.\n## Project Structure\n```\n.\n├── packages\n│   ├── next-app                     # Next.js application\n│   │   ├── app\n│   │   ├── components
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\nextjs-starter-webpack-turborepo\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Turborepo, Webpack, Node.js, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Turborepo, Webpack, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM monorepo, containing a Next.js application and Prisma package definition, and powered by Turborepo.\nIt also demonstrates that [@prisma/nextjs-monorepo-workaround-plugin](https://www.npmjs.com/package/@prisma/nextjs-monorepo-workaround-plugin) is no longer needed, as the `prisma-client` generator supports ESM and monorepos out of the box.\n## Project Structure\n```\n.\n├── apps                                   # Web application packages\n│   └── next-app                           # Next.js application\n│       ├── app\n│       ├── components
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\nextjs-starter-webpack-with-middleware\README.md
+--- TITLE: # Prisma Postgres Example: Next.js 15 Starter (Webpack, Node.js + Vercel Edge, ESM) ---
+# Prisma Postgres Example: Next.js 15 Starter (Webpack, Node.js + Vercel Edge, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM Next.js application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Next.js 15\n- Runtime:\n- Node.js 20.19.0 for normal server-side rendering (SSR) and API routes\n- Vercel Edge Light Runtime for middleware\n- Bundler: Webpack 5
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\nuxt3-starter-nodejs\README.md
+--- TITLE: # `prisma-client` Example: Nuxt 3 Starter (Vite, Node.js, ESM) ---
+# `prisma-client` Example: Nuxt 3 Starter (Vite, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with the `prisma-client` generator and the Prisma Postgres database in an ESM Nuxt 3 application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Nuxt 3\n- Runtime: Node.js\n- Bundler: Vite 6\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\nuxt4-starter-nodejs\README.md
+--- TITLE: # `prisma-client` Example: Nuxt 4 Starter (Vite, Node.js, ESM) ---
+# `prisma-client` Example: Nuxt 4 Starter (Vite, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with the `prisma-client` generator and the Prisma Postgres database in an ESM Nuxt 4 application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- Nuxt 4\n- Runtime: Node.js\n- Bundler: Vite 7\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\react-router-starter-cloudflare-workerd\README.md
+--- TITLE: # Prisma Postgres Example: React Router 7 Starter (Vite, Cloudflare Workerd, ESM) ---
+# Prisma Postgres Example: React Router 7 Starter (Vite, Cloudflare Workerd, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM React Router 7 application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- React Router 7\n- Runtime: Cloudflare Workerd\n- Bundler: Vite 6\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\react-router-starter-nodejs\README.md
+--- TITLE: # Prisma Postgres Example: React Router 7 Starter (Vite, Node.js, ESM) ---
+# Prisma Postgres Example: React Router 7 Starter (Vite, Node.js, ESM)\nThis project showcases how to use the Prisma ORM with Prisma Postgres in an ESM React Router 7 application.\n## Prerequisites\nTo successfully run the project, you will need a **Prisma Postgres** connection string from your [Prisma Data Platform](https://pris.ly/pdp) project.\n## Tech Stack\n- React Router 7\n- Runtime: Node.js\n- Bundler: Vite 6\n- ESM\n- `package.json` contains `{ "type": "module" }`
+======================
+
+benchmark\tmp-prisma-examples\generator-prisma-client\vitest-esm-nodejs\README.md
+--- TITLE: # Prisma Client Example: Vitest + Node.js + ESM ---
+# Prisma Client Example: Vitest + Node.js + ESM\nThis project showcases how to use the Prisma ORM with the `prisma-client` generator in an TypeScript test suite using [Vitest 3](https://vitest.dev/) in an ESM Node.js environment.\n## Tech Stack\n- Vitest 3\n- Runtime: Node.js 20.19.0\n- Test runner: Vitest 3\n- `package.json` contains `{ "type": "module" }`\n- Prisma Client with the `prisma-client` generator\nSee the [Prisma schema file](./prisma/schema.prisma) for details.\n```prisma
+======================
+
+benchmark\tmp-prisma-examples\orm\ai-sdk-nextjs\README.md
+--- TITLE: # Vercel AI SDK V5 + Prisma example ---
+# Vercel AI SDK V5 + Prisma example\nThis example shows how to store AI chat messages using [Vercel's AI SDK V5](https://ai-sdk.dev/docs/introduction), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```bash\nnpx try-prisma@latest --template orm/ai-sdk-nextjs\n```\nThen, navigate into the project directory:\n```bash
+======================
+
+benchmark\tmp-prisma-examples\orm\astro\README.md
+--- TITLE: # Astro Example ---
+# Astro Example\nThis example shows how to implement a simple web app using [Astro](https://astro.build/) and [Prisma ORM](https://www.prisma.io/docs).\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/astro\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\authjs-nextjs\README.md
+--- TITLE: # Auth.js + Prisma example ---
+# Auth.js + Prisma example\nThis example shows how to implement **authentication** using [Auth.js](https://authjs.dev/), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/authjs-nextjs\n```\nThen, navigate into the project directory and install the dependencies:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\betterauth-astro\README.md
+--- TITLE: # Better-Auth + Prisma example ---
+# Better-Auth + Prisma example\nThis example shows how to implement **authentication** using [Better-Auth](https://better-auth.com/), [Astro](https://astro.build/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/betterauth-astro\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\betterauth-nextjs\README.md
+--- TITLE: # Better-Auth + Prisma example ---
+# Better-Auth + Prisma example\nThis example shows how to implement **authentication** using [Better-Auth](https://better-auth.com/), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/betterauth-nextjs\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\clerk-astro\README.md
+--- TITLE: # Clerk + Astro.js + Prisma example ---
+# Clerk + Astro.js + Prisma example\nThis example shows how to implement **authentication** using [Clerk](https://clerk.com/), [Astro.js](https://astro.build/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/clerk-astro\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\clerk-nextjs\README.md
+--- TITLE: # Clerk + Prisma example ---
+# Clerk + Prisma example\nThis example shows how to implement **authentication** using [Clerk](https://clerk.com/), [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/clerk-nextjs\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\cloudflare-workers\README.md
+--- TITLE: # Cloudflare Workers Example ---
+# Cloudflare Workers Example\nThis example shows how to implement a simple API using [Cloudflare Workers](https://workers.cloudflare.com) and [Prisma ORM](https://www.prisma.io/docs). The example creates a serverless worker that interacts with a PostgreSQL database to create and count users.\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/cloudflare-workers\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\elysia\README.md
+--- TITLE: # REST API Example with Elysia & Prisma ---
+# REST API Example with Elysia & Prisma\nThis example shows how to implement a **simple Todo REST API with TypeScript** using [Elysia](https://elysiajs.com/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It connects to a Postgres database via the [`@prisma/adapter-pg`](https://www.prisma.io/docs/orm/overview/databases/postgresql/pg-driver-adapter) driver adapter.\nThis example uses [Prismabox](https://github.com/m1212e/prismabox) to automatically generate Elysia validation models from the Prisma schema, ensuring type safety and eliminating the need to manually define validation schemas.\n## Project structure\n- `src/index.ts` – defines the Elysia server and the REST routes for todos.\n- `src/lib/prisma.ts` – creates a Prisma Client using `@prisma/adapter-pg`.\n- `prisma/schema.prisma` – Prisma schema with the `Todo` model.\n- `prisma/seed.ts` – seeds the database with sample todos.\n## Getting started\n### 1. Download the example and install dependencies
+======================
+
+benchmark\tmp-prisma-examples\orm\express\README.md
+--- TITLE: # REST API Example with Express & Prisma Postgres ---
+# REST API Example with Express & Prisma Postgres\nThis example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/), Prisma ORM and a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```terminal\nnpx try-prisma@latest --template orm/express --install npm --name express\n```\nThen, navigate into the project directory:\n```terminal
+======================
+
+benchmark\tmp-prisma-examples\orm\fastify\README.md
+--- TITLE: # REST API Example with Fastify & Prisma Postgres ---
+# REST API Example with Fastify & Prisma Postgres\nThis example shows how to implement a **REST API** using [Fastify](https://fastify.io/), Prisma ORM and a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example, install dependencies, and navigate into the project directory\nDownload this example:\n```terminal\nnpx try-prisma@latest --template orm/fastify --install npm --name fastify\n```\nThen, navigate into the project directory:\n```terminal
+======================
+
+benchmark\tmp-prisma-examples\orm\fastify-graphql\README.md
+--- TITLE: # GraphQL Server Example with `fastify-graphql` & Prisma Postgres ---
+# GraphQL Server Example with `fastify-graphql` & Prisma Postgres\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**Mercurius**](https://mercurius.dev/): GraphQL adapter for Fastify\n- [**Fastify**](https://www.fastify.io/): Fast and low overhead web framework for building Node.js applications\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\tmp-prisma-examples\orm\fastify-graphql-sdl-first\README.md
+--- TITLE: # GraphQL Server Example with `fastify-graphql` & Prisma Postgres (SDL-first) ---
+# GraphQL Server Example with `fastify-graphql` & Prisma Postgres (SDL-first)\nThis example shows how to implement a **GraphQL server (SDL-first) with TypeScript** with the following stack:\n- [**Mercurius**](https://mercurius.dev/): GraphQL adapter for Fastify\n- [**Fastify**](https://www.fastify.io/): Fast and low overhead web framework for building Node.js applications\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\tmp-prisma-examples\orm\graphql\README.md
+--- TITLE: # GraphQL Server Example with GraphQL Yoga & Prisma Postgres ---
+# GraphQL Server Example with GraphQL Yoga & Prisma Postgres\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): GraphQL server\n- [**Pothos**](https://pothos-graphql.dev/): Code-first GraphQL schema definition library\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:
+======================
+
+benchmark\tmp-prisma-examples\orm\graphql-auth\README.md
+--- TITLE: # GraphQL Server with Authentication & Permissions using Apollo Server & Prisma Postgres ---
+# GraphQL Server with Authentication & Permissions using Apollo Server & Prisma Postgres\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**Apollo Server**](https://github.com/apollographql/apollo-server): HTTP server for GraphQL APIs\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**GraphQL Shield**](https://github.com/maticzav/graphql-shield): Authorization/permission layer for GraphQL schemas\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\tmp-prisma-examples\orm\graphql-gqloom\README.md
+--- TITLE: # GraphQL Server Example with GraphQL Yoga & Prisma Postgres & GQLoom ---
+# GraphQL Server Example with GraphQL Yoga & Prisma Postgres & GQLoom\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): GraphQL server\n- [**GQLoom**](https://gqloom.dev/): Code-First GraphQL Schema library that weaves TypeScript runtime types into GraphQL schemas\n- [**Zod**](https://zod.dev/): Schema validation library for input types\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\tmp-prisma-examples\orm\graphql-nexus\README.md
+--- TITLE: # GraphQL Server Example with Apollo Server & Prisma Postgres ---
+# GraphQL Server Example with Apollo Server & Prisma Postgres\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**Apollo Server**](https://github.com/apollographql/apollo-server): HTTP server for GraphQL APIs\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:
+======================
+
+benchmark\tmp-prisma-examples\orm\graphql-sdl-first\README.md
+--- TITLE: # GraphQL Server Example with GraphQL Yoga & Prisma Postgres (SDL-first) ---
+# GraphQL Server Example with GraphQL Yoga & Prisma Postgres (SDL-first)\nThis example shows how to implement an **GraphQL server (SDL-first) with TypeScript** with the following stack:\n- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): HTTP server for GraphQL APIs\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\graphql-subscriptions\README.md
+--- TITLE: # Real-time GraphQL Subscriptions Example with Apollo Server & Prisma Postgres ---
+# Real-time GraphQL Subscriptions Example with Apollo Server & Prisma Postgres\nThis example shows how to implement **GraphQL subscriptions in TypeScript** with the following stack:\n- [**Apollo Server**](https://github.com/apollographql/apollo-server): HTTP server for GraphQL APIs\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\nNote that **Apollo Server** includes the `PubSub` realtime component from the [`graphql-subscriptions`](https://github.com/apollographql/graphql-subscriptions) package that's needed to implement GraphQL subscriptions.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\tmp-prisma-examples\orm\graphql-typegraphql\README.md
+--- TITLE: # GraphQL Server Example with TypeGraphQL & Prisma Postgres ---
+# GraphQL Server Example with TypeGraphQL & Prisma Postgres\n> [!CAUTION]\n> This example was removed on 2025-03-10. If you would like an updated example, please open an issue requesting such.\n<details><summary>Previous content</summary>\nThis example shows how to **implement a GraphQL server with TypeScript** based on [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client), [apollo-server](https://www.apollographql.com/docs/apollo-server). It is based on a SQLite database - you can find the database file with some dummy data at [`./prisma/dev.db`](./prisma/dev.db).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/graphql-typegraphql --install npm --name graphql-typegraphql
+======================
+
+benchmark\tmp-prisma-examples\orm\graphql-typegraphql-crud\README.md
+--- TITLE: # GraphQL Server CRUD Example with TypeGraphQL & Prisma Postgres ---
+# GraphQL Server CRUD Example with TypeGraphQL & Prisma Postgres\n> [!CAUTION]\n> This example was removed on 2025-03-10. If you would like an updated example, please open an issue requesting such.\n<details><summary>Previous content</summary>\nThis example shows how to **implement a GraphQL server with TypeScript** based on [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client), [apollo-server](https://www.apollographql.com/docs/apollo-server). It is based on a SQLite database - you can find the database file with some dummy data at [`./prisma/dev.db`](./prisma/dev.db).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/graphql-typegraphql-crud --install npm --name graphql-typegraphql-crud
+======================
+
+benchmark\tmp-prisma-examples\orm\grpc\README.md
+--- TITLE: # gRPC Server Example with Prisma Postgres ---
+# gRPC Server Example with Prisma Postgres\nThis example shows how to implement a **gRPC API with TypeScript** and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/grpc --install npm --name grpc\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\hapi\README.md
+--- TITLE: # REST API Example with hapi & Prisma Postgres ---
+# REST API Example with hapi & Prisma Postgres\nThis example shows how to implement a **REST API** using [hapi](https://hapi.dev/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/hapi --install npm --name hapi\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\hapi-graphql\README.md
+--- TITLE: # GraphQL Server Example with hapi & Prisma Postgres (Code-First) ---
+# GraphQL Server Example with hapi & Prisma Postgres (Code-First)\nThis example shows how to implement a **GraphQL server with TypeScript** with the following stack:\n- [**hapi**](https://hapi.dev/): Web framework with a focus on security and scalability\n- [**Apollo Server Integration for Hapi**](https://www.npmjs.com/package/@as-integrations/hapi))\n- [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\tmp-prisma-examples\orm\hapi-graphql-sdl-first\README.md
+--- TITLE: # GraphQL Server (SDL first) Example with hapi & Prisma Postgres ---
+# GraphQL Server (SDL first) Example with hapi & Prisma Postgres\nThis example shows how to implement an **GraphQL Server Example with Hapi (SDL first)** with the following stack:\n- [**hapi**](https://hapi.dev/): Web framework with a focus on security and scalability\n- [**Apollo Server Integration for Hapi**](https://www.npmjs.com/package/@as-integrations/hapi)\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:
+======================
+
+benchmark\tmp-prisma-examples\orm\hono\README.md
+--- TITLE: # REST API Example with Hono & Prisma ---
+# REST API Example with Hono & Prisma\nThis example shows how to implement a **REST API with TypeScript** using [Hono](https://hono.dev/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It connects to a Postgres database via the [`@prisma/adapter-pg`](https://www.prisma.io/docs/orm/overview/databases/postgresql/pg-driver-adapter) driver adapter and a normal `postgresql://` connection string (no Accelerate/Data Proxy required).\n## Project structure\n- `src/index.ts` – defines the Hono server and the REST routes (`/signup`, `/post`, `/feed`, …).\n- `src/lib/prisma.ts` – lightweight middleware that creates a Prisma Client using `@prisma/adapter-pg` and exposes it via Hono’s context.\n- `prisma/schema.prisma` – Prisma schema with the `User` and `Post` models that back the API.\n- `prisma/seed.ts` – seeds the database with sample users and posts.\n## Getting started\n### 1. Download the example and install dependencies\n```bash
+======================
+
+benchmark\tmp-prisma-examples\orm\koa\README.md
+--- TITLE: # REST API Example with Koa & Prisma Postgres ---
+# REST API Example with Koa & Prisma Postgres\nThis example shows how to implement a **REST API with TypeScript** using [Koa](https://koajs.com/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/koa --install npm --name koa\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\nest\README.md
+--- TITLE: # REST API Example with NestJS & Prisma Postgres ---
+# REST API Example with NestJS & Prisma Postgres\nThis example shows how to implement a **REST API** using [NestJS](https://docs.nestjs.com/) and Prisma ORM. It uses a [Prisma Postgres](https://www.prisma.io/postgres) database and was bootstrapped using the NestJS CLI command `nest new nest`.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/nest --install npm --name nest\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\nest-graphql\README.md
+--- TITLE: # GraphQL Server Example with NestJS (code-first) & Prisma Postgres ---
+# GraphQL Server Example with NestJS (code-first) & Prisma Postgres\nThis example shows how to implement an **GraphQL server (code-first) with TypeScript** with the following stack:\n- [NestJS](https://docs.nestjs.com/graphql/quick-start): Web framework for building scalable server-side applications\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\nThe example was bootstrapped using the NestJS CLI command `nest new nest-graphql`.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:
+======================
+
+benchmark\tmp-prisma-examples\orm\nest-graphql-sdl-first\README.md
+--- TITLE: # GraphQL Server Example with NestJS (SDL-first) & Prisma Postgres ---
+# GraphQL Server Example with NestJS (SDL-first) & Prisma Postgres\nThis example shows how to implement an **GraphQL server (SDL-first) with TypeScript** with the following stack:\n- [**NestJS**](https://docs.nestjs.com/graphql/quick-start): Web framework for building scalable server-side applications\n- [**graphql-tools**](https://www.apollographql.com/docs/graphql-tools/): A tool for combining resolvers and type-definitions into an executable schema\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.\nThe example was bootstrapped using the NestJS CLI command `nest new nest-graphql-sdl-first`.\n## Getting started\n### 1. Download example and navigate into the project directory
+======================
+
+benchmark\tmp-prisma-examples\orm\nextjs\README.md
+--- TITLE: # Fullstack Next.js Example with Prisma Postgres ---
+# Fullstack Next.js Example with Prisma Postgres\nThis example shows how to implement a fullstack app using [Next.js 15](https://nextjs.org/) with App Router, Prisma ORM and a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/nextjs --install npm --name nextjs\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\nextjs-graphql\README.md
+--- TITLE: # Fullstack Example with Next.js (GraphQL API) & Prisma Postgres ---
+# Fullstack Example with Next.js (GraphQL API) & Prisma Postgres\nThis example shows how to implement a **Fullstack Next.js app with GraphQL** with the following stack:\nThis example shows how to implement a **fullstack app in TypeScript with :\n- [**Next.js**](https://nextjs.org/): A [React](https://reactjs.org/) framework\n- [**Apollo Client**](https://www.apollographql.com/docs/react/) (frontend),\n- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): GraphQL server\n- [**Pothos**](https://pothos-graphql.dev/): Code-first GraphQL schema definition library\n- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)\n- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations\n- [**Prisma Postgres**](https://www.prisma.io/postgres): A serverless PostgreSQL database built on unikernels.
+======================
+
+benchmark\tmp-prisma-examples\orm\nextjs-trpc\README.md
+--- TITLE: # Next.js + tRPC + Prisma Todo App ---
+# Next.js + tRPC + Prisma Todo App\nA simple, clean todo application showcasing the integration of Next.js App Router, tRPC, and Prisma.\n## Tech Stack\n- **Next.js 15** - React framework with App Router\n- **tRPC 11** - End-to-end typesafe APIs\n- **Prisma** - Database ORM\n- **React Query** - Data fetching and caching\n- **TypeScript** - Type safety\n- **Tailwind CSS** - Styling\n## Project Structure
+======================
+
+benchmark\tmp-prisma-examples\orm\nuxt\README.md
+--- TITLE: # Fullstack Example with Nuxt & Prisma Postgres (REST API) ---
+# Fullstack Example with Nuxt & Prisma Postgres (REST API)\nThis example shows how to implement a **fullstack app with [Nuxt](https://nuxtjs.org//)** using [Vue](https://vuejs.org/) (frontend) and [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (backend). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nUse the `try-prisma` CLI to download this example:\n```terminal\nnpx try-prisma@latest --template orm/nuxt --install npm --name nuxt\n```\nThen, navigate into the project directory:\n```terminal
+======================
+
+benchmark\tmp-prisma-examples\orm\nuxt-prisma-module\README.md
+--- TITLE: # Example Nuxt App Using Prisma Nuxt Module ---
+# Example Nuxt App Using Prisma Nuxt Module\nThis example app showcases how to use the [Prisma Nuxt module](https://github.com/prisma/nuxt-prisma).\nThe app demonstrates:\n- How to use the `usePrismaClient` composable in a [server-side component](./components/FirstUser.server.vue) named [`FirstUser.server.vue`](./components/FirstUser.server.vue).\n- How to customize the `PrismaClient` in the file [lib/prisma.ts](./lib/prisma.ts), which is generated by the `@prisma/nuxt` module. This customization adds an `exists` method to the `PrismaClient` instance. The extended instance of the `PrismaClient` with the `exists` method is then used in the [API route](./server/api/user-exists.ts) located at the [`user-exists.ts`](./server/api/user-exists.ts) file.\n## Getting started\n1. Download example and install dependencies:\n```terminal\nnpx try-prisma@latest --template orm/nuxt-prisma-module\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\postgis-express\README.md
+--- TITLE: # Postgres Geolocation example ---
+# Postgres Geolocation example\nThis example shows how to implement **Geolocation in PostgreSQL** using [Express](https://expressjs.com/), [Postgis](http://postgis.net/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client).\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/postgis-express --install npm --name postgis-express\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\prisma-mocking-javascript\README.md
+--- TITLE: ## A simple mock example using Prisma in Javascript ---
+## A simple mock example using Prisma in Javascript\n## Installation\n1. Install dependencies:\n```\nnpm install\n```\n2. Ensure Prisma is properly configured in your project. Set up your Prisma schema file and database connection.\nRun Prisma commands to generate the client:\n```\nnpx prisma generate
+======================
+
+benchmark\tmp-prisma-examples\orm\react-router-7\README.md
+--- TITLE: # React Router 7 Example ---
+# React Router 7 Example\nThis example shows how to implement a simple web app using [React Router 7](https://reactrouter.com) and [Prisma ORM](https://www.prisma.io/docs). This example was bootstrapped using the React Router CLI tool `create-react-router`.\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/react-router-7\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\remix\README.md
+--- TITLE: # Fullstack example with Remix ---
+# Fullstack example with Remix\n> [!CAUTION]\n> This example was removed on 2025-03-14. If you would like an updated example, please open an issue requesting such.\nWe've removed the Remix 1 and 2 examples in favor of React Router 7. To get started with React Router 7, run\n```\nnpx try-prisma@latest --template orm/react-router-7\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\script\README.md
+--- TITLE: # Simple TypeScript CRUD Example with Prisma Postgres ---
+# Simple TypeScript CRUD Example with Prisma Postgres\nThis example shows how to use Prisma ORM in a **simple TypeScript script** to read and write data in a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/script --install npm --name script\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\solid-start\README.md
+--- TITLE: # SolidStart Example ---
+# SolidStart Example\nThis example shows how to implement a simple web app using [SolidStart](https://start.solidjs.com) and [Prisma ORM](https://www.prisma.io/docs).\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/solid-start\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\starter\README.md
+--- TITLE: # Prisma Example: TypeScript Starter ---
+# Prisma Example: TypeScript Starter\nThis repository has been created to help you get started with [Prisma ORM](https://prisma.io). This project comes with a basic [`schema.prisma`](./prisma/schema.prisma) configured with PostgreSQL and an example operation found in the [`index.ts`](./index.ts) file.\n## Prerequisites\nTo successfully run the project, you will need the following:\n- The **connection string** of a PostgreSQL database (if you don't have one yet, you can use Prisma Postgres)\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/starter
+======================
+
+benchmark\tmp-prisma-examples\orm\sveltekit\README.md
+--- TITLE: # SvelteKit Example ---
+# SvelteKit Example\nThis example shows how to implement a simple web app using [SvelteKit](https://svelte.dev/docs/kit) and [Prisma ORM](https://www.prisma.io/docs).\n## Getting started\n### 1. Download the example and navigate to the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/sveltekit  --install npm --name sveltekit\n```\nThen navigate to the project directory\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\testing-express\README.md
+--- TITLE: # Testing Express ---
+# Testing Express\nThis example shows how to implement integration tests using [Express](https://expressjs.com/), [Supertest](https://github.com/visionmedia/supertest) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It uses a [Prisma Postgres](https://www.prisma.io/postgres) database.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/testing-express --install npm --name testing-express\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\orm\typedsql\README.md
+--- TITLE: # TypedSQL Example ---
+# TypedSQL Example\nThis example shows how to use the TypedSQL feature of [Prisma ORM](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma) in a TypeScript project. TypedSQL allows you to write fully type-safe SQL queries and then run them via Prisma Client.\n## Getting started\n### 1. Download example and navigate into the project directory\nDownload this example:\n```\nnpx try-prisma@latest --template orm/typedsql --install npm --name typedsql\n```\nThen, navigate into the project directory:\n```
+======================
+
+benchmark\tmp-prisma-examples\README.md
+--- TITLE: ## Prisma ORM ---
+<br />\n<div align="center">\n<h1>Prisma Examples</h1>\n<p><h3 align="center">Ready-to-run Prisma example projects 🚀</h3></p>\n<a href="https://www.prisma.io/">Website</a>\n<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>\n<a href="https://www.prisma.io/docs/">Docs</a>\n<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>\n<a href="https://www.prisma.io/blog">Blog</a>\n<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+======================
+
+docs\architecture\DEPLOYMENT-READINESS.md
+--- TITLE: # DEPLOYMENT READINESS ASSESSMENT ---
+# DEPLOYMENT READINESS ASSESSMENT\n## Assessment Goal\nEvaluate the readiness of MigrationGuard for deployment across four target environments, ensuring all architectural and security prerequisites are documented.\n## Target Environment Status\n- **A. Local Development**: READY\n- **B. Local Production Simulation**: READY\n- **C. VPS Deployment**: READY WITH CONFIGURATION\n- **D. Public Cloud Deployment**: NOT READY\n## Readiness Matrix\n| Component / Requirement      | Status                   | Notes                                                                                            |
+======================
+
+docs\architecture\M10-BACKEND.md
+--- TITLE: # M10: Backend Architecture ---
+# M10: Backend Architecture\nThe M10 backend transforms MigrationGuard from a purely local CLI verification tool into a persistent hosted service, capable of storing verification runs, evidence, compatibility matrices, presentations, and reviewer decisions.\n## Guiding Principles\n1. **Decoupled Verification Engine:** The verification engine (Runner, MigrationEngine, MatrixEngine) remains stateless and executes within the `cli` or CI context. The backend does not duplicate verification execution logic. It serves purely as the system of record.\n2. **Real-world Backend Foundation:** Node.js, Fastify, TypeScript, and Prisma are utilized for robust typing and performance.\n3. **Immutability of Runs and Presentations:** Verification runs and evidence are immutable once created. Presentations are versioned explicitly, preventing destructive overwrites.\n## Tech Stack\n- **API Framework:** Fastify\n- **Language:** TypeScript\n- **Database:** PostgreSQL (via Prisma ORM)
+======================
+
+docs\architecture\M10-DATABASE.md
+--- TITLE: # M10: Database Architecture ---
+# M10: Database Architecture\nThe MigrationGuard persistent database is implemented in PostgreSQL and orchestrated via Prisma.\n## Models\n### User\nTracks administrators and reviewers for the hosted application. Includes role-based differentiation (`ADMIN` vs `REVIEWER`).\n- Uses `argon2` for secure password hashing.\n### Presentation & PresentationVersion\nTracks the lifecycle of published presentation documents (e.g. PPTX or PDF overviews of the tool).\n- Implements strict versioning. Older versions are never destroyed.\n- Blobs are pushed to S3 object storage; the database merely tracks the `storageKey`.
+======================
+
+docs\architecture\M11-DEPLOYMENT.md
+--- TITLE: # M11 Deployment Architecture ---
+# M11 Deployment Architecture\n## Deployment Status\n**LOCAL_PRODUCTION_SIMULATION**\nThis stack is production-structured and reproducible, but is NOT publicly deployed. No remote server, cloud provider, VPS, DNS, or real TLS certificate is involved.\n## Stack Overview\n```\n┌───────────────────────────────────────────────────────┐\n│                    HOST (localhost:80)                 │\n│                                                       │\n│  ┌─────────────────────────────────────────────────┐  │
+======================
+
+docs\architecture\M11-FRONTEND.md
+--- TITLE: # M11 Frontend Architecture ---
+# M11 Frontend Architecture\n## Overview\nThe MigrationGuard frontend is a React single-page application (SPA) built with Vite and TypeScript. It consumes the Fastify REST API and provides authenticated access to the verification dashboard and research website.\n## Tech Stack\n| Concern        | Technology                   |\n| -------------- | ---------------------------- |\n| Framework      | React 18                     |\n| Build tool     | Vite                         |\n| Language       | TypeScript (strict mode)     |\n| Routing        | React Router v6              |
+======================
+
+docs\architecture\M11-SECURITY.md
+--- TITLE: # M11 Security Architecture ---
+# M11 Security Architecture\n## Overview\nMigrationGuard M11 implements defense-in-depth across authentication, authorization, input validation, rate limiting, and transport security.\n## Authentication\n- **Mechanism**: JSON Web Tokens (JWT) signed with `HS256`\n- **Secret**: Configurable via `JWT_SECRET` environment variable\n- **Token expiry**: `7d` (configurable)\n- **Validation hook**: `app.authenticate` pre-validation hook on all protected routes\n## Authorization (RBAC)\n| Role       | Capabilities                                                                |
+======================
+
+docs\architecture\M12-PRODUCTION-DEPLOYMENT.md
+--- TITLE: # M12 Production Deployment Architecture ---
+# M12 Production Deployment Architecture\n## Deployment Status\nMigrationGuard is currently operating in a **LOCAL_PRODUCTION_SIMULATION** state. It has not been publicly deployed to a cloud environment.\n## Architecture\nThe simulated production environment utilizes `docker-compose.prod.yml` to orchestrate four primary services:\n1. **Backend Application (`backend`)**:\n- Built from `apps/server/Dockerfile`\n- Node.js 20 Fastify API Server\n- Connects to PostgreSQL and MinIO\n- Serves API routes securely with rate-limiting and JWT
+======================
+
+docs\architecture\M5-WORKLOAD.md
+--- TITLE: # M5 Workload Replay Platform Architecture ---
+# M5 Workload Replay Platform Architecture\n## Overview\nThe Workload Replay Platform decouples the definition of compatibility experiments from the CLI implementation. Instead of hardcoding API requests, the system loads a deterministic JSON definition (a Workload) and sequentially executes its Operations against the target application instance.\n## Architecture\n```\nCLI\n│\n▼\nWorkload Loader\n│
+======================
+
+docs\architecture\M6-COMPATIBILITY-MATRIX.md
+--- TITLE: # M6 Compatibility Matrix Architecture ---
+# M6 Compatibility Matrix Architecture\n## Overview\nMilestone M6 elevates MigrationGuard from executing a hardcoded sequence of tests to orchestrating a fully generalized **Compatibility Matrix Engine**. It is responsible for simulating rolling deployment conditions by testing two application versions against two database migration states (N × M cartesian product).\n## Architecture\nThe system uses a loosely coupled pipeline where the Matrix Engine purely drives the infrastructure state and gathers execution outcomes, while the Causal Analyzer processes these outcomes to deduce migration safety.\n```mermaid\nflowchart TD\nCLI[CLI Orchestrator] --> Engine[CompatibilityMatrixEngine]\nsubgraph Execution Pipeline\nEngine --> |Init| Sandbox[PostgresSandbox]
+======================
+
+docs\architecture\M7-EVIDENCE-ENGINE.md
+--- TITLE: # M7 Architecture: Evidence Engine & Fault Catalogue ---
+# M7 Architecture: Evidence Engine & Fault Catalogue\n## Overview\nMilestone M7 introduces the Evidence Engine, a rigorous pipeline designed to convert raw matrix execution outcomes into highly structured, deterministic, and machine-readable causal evidence. It explicitly distinguishes between general infrastructure/application failures and genuine PostgreSQL migration compatibility failures.\n## Architecture\nThe Evidence Engine sits downstream from the `CompatibilityMatrixEngine`.\n```mermaid\nflowchart TD\nRaw[MatrixRunStatus + HTTP 500] --> Norm[ObservationNormalizer]\nNorm --> |Extract DB Error & Status| Class[FaultClassifier]\nClass --> |Determine FailureCategory| Causal[CausalAnalyzer]
+======================
+
+docs\architecture\M9-CI.md
+--- TITLE: # MigrationGuard CI Architecture ---
+# MigrationGuard CI Architecture\nMigrationGuard uses a secure, minimal-privilege GitHub Actions workflow to run its verification pipeline on every push and pull request to the `main` branch.\n## Workflow Pipeline (`.github/workflows/migrationguard.yml`)\n1. **Checkout**: Retrieves the code using `actions/checkout@v4`.\n2. **Setup Node**: Provisions Node.js 20 using `actions/setup-node@v4`.\n3. **Install Dependencies**: Uses `npm ci` for deterministic dependencies.\n4. **Build, Lint, Format Check, Test**: Standard continuous integration checks ensuring code quality and unit test stability.\n5. **Start Dependencies**: Provisions Docker-compose services if any external dependencies are required by specific workloads.\n6. **Verify (`npm run verify`)**: Executes the deterministic `M1` regression fixture using the MigrationGuard CLI.\n7. **Report Generation**: Automatically parses the exit status and constructs a concise GitHub Job Summary for immediate developer feedback in the PR.
+======================
+
+docs\architecture\M9-CLI.md
+--- TITLE: # MigrationGuard CLI Architecture ---
+# MigrationGuard CLI Architecture\nThe MigrationGuard CLI is the developer-facing entry point for orchestrating database migration compatibility analysis.\n## Commands\n### `migrationguard verify`\nThe core verification workflow. Executes a workload against a local matrix of applications and database states to determine compatibility regressions safely in an ephemeral sandbox.\n**Options:**\n- `-c, --config <path>`: Path to a JSON configuration file.\n- `-w, --workload <path>`: Path to a workload JSON file (overrides config).\n- `-m, --migration <path>`: Path to the new migration directory (overrides config).\n- `-s, --schema <path>`: Path to the Prisma schema (overrides config).
+======================
+
+docs\benchmark\BASELINE.md
+--- TITLE: # MigrationGuard Benchmark: Atlas Baseline Evaluation ---
+# MigrationGuard Benchmark: Atlas Baseline Evaluation\n## Overview\nTo scientifically measure MigrationGuard's contribution to migration safety, we establish an explicit baseline using **Atlas** (a leading SQL-only declarative schema migration tool). The benchmark compares Atlas's schema-level static analysis against MigrationGuard's dynamic application-aware verification.\n## Baseline Methodology\n### 1. Execution Environment\n- Atlas CLI is downloaded natively to the CI environment (`bin/atlas.exe`).\n- For every benchmark test case, MigrationGuard's `packages/benchmark-runner` executes `atlas migrate lint` or an equivalent command on the candidate migration SQL against a dev-database.\n### 2. Capture and Evaluation\n- **Success Criteria**: If Atlas exits with `0` and emits no linting warnings about destructive operations, it marks the migration as `SAFE`.\n- **Failure Criteria**: If Atlas returns a non-zero exit code indicating a destructive schema change (e.g., `destructive change detected: drop column`), it marks the migration as `UNSAFE`.
+======================
+
+docs\benchmark\GROUND-TRUTH.md
+--- TITLE: # MigrationGuard Benchmark: Ground Truth Methodology ---
+# MigrationGuard Benchmark: Ground Truth Methodology\n## Overview\nGround truth in the MigrationGuard benchmark must be established entirely independently from the outputs of either the MigrationGuard system or the Atlas baseline. Using the output of a system to evaluate the system itself would create circular logic and invalidate the research findings.\n## Ground Truth Establishment\n### 1. Controlled Fixtures (Track B)\nFor synthetic injected faults, ground truth is mathematically guaranteed by the injection mechanism.\n- **Method**: We take a known, stable schema version `V1` and apply a single specific mutation (`M`). We analyze the resulting database schema `V2`.\n- **Labeling Rules**:\n- If `M` explicitly drops a column that was active in `V1`, the ground truth is **UNSAFE (COLUMN_REMOVAL)**.\n- If `M` drops a column `A` and creates a column `B` with the same type, the ground truth is **UNSAFE (DESTRUCTIVE_RENAME)**.
+======================
+
+docs\benchmark\REPOSITORY-SELECTION.md
+--- TITLE: # MigrationGuard Benchmark: Repository Selection ---
+# MigrationGuard Benchmark: Repository Selection\n## Objective\nTo evaluate MigrationGuard against real-world migration patterns, we require a diverse set of open-source repositories utilizing Node.js, TypeScript, PostgreSQL, and Prisma. The selection process filters for reproducibility, verifiable migration histories, and representative application schemas.\n## Candidate Repositories\n### 1. Prisma Examples (`prisma/prisma-examples`)\n- **URL**: https://github.com/prisma/prisma-examples\n- **Commit SHA**: pinned to `latest` (cloned locally)\n- **License**: MIT\n- **Database**: PostgreSQL (via `orm/typescript/rest-express`)\n- **ORM**: Prisma
+======================
+
+docs\benchmark\RESULTS.md
+--- TITLE: # MigrationGuard M8 Benchmark Results ---
+# MigrationGuard M8 Benchmark Results\n**Execution Time:** 107670ms\n## Overall Metrics\n| Metric | MigrationGuard | Atlas (SQL-only Baseline) |\n|---|---|---|\n| True Positives (TP) | 2 | 2 |\n| True Negatives (TN) | 2 | 0 |\n| False Positives (FP) | 0 | 2 |\n| False Negatives (FN) | 0 | 0 |\n| Precision | 1.00 | 0.50 |
+======================
+
+docs\decisions\M10-AUDIT.md
+--- TITLE: # MigrationGuard M10 Audit Report ---
+# MigrationGuard M10 Audit Report\n## Phase 0 - Architectural Boundaries Audit\n### 1. Existing Verification Engine (M0-M9)\nThe `MigrationGuard` monorepo currently contains a highly modular and robust CLI-driven verification engine.\n- **Domain Separation:** Clean separation of concerns between `sandbox`, `migration-engine`, `application-runner`, `workload`, `matrix-engine`, `compatibility`, `evidence`, and `benchmark-runner`.\n- **Infrastructure Footprint:** Relies on ephemeral Docker containers (`PostgresSandbox`) for local PostgreSQL instances.\n- **Reporting:** Uses the `@migrationguard/evidence` package to produce standardized JSON and Markdown reports containing execution matrices and fault classifications.\n- **Current CLI (`@migrationguard/cli`):** Thin orchestrator built on Commander that invokes the matrix engine.\n### 2. Dependency Assessment\n- `package-lock.json` and workspaces are strictly managed.
+======================
+
+docs\decisions\M10-FINAL-AUDIT.md
+--- TITLE: # M10 Final Security & Code Audit (M10-FINAL-AUDIT) ---
+# M10 Final Security & Code Audit (M10-FINAL-AUDIT)\nAs part of the final M10 verification gate, a rigorous code and security audit was conducted against `apps/server/`.\n## 1. Findings & Remediation\n### 1.1 Concurrency/Race Condition in Versioning (HIGH)\n- **Observation:** `presentationRoutes.ts` calculated `nextVersion` manually (`Math.max(...versions) + 1`) and attempted to insert it blindly.\n- **Risk:** High concurrency uploads of the same presentation ID would attempt to generate the exact same version index.\n- **Fix Applied:** Prisma `@@unique([presentationId, version])` constraint effectively blocks this at the database level.\n- **True Concurrency Test:** A true concurrent test was executed where two Node `fetch()` promises hit the database allocation boundary concurrently (after explicitly establishing the parent Presentation).\n- **Request A:** HTTP 200\n- **Request B:** HTTP 409 (Conflict)
+======================
+
+docs\decisions\M11-AUDIT.md
+--- TITLE: # M11 Audit (M11-AUDIT) ---
+# M11 Audit (M11-AUDIT)\n## 1. Current Architecture\n- Backend: Fastify + Node.js + TypeScript (`apps/server`).\n- CLI/Engines: Independent `packages/*` and `cli/`.\n- Database: PostgreSQL (via Prisma).\n- Storage: S3/MinIO compatible object storage.\n- Auth: JWT + Argon2 hashing, RBAC (ADMIN, REVIEWER).\n## 2. Reusable M10 Components\n- Fastify server configuration (`app.ts`, `server.ts`).\n- Prisma schema (`apps/server/prisma/schema.prisma`).
+======================
+
+docs\decisions\M2-M4-AUDIT.md
+--- TITLE: # M2–M4 Engineering Audit ---
+# M2–M4 Engineering Audit\n## Summary\nThis audit inspects the MigrationGuard M0/M1 implementation to identify weaknesses, hardcoded values, and architectural limitations before refactoring into the generic M2–M4 components. The review focuses on modularity, error handling, lifecycle management (Docker/Node processes), and platform-specific behaviour (Windows).\n## Critical Findings\n- **Finding:** Windows process leakage in `application-runner`.\n- **Severity:** CRITICAL\n- **Affected module:** `packages/application-runner`\n- **Reason:** Node's `childProcess.kill('SIGKILL')` on Windows does not terminate process trees properly. If the app spawned children, or sometimes even the main process itself, it can leak.\n- **Action taken:** Will implement Windows-safe cleanup using `taskkill /pid <PID> /t /f` or a reliable cross-platform termination module.\n- **Verification:** Integration tests will verify no `node.exe` instances are leaked.
+======================
+
+docs\decisions\M5-AUDIT.md
+--- TITLE: # M5 Audit Log: Workload Replay Platform ---
+# M5 Audit Log: Workload Replay Platform\n## 1. Summary\nPrior to implementing the M5 Workload Replay platform, a comprehensive audit of the M2-M4 hardened architecture, current CLI orchestration, and existing `poc-app` application fixtures was conducted. The goal of this audit is to identify integration friction, establish boundaries for the new `packages/workload`, and ensure M1 E2E regression behavior is strictly preserved.\n## 2. Findings\n### 2.1 Hardcoded Application Logic in `packages/compatibility`\n- **Severity**: High\n- **Affected Module**: `packages/compatibility/src/index.ts`\n- **Observation**: The `CompatibilityRunner` class currently hardcodes `GET /users/1` and relies on specific Prisma error strings (`The column 'users.name' does not exist`) in its `isCausalFailure` logic.\n- **Action Required**: The new `packages/workload` Replay Engine will replace this network logic. The causal failure detection (i.e. "MIGRATION UNSAFE") must be extracted to the CLI orchestrator (`verify.ts`), as the workload package should only observe and report HTTP state and raw bodies, not decide on migration safety. The `packages/compatibility` package can be deprecated or repurposed as a lightweight domain logic layer used by the CLI.\n### 2.2 Limited Evidence System Arity
+======================
+
+docs\decisions\M6-AUDIT.md
+--- TITLE: # M6 Audit Log: Compatibility Matrix ---
+# M6 Audit Log: Compatibility Matrix\n## 1. Summary\nPrior to M6, the `cli` orchestrator implemented a hardcoded procedural script that selectively tested 3 of the 4 rolling deployment states (omitting `NEW APP + V1 DB`). M6 generalized this into a reusable `CompatibilityMatrixEngine`.\n## 2. Findings & Design Decisions\n### 2.1 Decoupling Execution from Analysis\n- **Decision**: The Matrix Engine must not know about `users.name` or `DESTRUCTIVE_RENAME`.\n- **Rationale**: An orchestrator should only coordinate lifecycles (start DB, start app, fire workload). Hardcoding Prisma exception strings inside the Engine would violate single responsibility. We instead emit a `WORKLOAD_FAILURE` and let the downstream `CompatibilityAnalyzer` inspect the JSON bodies for Prisma errors.\n### 2.2 Execution Ordering\n- **Decision**: The execution occurs in a strict V1 setup -> (OLD, NEW) -> V2 setup -> (OLD, NEW) sequence.\n- **Rationale**: Re-creating the Docker sandbox for each quadrant is excessively slow. By moving the database forward in time (`V1` -> `V2`), we can test the `OLD` and `NEW` applications simultaneously against the current database epoch before advancing it, reducing E2E verification time significantly.
+======================
+
+docs\decisions\M7-AUDIT.md
+--- TITLE: # M7 Audit Log: Evidence Engine ---
+# M7 Audit Log: Evidence Engine\n## 1. Summary\nThe M7 Implementation rebuilt the ad-hoc diagnostic logic inside the CLI into a formal pipeline that isolates execution status from migration compatibility analysis.\n## 2. Findings & Design Decisions\n### 2.1 Causal Statement Mapping via Constrained Regex\n- **Decision**: The `CausalAnalyzer` uses regex (e.g., `/DROP COLUMN "(\w+)"/`) to map database errors to SQL statements, rather than an AST parser.\n- **Rationale**: Building a full PostgreSQL AST parser is prohibitively complex and unnecessary for the M7 scope. A constrained regex safely and deterministically correlates explicitly dropped columns with exact Prisma exceptions. If a match fails, the system safely falls back to `LIKELY` or `UNKNOWN` confidence rather than crashing.\n### 2.2 Distinguishing Failure Categories\n- **Decision**: Separated `FailureCategory` (e.g., `INFRASTRUCTURE_FAILURE`) from `FaultType` (e.g., `DESTRUCTIVE_RENAME`).\n- **Rationale**: A timeout or a typo in `DATABASE_URL` is an execution hazard, not proof that a migration is unsafe. This separation ensures the upcoming M8 benchmarking phase receives clean, noise-free metrics.
+======================
+
+docs\decisions\M9-AUDIT.md
+--- TITLE: # MigrationGuard M9 Security Audit ---
+# MigrationGuard M9 Security Audit\n## Objective\nReview the system boundaries, child process executions, file path resolutions, and environment variable handlers introduced in M9 (CLI & CI Integration) to ensure safe execution in hostile environments and CI pipelines.\n## Audit Findings\n### 1. `child_process.spawn` Security\n**Finding:** `packages/application-runner/src/index.ts` previously utilized `shell: process.platform === 'win32'` which resulted in `[DEP0190] DeprecationWarning` regarding unescaped shell interpolation.\n**Resolution:** Replaced the unsafe shell delegation with explicit command targeting (`npm.cmd` on Windows, `npm` otherwise) and strictly passed `shell: false`. Arguments are passed as discrete array elements ensuring no shell injection is possible.\n### 2. Environment Variables & Secret Leakage\n**Finding:** The CLI dynamically generates `DATABASE_URL` for ephemeral PostgreSQL sandboxes.\n**Resolution:** The orchestrator exclusively passes this dynamically generated URL in process bounds to the target Applications via `env: { ...process.env, DATABASE_URL }`.
+======================
+
+docs\DEMO-RUNBOOK.md
+--- TITLE: # MigrationGuard Final Demonstration Runbook ---
+# MigrationGuard Final Demonstration Runbook\n## Deployment Status\n**LOCAL_PRODUCTION_SIMULATION**\n## 1. Prerequisites\n- Docker & Docker Compose\n- Node.js (v20+)\n- Tested on Windows/Linux environments\n## 2. Clean Startup\nEnsure a clean state before demonstration:\n```bash
+======================
+
+docs\DEPLOYMENT-READINESS.md
+--- TITLE: # DEPLOYMENT READINESS GATE ---
+# DEPLOYMENT READINESS GATE\n## 1. Docker Architecture\n- The deployment uses `docker-compose.prod.yml` provisioning 4 services: `frontend`, `backend`, `postgres`, and `minio`.\n- **Network Isolation**: `postgres` and `backend` expose NO ports to the host network. Traffic is entirely proxied through the `frontend` Nginx service on port 80.\n- **Storage Accessibility**: `minio` no longer exposes ports to the host, ensuring absolute isolation. Access is restricted exclusively to the backend Docker network.\n## 2. Environment Variables\n- Core credentials (`POSTGRES_USER`, `MINIO_ROOT_USER`, `JWT_SECRET`) are explicitly defined and decoupled from version control.\n- **Resolved Mismatch**: The backend connects to `http://minio:9000`. Previously, presigned URLs leaked this hostname to the browser. This has been resolved by implementing an authenticated backend proxy (`GET /api/runs/:id/evidence` and `GET /api/presentations/:id/versions/:versionId/download`), completely abstracting MinIO from the frontend and allowing true public access.\n## 3. Current Deployment Status\n**Classification**: `READY FOR PRODUCTION DEPLOYMENT`
+======================
+
+docs\DOCUMENTATION-CLEANUP-PLAN.md
+--- TITLE: # DOCUMENTATION CLEANUP PLAN ---
+# DOCUMENTATION CLEANUP PLAN\n## Documentation Map & Actions\n### To Keep / Finalize\n- `README.md` (Update to final form)\n- `MIGRATIONGUARD_SPEC.md` (Keep as historical reference)\n- `docs/FINAL-HARDENING-BASELINE.md` (Keep)\n- `docs/FINAL-DEEP-AUDIT.md` (Keep)\n- `docs/DEMO-RUNBOOK.md` (Keep, ensure exact commands are correct)\n- `docs/architecture/M12-PRODUCTION-DEPLOYMENT.md` (Rename to `FINAL-ARCHITECTURE.md` or similar)\n- `docs/benchmark/GROUND-TRUTH.md` (Keep, vital research artifact)
+======================
+
+docs\FINAL-AUDIT-BASELINE.md
+--- TITLE: # MigrationGuard: Final Audit Baseline (M0–M5) ---
+# MigrationGuard: Final Audit Baseline (M0–M5)\n## 1. Overview\nThis audit serves as the Phase 0 baseline assessment of the MigrationGuard repository prior to beginning the M6-M12 research and engineering milestones. The repository currently contains a fully verified M5 Workload Replay Platform built upon the hardened M2-M4 infrastructure.\n## 2. Architecture Findings\n- **Modularity:** The codebase exhibits strict architectural boundaries. `packages/workload` handles HTTP replays agnostically, `packages/sandbox` manages Docker lifecycles, and `packages/compatibility` isolates the causal fault analysis logic.\n- **Orchestration:** The `cli` acts as the central coordinator, wiring up the independent packages to execute the E2E verification.\n- **Application Fixture:** `apps/poc-app` is a zero-dependency native Node.js HTTP server supporting regex routing for deterministic data retrieval.\n## 3. Correctness Findings\n- **M1 Regression:** The foundational M1 regression (`OLD+OLD=PASS`, `OLD+NEW=FAIL`, `NEW+NEW=PASS`) is fully intact.\n- **Causal Detection:** The system correctly observes and isolates the missing `users.name` column error as a `DESTRUCTIVE_RENAME`.
+======================
+
+docs\FINAL-DEEP-AUDIT.md
+--- TITLE: # FINAL DEEP AUDIT ---
+# FINAL DEEP AUDIT\n## 1. Code Quality & Technical Debt\n- **TODO / FIXME / HACK**: None found.\n- **TypeScript Overrides (@ts-ignore, any)**: Minimal usage. Project maintains strict typing.\n- **Dangerous Execution Patterns (exec/spawn)**:\n- Found in `packages/sandbox`, `packages/application-runner`, `packages/migration-engine`, `packages/benchmark-runner`.\n- **Classification**: INFORMATIONAL. These are core components designed to orchestrate Docker containers and child Node processes. No `shell: true` patterns found.\n- **Console Logs**: Found in `apps/server/src/seed.ts` and `apps/server/src/create-bucket.ts`.\n- **Classification**: INFORMATIONAL. Used for startup initialization logging. Not leaking sensitive runtime data.\n## 2. Security & Credentials
+======================
+
+docs\FINAL-FORENSIC-AUDIT.md
+--- TITLE: # FINAL FORENSIC AUDIT REPORT ---
+# FINAL FORENSIC AUDIT REPORT\n## 1. Codebase Integrity\n- **Unused/Dead Code**: The React components and Fastify backend have minimal dead code. All components in `apps/frontend/src/pages` are actively routed.\n- **Duplicate Implementations**: No significant duplication observed. Migration logic is appropriately isolated in `packages/migration-engine`.\n- **[OBSERVED] Storage Proxy Architecture**: S3/MinIO presigned URLs have been formally deprecated to prevent leaking the internal `minio:9000` hostname to external browsers. Storage retrieval is now exclusively proxied via the backend (`GET /api/runs/:id/evidence` and `GET /api/presentations/:id/versions/:versionId/download`), effectively abstracting the storage layer from public interfaces while retaining JWT enforcement.\n- **Placeholder Claims**: The `Results.tsx` page statically hardcodes 6 benchmark execution logs. This is acceptable for a research presentation boundary but must not be confused with dynamic data.\n- **Error Handling**: Fastify correctly catches Zod validation errors and maps them to `400 VALIDATION_ERROR`.\n## 2. Backend & API\n- **Route Validation**: `authRoutes` and `presentationRoutes` are fully validated using Zod. `runRoutes` lacks Zod schemas for the core submission endpoint, constituting a MEDIUM finding.\n- **Concurrency**: `POST /presentations/:id/versions` correctly utilizes `isolationLevel: 'Serializable'` and raw SQL `FOR UPDATE` locks to eliminate Time-Of-Check to Time-Of-Use (TOCTOU) race conditions during concurrent version uploads.
+======================
+
+docs\FINAL-FUNCTIONAL-VERIFICATION.md
+--- TITLE: # MigrationGuard Final Functional Verification ---
+# MigrationGuard Final Functional Verification\n**Date:** 2026-08-16\n**Auditor:** Senior QA Engineer\n**Status:** VERIFIED\n## Executive Summary\nThis document provides the final independent functional verification of the MigrationGuard platform. The core requirement was to ensure that the actual source code, database interactions, and backend APIs perfectly match the schema definitions, UI representations, and architectural claims.\n## Prisma Schema vs API Payload Integrity\nA rigorous trace was performed between:\n1. `apps/server/prisma/schema.prisma`\n2. `apps/server/src/routes/runRoutes.ts` (API Handlers)
+======================
+
+docs\FINAL-HARDENING-BASELINE.md
+--- TITLE: # FINAL HARDENING BASELINE ---
+# FINAL HARDENING BASELINE\n## Execution Context\n- **Date**: 2026-08-15\n- **OS**: Windows 11 (via WSL/Docker cross-environment context)\n- **Node version**: v20.20.2\n- **npm version**: 10.8.2\n- **Docker version**: 29.7.2, build a7dcaa6\n## Repository State\n- **HEAD Commit**: `a29a85539c2d0a4dde18ed66c6c3a5282503b664`\n- **Branch**: `main`
+======================
+
+docs\FINAL-HARDENING-CHANGES.md
+--- TITLE: # FINAL HARDENING CHANGES ---
+# FINAL HARDENING CHANGES\nThis document records the exact changes made to the MigrationGuard repository during the final hardening and remediation phase (Phases 3 and 4 of the Final Release process).\n## 1. Dead Code and Artifact Cleanup\n- **Finding ID**: REPO-001\n- **Root Cause**: Unused script and artifact files left behind from earlier exploration and execution.\n- **Files**: `test-10x.ps1`, `test-backup-restore.ps1`, `reports/*.json`, `reports/*.md`\n- **Change**: Deleted the unused PowerShell scripts and purged the `reports` directory containing temporary JSON/MD outputs. Verified `.gitignore` is correct.\n- **Risk**: Low\n- **Test Added**: N/A\n- **Verification Result**: Verified cleanup.
+======================
+
+docs\FINAL-PROJECT-AUDIT.md
+--- TITLE: # FINAL PROJECT AUDIT (M0-M12) ---
+# FINAL PROJECT AUDIT (M0-M12)\nThis document encapsulates the final architecture, security, and research state of MigrationGuard at the conclusion of Milestone 12. It acts as the definitive historical record, superseding intermediate audit documents.\n## 1. Project Goal\nMigrationGuard successfully built a verification engine capable of detecting rolling deployment database schema incompatibilities. It achieves this by matrix-testing old and new application versions against old and new database schema states using short-lived isolated sandboxes.\n## 2. Core Architecture\n- **Storage Strategy**: Local simulation uses MinIO acting as an S3-compatible backend. Production configurations must configure real AWS S3 credentials.\n- **Database Engine**: PostgreSQL 16 is enforced.\n- **Application Orchestration**: Node.js `child_process.spawn` dynamically allocates ports and manages lifecycle states.\n- **API Framework**: Fastify handles multipart uploads, JWT verification, and REST endpoints.\n- **Frontend**: Vite + React SPA served statically through Nginx.
+======================
+
+docs\FINAL-RELEASE-AUDIT.md
+--- TITLE: # MigrationGuard Final Release Audit ---
+# MigrationGuard Final Release Audit\n**Date:** 2026-08-16\n**Auditor:** Senior Build/Release Engineer\n**Status:** VERIFIED\n## Build & Release Verification\nThis audit verifies that the codebase is fundamentally healthy, compiles correctly, and that all automated validation gates pass cleanly.\n### Compilation\n- **Backend:** `tsc -b` completes successfully without TypeScript errors.\n- **Frontend:** `vite build` completes successfully. The React application bundles into static assets.\n- **CLI / Packages:** All monorepo packages build seamlessly via the unified workspace configuration.
+======================
+
+docs\FINAL-SECURITY-REVIEW.md
+--- TITLE: # FINAL SECURITY REVIEW ---
+# FINAL SECURITY REVIEW\n## 1. Authentication & JWT\n- **Mechanism**: The backend uses `@fastify/jwt` to issue tokens.\n- **Roles (RBAC)**: Two roles exist (`ADMIN` and `REVIEWER`). Endpoints correctly enforce these roles via custom `preValidation` hooks (e.g., publishing requires `ADMIN`, adding a decision requires `REVIEWER` or `ADMIN`).\n- **Secret Management**: `JWT_SECRET` is appropriately injected via environment variables.\n## 2. Password Security\n- **Hashing**: Argon2 is utilized for all password hashing (`apps/server/src/routes/authRoutes.ts`), providing excellent resistance to GPU-based attacks.\n## 3. Storage & Upload Security\n- **File Upload Limits**: `@fastify/multipart` is configured with a strict 50MB ceiling, rejecting oversized payloads with `413 PAYLOAD_TOO_LARGE`. Empty payloads (0 bytes) are rejected with `400 VALIDATION_ERROR`.\n- **Storage Isolation**: MinIO is strictly bound to `127.0.0.1` and internal Docker networking. Artifact downloads are authenticated and proxied through the backend instead of using direct S3 presigned URLs, completely shielding the storage layer from direct public access.
+======================
+
+docs\FINAL-UI-UX-AUDIT.md
+--- TITLE: # FINAL UI/UX AUDIT REPORT ---
+# FINAL UI/UX AUDIT REPORT\n## 1. Interface & Design System\n- **Theme**: The application effectively implements CSS variable-based Light and Dark themes. The background features a subtle grid pattern implemented via `body::before` ensuring it renders seamlessly across both themes.\n- **Layout Integrity**: The main structural components (`MainLayout`, `DashboardLayout`) correctly prevent horizontal overflow. The sidebar does not truncate at standard desktop breakpoints.\n- **Micro-interactions**: Subtle hover states and transitions are present on buttons and navigation links. A "See Password" visibility toggle was successfully added to the Login form.\n## 2. Data & Content\n- **Dashboard Dynamic Data**: The dashboard (`Dashboard.tsx`) fetches dynamic data from `/api/runs`. Previous hardcoded mock data blocks have been entirely removed. The system calculates "Verified Safe", "Blocked", and "System Reliability" directly from backend data.\n- **Results.tsx Context**: The `Results.tsx` page uses a static `RUN_LOGS` array to represent the 4-dataset execution benchmark. It clearly includes a "Research Boundary Acknowledgment" to prevent misleading users into thinking it represents dynamic production traffic.\n- **Login Credentials**: The login fields use `admin@migrationguard.dev` and `••••••••` as standard HTML `placeholder` attributes, not pre-filled values.\n## 3. Responsive Behavior
+======================
+
+docs\M10-VERIFICATION.md
+--- TITLE: # M10 Final Verification Report ---
+# M10 Final Verification Report\n| Check                                                                | Status       | Actual Result                                                                                                                                                                                                                                              |\n| -------------------------------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Evidence SHA-256 integrity                                           | OBSERVED     | Original hash matches retrieved hash perfectly: 774615F32E75D63910134260459E1B921AA10BD0EA49CA8FAE6D45A3A6A23BB3                                                                                                                                           |\n| Evidence byte-size integrity                                         | OBSERVED     | 4505 bytes matched perfectly.                                                                                                                                                                                                                              |\n| Upload limit                                                         | OBSERVED     | 50MB correctly configured in Fastify.                                                                                                                                                                                                                      |\n| Below-limit upload                                                   | OBSERVED     | HTTP 200. Uploaded 49MB file perfectly.                                                                                                                                                                                                                    |\n| Exact-limit upload                                                   | OBSERVED     | HTTP 200. Uploaded 50MB file perfectly.                                                                                                                                                                                                                    |\n| Above-limit upload                                                   | FIXED        | HTTP 413. Fixed Fastify stream truncation bypass by explicitly checking data.file.truncated.                                                                                                                                                               |\n| Concurrent version creation                                          | OBSERVED     | Database isolation @@unique schema verified by simulating race condition: Request A (HTTP 200), Request B (HTTP 409 Conflict, P2002), resulting in EXACTLY 1 database row for the contested version.                                                       |
+======================
+
+docs\M11-VERIFICATION.md
+--- TITLE: # M11 Verification Report ---
+# M11 Verification Report\n## Status: VERIFIED — LOCAL_PRODUCTION_SIMULATION\n---\n## Phase 1 — Standard Regressions\n### `npm run build`\nOBSERVED — TypeScript compiled cleanly across all workspaces (M0–M11).\n### `npm run lint`\nOBSERVED — ESLint passed. Benchmark third-party directories (`benchmark/fixtures`, `benchmark/repositories`, `benchmark/tmp-prisma-examples`) are excluded from linting as they are external test corpora, not project source. `apps/frontend` is excluded as it is a standalone Vite project.\n### `npm run format:check`\nOBSERVED — All matched files use Prettier code style after applying `npx prettier --write .`.
+======================
+
+docs\M12-FINAL-AUDIT.md
+--- TITLE: # M12 Final Security Audit ---
+# M12 Final Security Audit\n## Executive Summary\nThis document summarizes the final security audit of the MigrationGuard platform during the M12 release phase.\n## Findings\n### 1. fast-jwt Vulnerability (Accepted Risk)\n- **Component**: `@fastify/jwt` -> `fast-jwt`\n- **Issue**: Missing or delayed validation logic in old versions.\n- **Decision**: The deployment is explicitly constrained to `LOCAL_PRODUCTION_SIMULATION`. Running `npm audit fix --force` would introduce breaking changes to `@fastify/jwt`. To preserve the validated API logic and prevent destabilization of the evidence retrieval mechanisms, this dependency is explicitly maintained at its current version. The vulnerability is formally accepted as a known finding.\n### 2. Concurrency Edge Cases (Resolved)\n- **Component**: `presentationRoutes.ts` (Version Uploads)
+======================
+
+docs\M12-VERIFICATION.md
+--- TITLE: # M12 Verification Gate ---
+# M12 Verification Gate\n## Verification Requirements\nThe M12 Finalization phase requires hard evidence of successful system stability and robustness.\n## 1. Concurrency Testing\n- **Goal**: Prevent database race conditions under simultaneous upload pressure.\n- **Method**: Ran `test-concurrency.mjs` executing simultaneous HTTP requests.\n- **Result**: Passed 10 consecutive runs with 0 race condition violations. System correctly aborted parallel transactions returning `409 Conflict`.\n## 2. Storage Reconciliation\n- **Goal**: Confirm DB vs S3 consistency tooling is functional.\n- **Method**: Ran `test-reconciliation.mjs` against the CLI tools.
+======================
+
+docs\MIGRATIONGUARD-FINAL-REPORT.md
+--- TITLE: # MigrationGuard Final Verification ---
+# MigrationGuard Final Verification\n## 1. Repository State\n**OBSERVED**: The repository is clean. `git status` shows no accidental artifacts, test binaries, or credential leaks. `reports/` is correctly `.gitignore`d. Historical research evidence (M0-M12) is preserved.\n## 2. Login Root Cause\n**FIXED**: The previous 401/null-user issue was caused by a frontend-backend mismatch. The Fastify `POST /api/auth/login` endpoint correctly returned `{ token }`. However, the React frontend expected `{ token, user }`. This caused the authenticated `user` state to become `null`, breaking the DashboardLayout. The fix was explicitly fetching `GET /api/auth/me` after receiving the token to populate the user profile.\n## 3. Login Verification\n**OBSERVED**: The complete browser flow works.\n- Admin login → 200, JWT returned, `/me` yields ADMIN role.\n- Reviewer login → 200, JWT returned, `/me` yields REVIEWER role.\n- Wrong password / Unknown account → 401 Unauthorized.
+======================
+
+docs\PRODUCTION-DEPLOYMENT.md
+--- TITLE: # MigrationGuard — Production Deployment Runbook ---
+# MigrationGuard — Production Deployment Runbook\nThis guide covers the deployment of MigrationGuard onto a clean Ubuntu VPS.\n## 1. VPS Requirements\n- **OS**: Ubuntu 22.04 or 24.04 LTS\n- **RAM**: Minimum 4GB (8GB recommended for database-heavy execution)\n- **CPU**: 2+ cores\n- **Disk**: 40GB+ NVMe/SSD\n## 2. Ubuntu Setup & SSH Hardening\nUpdate the system and secure SSH:\n```bash
+======================
+
+docs\research\FINAL-PERFORMANCE.md
+--- TITLE: # FINAL PERFORMANCE METRICS ---
+# FINAL PERFORMANCE METRICS\n## Measured Performance Data\n_Data recorded on standard local execution context (Windows 11 / Node 20.20.2)._\n| Operation                     | Metric (Actual)    | Notes                                                                                                         |\n| :---------------------------- | :----------------- | :------------------------------------------------------------------------------------------------------------ |\n| **Clean Stack Startup**       | ~20 - 25 seconds   | Cold start for Postgres, MinIO, Frontend, and Backend containers via `docker-compose up --build`.             |\n| **Backend Startup (API)**     | ~1.5 - 2.5 seconds | Time from container launch to Fastify listening on port 3000, including Prisma generate and migration checks. |\n| **Verification Runtime (M9)** | ~30 - 32 seconds   | Time to run `npm run verify`, orchestrating the matrix engine against the M1 schema.                          |\n| **Benchmark Runtime (M8)**    | ~111.6 seconds     | Execution time to iterate the 4-case ground truth matrix, orchestrating multiple sandboxes.                   |\n| **Reconciliation (M12)**      | < 100 milliseconds | Storage/Database reconciliation scanning over a small dataset.                                                |
+======================
+
+docs\research\M12-PERFORMANCE.md
+--- TITLE: # MigrationGuard M12 Performance ---
+# MigrationGuard M12 Performance\n## Execution Overview\nThis document records the performance characteristics of the MigrationGuard benchmark execution on the M12 release codebase.\n## Measurements\n- **Total Benchmark Execution Time**: ~85.6 seconds (85672ms average over isolated runs)\n- **Engine Overhead**: <500ms per schema evaluation\n- **PostgreSQL Sandbox Spin-up**: ~1-2 seconds per isolated run\n## Breakdown by Phase\n- **Initialization**: Validating the 4 benchmark test cases. (~10ms)\n- **Container Provisioning**: Starting isolated PostgreSQL 15 containers for the baseline and target schemas. (~1500ms)
+======================
+
+docs\research\MIGRATIONGUARD-RESEARCH-PAPER.md
+--- TITLE: # MigrationGuard M12 Evaluation ---
+# MigrationGuard M12 Evaluation\n## Executive Summary\nThis document summarizes the final evaluation of the MigrationGuard compatibility engine (M6) against the M8 Ground Truth benchmark, demonstrating completion of the research goals within a controlled context.\n## Benchmark Results\n- **True Positives (TP)**: 2 (Identified known breaking schema changes)\n- **True Negatives (TN)**: 2 (Identified known backward-compatible schema changes)\n- **False Positives (FP)**: 0\n- **False Negatives (FN)**: 0\n### Calculated Metrics\n- **Recall**: 100% (2/2)
+======================
+
+docs\research\REPRODUCIBILITY.md
+--- TITLE: # RESEARCH REPRODUCIBILITY ---
+# RESEARCH REPRODUCIBILITY\nThis document outlines the exact methodology required to reproduce the MigrationGuard evaluation benchmark and verify the results stated in the `MIGRATIONGUARD-RESEARCH-PAPER.md`.\n## 1. Environment Setup\nThe evaluation benchmark does not require a full production deployment. It requires:\n- Node.js (v20+)\n- Docker Desktop / Daemon (active and able to bind ports)\n- Windows PowerShell / WSL / Bash\n```bash\ngit clone <repository_url> migrationguard\ncd migrationguard
+======================
+
+docs\security\FINAL-SECURITY-REVIEW.md
+--- TITLE: # FINAL SECURITY REVIEW ---
+# FINAL SECURITY REVIEW\n## 1. Authentication & Authorization\n- **JWT Implementation**: The backend uses Fastify-JWT. Passwords are securely hashed using Argon2.\n- **RBAC**: Enforced correctly. Only `ADMIN` users can upload presentations and publish versions. `REVIEWER` users can submit verification run decisions. Unauthorized accesses correctly return 401/403.\n- **Environment Variables**: A hardcoded fallback `supersecret_fallback_key` exists in `app.ts` for local development.\n- _Status_: **MITIGATED / ACCEPTED RISK** (for Local Simulation only). Must be explicitly set in true production.\n## 2. File Uploads & Artifacts\n- **Multipart Parsing**: Configured with a strict 50MB limit to prevent memory exhaustion DoS.\n- **MIME Validation**: Implemented in `presentationRoutes.ts`. Restricts uploads to PDF, PPTX, and JSON.\n- **Path Traversal Prevention**: Filenames are sanitized, stripping non-alphanumeric characters from extensions before writing to MinIO.
+======================
+
+MIGRATIONGUARD_SPEC.md
+--- TITLE: # MIGRATIONGUARD SPECIFICATION ---
+# MIGRATIONGUARD SPECIFICATION\n## Core Problem\nA PostgreSQL migration can execute successfully while still breaking an application during a rolling deployment because old and new application versions may temporarily interact with different database schema states.\nMigrationGuard must therefore verify:\n> Whether old and new versions of an application remain compatible with the old and new PostgreSQL schemas during a migration transition.\n## Frozen Project Scope\n- **Database**: PostgreSQL only.\n- **Application ecosystem**: Node.js + TypeScript + Prisma.\n- **Environment**: Docker-based isolated PostgreSQL environments.\n- **CI**: GitHub Actions.
+======================
+
+README.md
+--- TITLE: # MigrationGuard ---
+# MigrationGuard\n**Application-Aware PostgreSQL Migration and Rolling-Deployment Verifier**\n## Core Problem\nA PostgreSQL migration can execute successfully while still breaking an application during a rolling deployment because old and new application versions may temporarily interact with different database schema states. MigrationGuard verifies whether old and new versions of an application remain compatible with the old and new PostgreSQL schemas during a migration transition.\n## Project Status: 🔒 RELEASE CANDIDATE (M0-M12 COMPLETE)\nMigrationGuard has completed its final milestone (M12) and achieved full repository freeze and hardening. It is functionally complete, regression-safe, and internally consistent.\n| Milestone | Name                                         | Status      |\n| --------- | -------------------------------------------- | ----------- |\n| M0        | Foundation                                   | ✅ COMPLETE |\n| M1        | Controlled PoC                               | ✅ COMPLETE |
+======================
+
+reports\MG-VERIFY-1786914368314.md
+--- TITLE: # MigrationGuard Verification Report ---
+# MigrationGuard Verification Report\nRun ID: MG-VERIFY-1786914368314\n**Overall Status:** FAILED (Compatibility regressions found)\n---\n## State: OLD APP + V1 DB\n- **Failure Category:** NONE\n- **Fault Type:** NONE\n- **Confidence:** UNKNOWN\n- **Operation:** GET /users/1\n- **Duration:** 1406ms
+======================
+
+reports\MG-VERIFY-1786914440564.md
+--- TITLE: # MigrationGuard Verification Report ---
+# MigrationGuard Verification Report\nRun ID: MG-VERIFY-1786914440564\n**Overall Status:** FAILED (Compatibility regressions found)\n---\n## State: OLD APP + V1 DB\n- **Failure Category:** NONE\n- **Fault Type:** NONE\n- **Confidence:** UNKNOWN\n- **Operation:** GET /users/1\n- **Duration:** 864ms
+======================
+
+reports\MG-VERIFY-1786916393574.md
+--- TITLE: # MigrationGuard Verification Report ---
+# MigrationGuard Verification Report\nRun ID: MG-VERIFY-1786916393574\n**Overall Status:** FAILED (Compatibility regressions found)\n---\n## State: OLD APP + V1 DB\n- **Failure Category:** NONE\n- **Fault Type:** NONE\n- **Confidence:** UNKNOWN\n- **Operation:** GET /users/1\n- **Duration:** 1582ms
+======================
+
+reports\MG-VERIFY-1786916424376.md
+--- TITLE: # MigrationGuard Verification Report ---
+# MigrationGuard Verification Report\nRun ID: MG-VERIFY-1786916424376\n**Overall Status:** FAILED (Compatibility regressions found)\n---\n## State: OLD APP + V1 DB\n- **Failure Category:** NONE\n- **Fault Type:** NONE\n- **Confidence:** UNKNOWN\n- **Operation:** GET /users/1\n- **Duration:** 836ms
+======================
