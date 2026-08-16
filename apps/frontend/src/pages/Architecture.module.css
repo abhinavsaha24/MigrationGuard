@@ -1,121 +1,242 @@
 /* ============================================================
-   ARCHITECTURE PAGE
+   ARCHITECTURE PAGE — True Design Transformation
    ============================================================ */
 
-/* SVG diagram container */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
+}
+
+.header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+}
+
+.headerLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--blue);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   SVG DIAGRAM HERO
+   ============================================================ */
+.diagramSection {
+  margin-bottom: 6rem;
+}
+
 .diagramWrap {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1.5rem;
-  overflow-x: auto;
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+}
+.diagramWrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .diagram {
   width: 100%;
-  max-width: 800px;
-  min-width: 600px;
+  height: auto;
   display: block;
-  margin: 0 auto;
 }
 
-/* Package grid */
-.packageGrid {
+.svgNode {
+  fill: var(--bg);
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.svgNodeSolid {
+  fill: var(--bg-elevated);
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.svgNodeBlue {
+  fill: var(--blue-muted);
+  stroke: var(--blue-border);
+  stroke-width: 1.5;
+}
+
+.svgBoundary {
+  fill: transparent;
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.svgTextStrong {
+  fill: var(--text-heading);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  text-anchor: middle;
+}
+
+.svgTextMuted {
+  fill: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-anchor: middle;
+}
+
+.svgTextBlue {
+  fill: var(--blue);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  text-anchor: middle;
+}
+
+.svgLine {
+  stroke: var(--border-strong);
+  stroke-width: 2;
+}
+
+.svgLineActive {
+  stroke: var(--blue);
+  stroke-width: 2;
+}
+
+/* ============================================================
+   CORE COMPONENTS
+   ============================================================ */
+.componentsSection {
+  margin-bottom: 6rem;
+}
+
+.sectionHeader {
+  margin-bottom: 2rem;
+}
+.sectionHeader h2 {
+  font-size: 1.75rem;
+}
+
+.nodeGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
-.packageCard {
+.nodeCard {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1rem 1.25rem;
-  transition: border-color 0.15s, transform 0.15s;
-  position: relative;
-  overflow: hidden;
-}
-.packageCard::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--border-strong), var(--border));
-}
-.packageCard:hover {
-  border-color: var(--border-strong);
-  transform: translateY(-2px);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
 }
 
-.packageId {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--blue);
+.nodeId {
   font-family: var(--font-mono);
-  margin-bottom: 0.375rem;
-  background: var(--blue-muted);
-  display: inline-block;
-  padding: 0.1rem 0.4rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  padding: 0.25rem 0.5rem;
   border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-bottom: 1rem;
 }
 
-.packageName {
-  font-size: 0.9375rem;
+.nodeName {
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--text-heading);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.packageDesc {
-  font-size: 0.8125rem;
+.nodeDesc {
+  font-size: 0.875rem;
   color: var(--text-secondary);
-  line-height: 1.55;
+  margin: 0;
+  line-height: 1.6;
 }
 
-/* Deployment config */
-.deployGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+/* ============================================================
+   SPECS PANEL
+   ============================================================ */
+.specsSection {
+  margin-bottom: 4rem;
 }
 
-.deployCard {
+.specsPanel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.specsHeader {
+  padding: 1rem 1.5rem;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.875rem 1rem;
-  transition: border-color 0.15s;
-}
-.deployCard:hover {
-  border-color: var(--border-strong);
-}
-
-.deployKey {
-  font-size: 0.6875rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  color: var(--blue);
+  letter-spacing: 0.05em;
+}
+
+.specsBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.specRow {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: center;
+}
+.specRow:last-child {
+  border-bottom: none;
+}
+
+.specKey {
+  font-size: 0.875rem;
   color: var(--text-secondary);
-  margin-bottom: 0.375rem;
 }
 
-.deployCard code {
-  font-size: 0.8125rem;
-  background: transparent;
-  border: none;
-  color: var(--text-primary);
-  padding: 0;
-  display: block;
-  word-break: break-all;
+.specVal {
+  font-size: 0.875rem;
+  color: var(--text-heading);
 }
 
-@media (max-width: 900px) {
-  .packageGrid { grid-template-columns: repeat(2, 1fr); }
-  .deployGrid  { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 560px) {
-  .packageGrid { grid-template-columns: 1fr; }
-  .deployGrid  { grid-template-columns: 1fr; }
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.25rem;
+  }
+  .diagramWrap {
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  .diagram {
+    min-width: 800px; /* Force scroll on very small screens to maintain readability */
+  }
+  .specRow {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
 }

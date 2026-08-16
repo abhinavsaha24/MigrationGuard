@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import styles from './Login.module.css';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, KeyRound, TerminalSquare, Eye, EyeOff } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -24,10 +25,15 @@ export default function Login() {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        throw new Error(`Server returned an invalid response. API might be offline (HTTP ${res.status}).`);
+      }
       
       if (!res.ok) {
-        throw new Error(data.error?.message || 'Invalid credentials');
+        throw new Error(data?.error?.message || data?.message || 'Invalid credentials');
       }
 
       const meRes = await fetch('/api/auth/me', {
@@ -39,63 +45,80 @@ export default function Login() {
       login(data.token, meData.user);
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'An unknown error occurred');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.header}>
-          <ShieldCheck size={48} className={styles.icon} />
-          <h2>Welcome Back</h2>
-          <p>Sign in to access the product dashboard</p>
-          <div style={{
-            marginTop: '0.75rem',
-            padding: '0.6rem 0.9rem',
-            background: 'rgba(144,205,244,0.08)',
-            border: '1px solid rgba(144,205,244,0.2)',
-            borderRadius: '8px',
-            fontSize: '0.8rem',
-            color: '#90cdf4',
-            textAlign: 'left',
-            lineHeight: 1.6
-          }}>
-            <strong>Demo credentials</strong><br />
-            Admin: admin@migrationguard.dev / admin123!<br />
-            Reviewer: reviewer@migrationguard.dev / reviewer123!
-          </div>
+    <div className={styles.authContainer}>
+      
+      <div className={styles.authBranding}>
+        <div className={styles.brandBadge}>SECURE TERMINAL</div>
+        <h1 className={styles.brandTitle}>MigrationGuard</h1>
+        <p className={styles.brandDesc}>
+          Access the controlled verification environment. Authenticate to view execution logs 
+          and structural compatibility metrics.
+        </p>
+      </div>
+
+      <div className={styles.authPanel}>
+        <div className={styles.panelHeader}>
+          <ShieldCheck size={28} className={styles.panelIcon} />
+          <h2>Authentication Required</h2>
         </div>
         
-        {error && <div className={styles.error}>{error}</div>}
+        {error && (
+          <div className={styles.errorBox}>
+            <TerminalSquare size={16} />
+            <span>ERR: {error}</span>
+          </div>
+        )}
         
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.inputGroup}>
-            <label>Email Address</label>
+        <form onSubmit={handleSubmit} className={styles.authForm}>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Principal Identifier (Email)</label>
             <input 
               type="email" 
               required 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@migrationguard.dev"
+              className={styles.formInput}
+              autoComplete="email"
             />
           </div>
-          <div className={styles.inputGroup}>
-            <label>Password</label>
-            <input 
-              type="password" 
-              required 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-            />
+          
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Access Key (Password)</label>
+            <div className={styles.inputWrap}>
+              <KeyRound size={16} className={styles.inputIcon} />
+              <input 
+                type={showPassword ? "text" : "password"}
+                required 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className={`${styles.formInput} ${styles.inputWithIcon} ${styles.inputWithToggle}`}
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className={styles.passwordToggle}
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </div>
-          <button type="submit" disabled={loading} className={styles.submitBtn}>
-            {loading ? 'Authenticating...' : 'Sign In'}
+          
+          <button type="submit" disabled={loading} className={styles.authButton}>
+            {loading ? 'NEGOTIATING CONNECTION...' : 'AUTHORIZE SESSION'}
           </button>
         </form>
+
       </div>
     </div>
   );

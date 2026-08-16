@@ -1,26 +1,5 @@
-import styles from './Page.module.css';
-import bStyles from './Benchmark.module.css';
-import { AlertTriangle } from 'lucide-react';
-
-const MG_METRICS = [
-  { label: 'True Positives',  value: '2', color: 'green' },
-  { label: 'True Negatives',  value: '2', color: 'green' },
-  { label: 'False Positives', value: '0', color: 'green' },
-  { label: 'False Negatives', value: '0', color: 'green' },
-  { label: 'Precision',       value: '1.00', color: 'green' },
-  { label: 'Recall',          value: '1.00', color: 'green' },
-  { label: 'F1 Score',        value: '1.00', color: 'green' },
-];
-
-const ATLAS_METRICS = [
-  { label: 'True Positives',  value: '2', color: 'green' },
-  { label: 'True Negatives',  value: '0', color: 'red'   },
-  { label: 'False Positives', value: '2', color: 'red'   },
-  { label: 'False Negatives', value: '0', color: 'green' },
-  { label: 'Precision',       value: '0.50', color: 'red'   },
-  { label: 'Recall',          value: '1.00', color: 'green' },
-  { label: 'F1 Score',        value: '0.67', color: 'red'   },
-];
+import styles from './Benchmark.module.css';
+import { AlertTriangle, CheckCircle2, XCircle } from 'lucide-react';
 
 const CASES = [
   {
@@ -62,124 +41,165 @@ const CASES = [
 ];
 
 function Verdict({ verdict, correct }: { verdict: string; correct: boolean }) {
-  if (verdict === 'SAFE')
-    return <span className={styles.badgeSafe}>✓ SAFE</span>;
-  if (verdict === 'UNSAFE' && correct)
-    return <span className={styles.badgeUnsafe}>✓ UNSAFE</span>;
-  return <span className={styles.badgeUnsafe} style={{ opacity: 0.7 }}>✗ UNSAFE (FP)</span>;
+  if (verdict === 'SAFE') {
+    return (
+      <span className={styles.badgeSafe}>
+        <CheckCircle2 size={14} /> SAFE
+      </span>
+    );
+  }
+  if (verdict === 'UNSAFE' && correct) {
+    return (
+      <span className={styles.badgeUnsafe}>
+        <CheckCircle2 size={14} /> UNSAFE
+      </span>
+    );
+  }
+  return (
+    <span className={styles.badgeFalsePositive}>
+      <XCircle size={14} /> FP: UNSAFE
+    </span>
+  );
 }
 
 export default function Benchmark() {
   return (
     <div className={styles.page}>
-      <div className={styles.pageHeader}>
-        <div className={styles.pageLabel}>Evaluation</div>
-        <h1 className={styles.pageTitle}>Benchmark Results</h1>
-        <p className={styles.pageSubtitle}>
+      <header className={styles.header}>
+        <div className={styles.headerLabel}>EVALUATION BENCHMARK</div>
+        <h1 className={styles.title}>Comparative Analysis</h1>
+        <p className={styles.subtitle}>
           Controlled evaluation of MigrationGuard against Atlas (schema-only static analysis)
           on four benchmark migration cases. Dataset: n=4.
         </p>
-      </div>
+      </header>
 
-      {/* Side-by-side comparison */}
-      <section className={styles.section}>
-        <div className={styles.sectionTitle}>Score Comparison</div>
-        <div className={bStyles.compareGrid}>
-          {/* MigrationGuard */}
-          <div className={`${bStyles.toolCard} ${bStyles.toolCardMG}`}>
-            <div className={bStyles.toolHeader}>
-              <div className={bStyles.toolName}>MigrationGuard</div>
-              <span className={styles.badgeSafe}>F1 = 1.00</span>
+      {/* Hero Metrics Comparison */}
+      <section className={styles.comparisonSection}>
+        <div className={styles.compareGrid}>
+          
+          {/* MigrationGuard Panel */}
+          <div className={`${styles.toolPanel} ${styles.panelBlue}`}>
+            <div className={styles.toolHeader}>
+              <h2 className={styles.toolName}>MigrationGuard</h2>
+              <div className={styles.f1Score}>
+                <span className={styles.f1Label}>F1 SCORE</span>
+                <span className={styles.f1Value}>1.00</span>
+              </div>
             </div>
-            <div className={bStyles.miniMetrics}>
-              {MG_METRICS.map(m => (
-                <div key={m.label} className={bStyles.miniMetric}>
-                  <div className={`${bStyles.mmVal} ${m.color === 'green' ? bStyles.green : bStyles.red}`}>{m.value}</div>
-                  <div className={bStyles.mmLabel}>{m.label}</div>
-                </div>
-              ))}
+            
+            <div className={styles.metricsGrid}>
+              <div className={styles.metricItem}>
+                <div className={styles.metricVal}>2</div>
+                <div className={styles.metricLabel}>True Positives</div>
+              </div>
+              <div className={styles.metricItem}>
+                <div className={styles.metricVal}>0</div>
+                <div className={styles.metricLabel}>False Positives</div>
+              </div>
+              <div className={styles.metricItem}>
+                <div className={styles.metricVal}>2</div>
+                <div className={styles.metricLabel}>True Negatives</div>
+              </div>
+              <div className={styles.metricItem}>
+                <div className={styles.metricVal}>0</div>
+                <div className={styles.metricLabel}>False Negatives</div>
+              </div>
+            </div>
+
+            <div className={styles.confusionBox}>
+              <div className={styles.cbTitle}>Confusion Matrix</div>
+              <div className={styles.cbGrid}>
+                <div className={styles.cbEmpty}></div>
+                <div className={styles.cbColHead}>Pred UNSAFE</div>
+                <div className={styles.cbColHead}>Pred SAFE</div>
+                <div className={styles.cbRowHead}>Actual UNSAFE</div>
+                <div className={`${styles.cbCell} ${styles.cbTrue}`}>TP=2</div>
+                <div className={`${styles.cbCell} ${styles.cbZero}`}>FN=0</div>
+                <div className={styles.cbRowHead}>Actual SAFE</div>
+                <div className={`${styles.cbCell} ${styles.cbZero}`}>FP=0</div>
+                <div className={`${styles.cbCell} ${styles.cbTrue}`}>TN=2</div>
+              </div>
             </div>
           </div>
 
-          {/* Atlas */}
-          <div className={`${bStyles.toolCard} ${bStyles.toolCardAtlas}`}>
-            <div className={bStyles.toolHeader}>
-              <div className={bStyles.toolName}>Atlas (static)</div>
-              <span className={styles.badgeUnsafe}>F1 = 0.67</span>
+          {/* Atlas Panel */}
+          <div className={`${styles.toolPanel} ${styles.panelRed}`}>
+            <div className={styles.toolHeader}>
+              <h2 className={styles.toolName}>Atlas (Static)</h2>
+              <div className={styles.f1Score}>
+                <span className={styles.f1Label}>F1 SCORE</span>
+                <span className={styles.f1Value}>0.67</span>
+              </div>
             </div>
-            <div className={bStyles.miniMetrics}>
-              {ATLAS_METRICS.map(m => (
-                <div key={m.label} className={bStyles.miniMetric}>
-                  <div className={`${bStyles.mmVal} ${m.color === 'green' ? bStyles.green : bStyles.red}`}>{m.value}</div>
-                  <div className={bStyles.mmLabel}>{m.label}</div>
-                </div>
-              ))}
+
+            <div className={styles.metricsGrid}>
+              <div className={styles.metricItem}>
+                <div className={styles.metricVal}>2</div>
+                <div className={styles.metricLabel}>True Positives</div>
+              </div>
+              <div className={styles.metricItem}>
+                <div className={`${styles.metricVal} ${styles.textRed}`}>2</div>
+                <div className={styles.metricLabel}>False Positives</div>
+              </div>
+              <div className={styles.metricItem}>
+                <div className={`${styles.metricVal} ${styles.textRed}`}>0</div>
+                <div className={styles.metricLabel}>True Negatives</div>
+              </div>
+              <div className={styles.metricItem}>
+                <div className={styles.metricVal}>0</div>
+                <div className={styles.metricLabel}>False Negatives</div>
+              </div>
+            </div>
+
+            <div className={styles.confusionBox}>
+              <div className={styles.cbTitle}>Confusion Matrix</div>
+              <div className={styles.cbGrid}>
+                <div className={styles.cbEmpty}></div>
+                <div className={styles.cbColHead}>Pred UNSAFE</div>
+                <div className={styles.cbColHead}>Pred SAFE</div>
+                <div className={styles.cbRowHead}>Actual UNSAFE</div>
+                <div className={`${styles.cbCell} ${styles.cbTrue}`}>TP=2</div>
+                <div className={`${styles.cbCell} ${styles.cbZero}`}>FN=0</div>
+                <div className={styles.cbRowHead}>Actual SAFE</div>
+                <div className={`${styles.cbCell} ${styles.cbFalse}`}>FP=2</div>
+                <div className={`${styles.cbCell} ${styles.cbZero}`}>TN=0</div>
+              </div>
             </div>
           </div>
+          
         </div>
       </section>
 
-      {/* Confusion matrices */}
-      <section className={styles.section}>
-        <div className={styles.sectionTitle}>Confusion Matrices</div>
-        <div className={bStyles.confusionRow}>
-          <div className={bStyles.confusionWrap}>
-            <div className={bStyles.confusionTitle}>MigrationGuard</div>
-            <div className={bStyles.confusionGrid}>
-              <div className={bStyles.confusionEmpty}/>
-              <div className={bStyles.confusionHead}>Pred UNSAFE</div>
-              <div className={bStyles.confusionHead}>Pred SAFE</div>
-              <div className={bStyles.confusionHead}>Actual UNSAFE</div>
-              <div className={`${bStyles.confusionCell} ${bStyles.tp}`}>TP = 2</div>
-              <div className={`${bStyles.confusionCell} ${bStyles.fn}`}>FN = 0</div>
-              <div className={bStyles.confusionHead}>Actual SAFE</div>
-              <div className={`${bStyles.confusionCell} ${bStyles.fp}`}>FP = 0</div>
-              <div className={`${bStyles.confusionCell} ${bStyles.tn}`}>TN = 2</div>
-            </div>
-          </div>
-          <div className={bStyles.confusionWrap}>
-            <div className={bStyles.confusionTitle}>Atlas</div>
-            <div className={bStyles.confusionGrid}>
-              <div className={bStyles.confusionEmpty}/>
-              <div className={bStyles.confusionHead}>Pred UNSAFE</div>
-              <div className={bStyles.confusionHead}>Pred SAFE</div>
-              <div className={bStyles.confusionHead}>Actual UNSAFE</div>
-              <div className={`${bStyles.confusionCell} ${bStyles.tp}`}>TP = 2</div>
-              <div className={`${bStyles.confusionCell} ${bStyles.fn}`}>FN = 0</div>
-              <div className={bStyles.confusionHead}>Actual SAFE</div>
-              <div className={`${bStyles.confusionCell} ${bStyles.fp} ${bStyles.fpActive}`}>FP = 2</div>
-              <div className={`${bStyles.confusionCell} ${bStyles.tn} ${bStyles.tnMissed}`}>TN = 0</div>
-            </div>
-          </div>
+      {/* Dataset Ledger */}
+      <section className={styles.ledgerSection}>
+        <div className={styles.sectionHeader}>
+          <h2>Controlled Dataset Ledger (n=4)</h2>
         </div>
-      </section>
-
-      {/* Test cases */}
-      <section className={styles.section}>
-        <div className={styles.sectionTitle}>Test Cases (n=4)</div>
+        
         <div className={styles.tableWrap}>
-          <table className={styles.table}>
+          <table className={styles.ledgerTable}>
             <thead>
               <tr>
-                <th>Track</th>
-                <th>Scenario</th>
-                <th>Expected</th>
+                <th>Test Identifier</th>
+                <th>Scenario Description</th>
+                <th>Expected Verdict</th>
                 <th>MigrationGuard</th>
-                <th>Atlas</th>
+                <th>Atlas (Static)</th>
               </tr>
             </thead>
             <tbody>
               {CASES.map(c => (
                 <tr key={c.id}>
-                  <td><code>{c.track}</code></td>
+                  <td className={styles.monoCell}>{c.id}</td>
                   <td>
-                    <div style={{ fontSize: '0.875rem', color: 'var(--text-primary)', fontWeight: 500 }}>{c.description}</div>
-                    <code style={{ fontSize: '0.75rem', marginTop: '0.2rem', display: 'block', background: 'transparent', border: 'none', padding: 0, color: 'var(--text-secondary)' }}>{c.fault}</code>
+                    <div className={styles.cellDesc}>{c.description}</div>
+                    <div className={styles.cellSub}>{c.fault}</div>
                   </td>
                   <td>
-                    {c.expected === 'SAFE'
-                      ? <span className={styles.badgeSafe}>SAFE</span>
-                      : <span className={styles.badgeUnsafe}>UNSAFE</span>}
+                    <span className={c.expected === 'SAFE' ? styles.badgeSafe : styles.badgeUnsafe}>
+                      {c.expected}
+                    </span>
                   </td>
                   <td><Verdict verdict={c.mg.verdict} correct={c.mg.correct} /></td>
                   <td><Verdict verdict={c.atlas.verdict} correct={c.atlas.correct} /></td>
@@ -190,15 +210,22 @@ export default function Benchmark() {
         </div>
       </section>
 
-      <div className={`${styles.notice} ${styles.noticeAmber}`}>
-        <AlertTriangle size={14} style={{ flexShrink: 0, marginTop: '2px' }} />
-        <div>
-          <strong>Dataset size: n=4.</strong> These results confirm correct classification within the
-          controlled benchmark. They do not establish generalized production accuracy.
-          Atlas's two false positives arise from schema-only analysis flagging nullable column
-          additions as unsafe without verifying application behavior.
+      {/* Limitation Notice */}
+      <section className={styles.limitationSection}>
+        <div className={styles.limitationBox}>
+          <AlertTriangle size={18} className={styles.limitationIcon} />
+          <div className={styles.limitationContent}>
+            <strong>Dataset limitation explicitly acknowledged.</strong>
+            <p>
+              These results confirm correct classification within the
+              controlled benchmark. They do not establish generalized production accuracy.
+              Atlas's two false positives arise from schema-only analysis flagging nullable column
+              additions as unsafe without verifying application behavior.
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
+      
     </div>
   );
 }

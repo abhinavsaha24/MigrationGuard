@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Activity, CheckCircle, XCircle, Clock, ArrowRight } from 'lucide-react';
+import { Activity, CheckCircle, XCircle, ArrowRight, ShieldCheck, ShieldAlert, Terminal } from 'lucide-react';
 import styles from './Dashboard.module.css';
 
 interface Run {
@@ -37,107 +37,130 @@ export default function Dashboard() {
   const total = runs.length;
   const passed = runs.filter(r => ['PASS', 'SAFE', 'COMPATIBLE'].includes(r.status?.toUpperCase())).length;
   const failed = runs.filter(r => ['FAIL', 'UNSAFE', 'INCOMPATIBLE'].includes(r.status?.toUpperCase())).length;
-  const recentRuns = runs.slice(0, 5);
+  const recentRuns = runs.slice(0, 8);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>
-        Welcome{user?.email ? `, ${user.email.split('@')[0]}` : ''}
-      </h1>
-      <p className={styles.subtitle}>
-        MigrationGuard verification dashboard —{' '}
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>
-          {user?.role}
-        </span>
-      </p>
+    <div className={styles.consoleContainer}>
+      <header className={styles.consoleHeader}>
+        <div>
+          <h1 className={styles.title}>
+            Operational Dashboard
+          </h1>
+          <p className={styles.subtitle}>
+            Session active: <span className={styles.userEmail}>{user?.email}</span> 
+            <span className={styles.roleBadge}>{user?.role}</span>
+          </p>
+        </div>
+        <div className={styles.headerStatus}>
+          <div className={styles.statusDot}></div>
+          System Online
+        </div>
+      </header>
 
-      {loading && <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Loading…</p>}
-      {error   && <p style={{ color: 'var(--red)', marginBottom: '1.5rem' }}>Error: {error}</p>}
+      {loading && (
+        <div className={styles.loadingState}>
+          <Terminal size={24} className={styles.loadingIcon} />
+          <span>Initializing connection...</span>
+        </div>
+      )}
+      
+      {error && (
+        <div className={styles.errorState}>
+          <ShieldAlert size={24} className={styles.errorIcon} />
+          <span>Connection failed: {error}</span>
+        </div>
+      )}
 
       {!loading && !error && (
         <>
-          <div className={styles.stats} style={{ marginBottom: '2rem' }}>
-            <div className={styles.statCard}>
-              <h3>Total Runs</h3>
-              <div className={styles.value} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Activity size={18} style={{ color: 'var(--blue)' }} />
+          <div className={styles.metricsBar}>
+            <div className={styles.metricBlock}>
+              <div className={styles.metricLabel}>Total Executions</div>
+              <div className={styles.metricValue}>
+                <Activity size={20} className={styles.iconBlue} />
                 {total}
               </div>
             </div>
-            <div className={styles.statCard}>
-              <h3>Passed</h3>
-              <div className={styles.value} style={{ color: 'var(--green)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <CheckCircle size={18} />
+            <div className={styles.metricDivider}></div>
+            <div className={styles.metricBlock}>
+              <div className={styles.metricLabel}>Verified Safe</div>
+              <div className={styles.metricValue}>
+                <CheckCircle size={20} className={styles.iconGreen} />
                 {passed}
               </div>
             </div>
-            <div className={styles.statCard}>
-              <h3>Failed</h3>
-              <div className={styles.value} style={{ color: 'var(--red)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <XCircle size={18} />
+            <div className={styles.metricDivider}></div>
+            <div className={styles.metricBlock}>
+              <div className={styles.metricLabel}>Blocked (Unsafe)</div>
+              <div className={styles.metricValue}>
+                <XCircle size={20} className={styles.iconRed} />
                 {failed}
               </div>
             </div>
-            <div className={styles.statCard}>
-              <h3>Pass Rate</h3>
-              <div className={styles.value} style={{ fontSize: '1.5rem' }}>
-                {total > 0 ? `${Math.round((passed / total) * 100)}%` : '—'}
+            <div className={styles.metricDivider}></div>
+            <div className={styles.metricBlock}>
+              <div className={styles.metricLabel}>System Reliability</div>
+              <div className={styles.metricValueMono}>
+                {total > 0 ? `${Math.round((passed / total) * 100)}%` : 'N/A'}
               </div>
             </div>
           </div>
 
-          <div className={styles.section}>
-            <h2>Recent Runs</h2>
+          <div className={styles.logSection}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Recent Verification Runs</h2>
+              {runs.length > 8 && (
+                <Link to="/dashboard/runs" className={styles.viewAllLink}>
+                  View All Log {runs.length} <ArrowRight size={14} />
+                </Link>
+              )}
+            </div>
+
             {recentRuns.length === 0 ? (
-              <div className={styles.emptyState}>
-                <Clock size={32} style={{ marginBottom: '0.75rem', opacity: 0.3 }} />
-                <p>No verification runs yet.</p>
-                <p style={{ fontSize: '0.875rem', marginTop: '0.375rem' }}>
-                  Use the CLI to run <code>migrationguard verify</code>.
-                </p>
+              <div className={styles.emptyConsole}>
+                <Terminal size={32} className={styles.emptyIcon} />
+                <p>No verification logs found in current environment.</p>
+                <code>$ migrationguard verify --target=latest</code>
               </div>
             ) : (
-              <>
-                <div className={styles.grid}>
-                  {recentRuns.map(r => {
-                    const u = r.status?.toUpperCase();
-                    const isPass = u === 'PASS' || u === 'SAFE' || u === 'COMPATIBLE';
-                    const isFail = u === 'FAIL' || u === 'UNSAFE' || u === 'INCOMPATIBLE';
-                    return (
-                      <Link to={`/dashboard/runs/${r.id}`} key={r.id} className={styles.card}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.375rem' }}>
-                          {isPass
-                            ? <CheckCircle size={14} style={{ color: 'var(--green)', flexShrink: 0 }} />
-                            : isFail
-                              ? <XCircle size={14} style={{ color: 'var(--red)', flexShrink: 0 }} />
-                              : null
-                          }
-                          <h3 style={{ margin: 0, fontSize: '0.875rem' }}>{r.migrationName || 'Unnamed Migration'}</h3>
-                        </div>
-                        <p style={{ fontSize: '0.75rem' }}>
-                          <span className={isPass ? styles.statusSafe : isFail ? styles.statusUnsafe : styles.statusPending}>
-                            {r.status}
-                          </span>
-                          {' · '}{(r.durationMs / 1000).toFixed(1)}s
-                        </p>
-                        <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.125rem' }}>
-                          {new Date(r.timestamp).toLocaleString()}
-                        </p>
-                      </Link>
-                    );
-                  })}
+              <div className={styles.runList}>
+                <div className={styles.runListHeader}>
+                  <div className={styles.colStatus}>STATUS</div>
+                  <div className={styles.colTarget}>TARGET MIGRATION</div>
+                  <div className={styles.colTime}>EXECUTION TIME</div>
+                  <div className={styles.colTimestamp}>TIMESTAMP (UTC)</div>
                 </div>
-                {runs.length > 5 && (
-                  <div style={{ marginTop: '1rem' }}>
-                    <Link
-                      to="/dashboard/runs"
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.875rem', color: 'var(--blue)' }}
-                    >
-                      View all {runs.length} runs <ArrowRight size={14} />
+                
+                {recentRuns.map(r => {
+                  const u = r.status?.toUpperCase();
+                  const isPass = u === 'PASS' || u === 'SAFE' || u === 'COMPATIBLE';
+                  const isFail = u === 'FAIL' || u === 'UNSAFE' || u === 'INCOMPATIBLE';
+                  
+                  return (
+                    <Link to={`/dashboard/runs/${r.id}`} key={r.id} className={styles.runRow}>
+                      <div className={styles.colStatus}>
+                        {isPass ? (
+                          <span className={styles.badgeSafe}><ShieldCheck size={14}/> SAFE</span>
+                        ) : isFail ? (
+                          <span className={styles.badgeUnsafe}><ShieldAlert size={14}/> UNSAFE</span>
+                        ) : (
+                          <span className={styles.badgePending}>{r.status}</span>
+                        )}
+                      </div>
+                      <div className={styles.colTarget}>
+                        <span className={styles.targetName}>{r.migrationName || 'Unnamed Migration'}</span>
+                        <span className={styles.targetId}>{r.id.substring(0, 8)}</span>
+                      </div>
+                      <div className={styles.colTime}>
+                        {(r.durationMs / 1000).toFixed(2)}s
+                      </div>
+                      <div className={styles.colTimestamp}>
+                        {new Date(r.timestamp).toISOString().replace('T', ' ').substring(0, 19)}
+                      </div>
                     </Link>
-                  </div>
-                )}
-              </>
+                  );
+                })}
+              </div>
             )}
           </div>
         </>

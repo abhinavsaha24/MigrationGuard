@@ -1,102 +1,243 @@
-.container {
+/* ============================================================
+   LOGIN PAGE — True Design Transformation
+   ============================================================ */
+
+.authContainer {
   display: flex;
+  min-height: calc(100vh - var(--header-height));
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 160px);
-}
-.card {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  background: var(--bg);
   position: relative;
   overflow: hidden;
 }
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--blue-border), var(--border));
+
+/* Background grid moved to MainLayout */
+
+.authBranding {
+  display: none; /* Hidden by default (mobile), shown on desktop */
 }
 
-.header {
-  text-align: center;
+.authPanel {
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1;
+}
+.authPanel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--blue), transparent);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   margin-bottom: 2rem;
 }
-.icon {
+
+.panelIcon {
   color: var(--blue);
-  margin-bottom: 1rem;
 }
-.header h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+
+.panelHeader h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
   color: var(--text-heading);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0;
 }
-.header p {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-.error {
-  background-color: var(--red-muted);
-  color: var(--red);
+
+.errorBox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--red-muted);
   border: 1px solid var(--red-border);
-  padding: 0.75rem;
+  color: var(--red);
+  padding: 1rem;
   border-radius: var(--radius-sm);
-  margin-bottom: 1.5rem;
-  font-size: 0.875rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
 }
-.form {
+
+.authForm {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
-.inputGroup {
+
+.formGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-.inputGroup label {
-  font-size: 0.8125rem;
+
+.formLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
   font-weight: 600;
   color: var(--text-secondary);
-  letter-spacing: 0.05em;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
-.inputGroup input {
+
+.inputWrap {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.formInput {
   width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
-  padding: 0.75rem 1rem;
-  color: var(--text-primary);
+  padding: 1rem;
+  color: var(--text-heading);
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  font-size: 0.9375rem;
+  transition: all 0.2s;
 }
-.inputGroup input:focus {
+
+.inputWithIcon {
+  padding-left: 2.75rem;
+}
+
+.inputWithToggle {
+  padding-right: 2.75rem;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.passwordToggle:hover {
+  opacity: 1;
+}
+
+.formInput:focus {
   outline: none;
   border-color: var(--blue);
-  box-shadow: 0 0 0 2px var(--blue-muted);
+  box-shadow: 0 0 0 1px var(--blue);
 }
-.submitBtn {
-  margin-top: 0.5rem;
-  background-color: var(--blue);
-  color: white;
-  border: 1px solid var(--blue);
-  padding: 0.75rem;
+.formInput::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.authButton {
+  margin-top: 1rem;
+  background: var(--text-heading);
+  color: var(--bg);
+  border: none;
   border-radius: var(--radius-sm);
-  font-weight: 500;
+  padding: 1.125rem;
+  font-family: var(--font-mono);
   font-size: 0.875rem;
-  transition: background-color 0.2s, opacity 0.2s;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
 }
-.submitBtn:hover:not(:disabled) {
-  background-color: var(--blue-hover);
+.authButton:hover:not(:disabled) {
+  opacity: 0.9;
 }
-.submitBtn:disabled {
-  opacity: 0.7;
+.authButton:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.authButton:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
+  background: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   RESPONSIVE LAYOUT (Desktop)
+   ============================================================ */
+@media (min-width: 1024px) {
+  .authContainer {
+    justify-content: center;
+    gap: 8rem;
+  }
+  
+  .authBranding {
+    display: block;
+    max-width: 400px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .brandBadge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--blue);
+    background: var(--blue-muted);
+    border: 1px solid var(--blue-border);
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .brandTitle {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+  }
+  
+  .brandDesc {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 768px) {
+  .authPanel {
+    padding: 2rem;
+  }
+  
+  .demoItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
 }

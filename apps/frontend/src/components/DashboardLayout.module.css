@@ -6,7 +6,7 @@
   display: grid;
   grid-template-columns: 220px 1fr;
   min-height: 100dvh;
-  background: var(--bg);
+  background: transparent;
 }
 
 /* ---- Sidebar ---- */
@@ -179,7 +179,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   min-width: 0;
-  background: var(--bg);
+  background: transparent;
 }
 
 /* Mobile: collapse sidebar */

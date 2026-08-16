@@ -1,169 +1,371 @@
 /* ============================================================
-   RESULTS PAGE — local styles
+   RESULTS PAGE — True Design Transformation
    ============================================================ */
 
-.f1Row {
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 8rem;
+  background: var(--bg);
+}
+
+.header {
+  margin-bottom: 4rem;
+  border-bottom: 2px solid var(--text-heading);
+  padding-bottom: 2rem;
+}
+
+.headerLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--blue);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--text-heading);
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 700px;
+}
+
+/* ============================================================
+   SCORE STRIP
+   ============================================================ */
+.scoreStrip {
   display: flex;
   align-items: center;
-  gap: 2rem;
-}
-
-.f1Card {
-  flex: 1;
+  justify-content: center;
+  gap: 3rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 2.5rem 2rem;
-  text-align: center;
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 4rem;
   box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
-}
-.f1Card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--border-strong), var(--border));
 }
 
-.toolLabel {
+.scoreBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.scoreLabel {
+  font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin-bottom: 0.75rem;
-  font-family: var(--font-mono);
 }
 
-.f1Score {
-  font-size: 4.5rem;
-  font-weight: 600;
-  letter-spacing: -0.04em;
+.scoreValGreen {
   font-family: var(--font-mono);
+  font-size: 4rem;
+  font-weight: 600;
+  color: var(--green);
   line-height: 1;
   margin-bottom: 0.5rem;
 }
 
-.f1Sub {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-secondary);
-  margin-bottom: 0.75rem;
-}
-
-.f1Detail {
-  font-size: 0.8125rem;
-  color: var(--text-secondary);
+.scoreValRed {
   font-family: var(--font-mono);
-}
-
-.f1Vs {
-  font-size: 0.8125rem;
+  font-size: 4rem;
   font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  flex-shrink: 0;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 0.5rem;
 }
 
-/* Key finding */
-.findingCard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--amber);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-}
-
-.findingCode {
-  display: block;
-  font-family: var(--font-mono);
+.scoreSub {
   font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--amber);
-  background: var(--amber-muted);
-  border: 1px solid var(--amber-border);
-  border-radius: var(--radius-sm);
-  padding: 0.2em 0.6em;
-  margin-bottom: 0.875rem;
-  width: fit-content;
+  color: var(--text-secondary);
 }
 
-.findingCard p {
-  font-size: 0.9375rem;
-  color: var(--text);
-  line-height: 1.7;
+.scoreDivider {
+  width: 2px;
+  height: 80px;
+  background: var(--border-subtle);
 }
 
-/* Scenario list */
-.scenarioList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+/* ============================================================
+   TERMINAL FINDING CALLOUT
+   ============================================================ */
+.findingSection {
+  margin-bottom: 5rem;
 }
 
-.scenarioCard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1.5rem;
-  transition: border-color 0.15s, transform 0.15s;
-  position: relative;
+.terminalBox {
+  background: #0f172a; /* Slate 900 */
+  border-radius: var(--radius-md);
+  border: 1px solid #1e293b;
   overflow: hidden;
-}
-.scenarioCard::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--border-strong), var(--border));
-}
-.scenarioCard:hover {
-  border-color: var(--border-strong);
-  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-mono);
 }
 
-.scenarioHeader {
+.termHeader {
+  background: #1e293b; /* Slate 800 */
+  padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 0.875rem;
+  color: #94a3b8; /* Slate 400 */
+  font-size: 0.75rem;
+  border-bottom: 1px solid #0f172a;
 }
 
-.scenarioVerdicts {
+.termBody {
+  padding: 1.5rem;
+  color: #e2e8f0; /* Slate 200 */
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.termBody p {
+  margin: 0 0 1rem 0;
+}
+.termBody p:last-child {
+  margin-bottom: 0;
+}
+
+.termBody code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+}
+
+.termYellow { color: #f59e0b; font-weight: 600; }
+.termBlue { color: #3b82f6; font-weight: 600; }
+.termGreen { color: #10b981; font-weight: 600; }
+
+/* ============================================================
+   DENSE EXECUTION LOG
+   ============================================================ */
+.logSection {
+  margin-bottom: 5rem;
+}
+
+.sectionHeader {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 0.875rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-heading);
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1rem;
+}
+.sectionHeader h2 {
+  font-size: 1.5rem;
+  margin: 0;
 }
 
-.verdictItem {
+.logContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.logEntry {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.logMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  width: 200px;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+
+.logId {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.logTime {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.logTool {
+  margin-top: 0.5rem;
+  font-size: 0.6875rem;
+  color: var(--blue);
+  background: var(--blue-muted);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+  width: fit-content;
+}
+
+.logContent {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.logHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.logScenario {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.verdictTool {
+  font-family: var(--font-mono);
   font-size: 0.8125rem;
-  color: var(--text-secondary);
-  width: 130px;
-  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--text-heading);
 }
 
-.scenarioNote {
-  font-size: 0.875rem;
+.logTarget {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   color: var(--text-secondary);
+}
+
+.logVerdict {
+  display: flex;
+}
+
+.logDetails {
+  padding: 1.25rem;
+}
+
+.logDiff {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  background: var(--surface-raised);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  margin: 0 0 1rem 0;
+  white-space: pre-wrap;
+}
+
+.logNote {
+  font-size: 0.875rem;
+  color: var(--text-heading);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Badges */
+.badgeSafe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--green);
+}
+.badgeUnsafe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--red);
+}
+
+/* ============================================================
+   DISCLAIMER
+   ============================================================ */
+.disclaimerSection {
+  margin-top: 4rem;
+}
+
+.disclaimerBox {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--amber-muted);
+  border-left: 4px solid var(--amber);
+  padding: 2rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.disclaimerIcon {
+  color: var(--amber);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.disclaimerText {
+  font-size: 0.9375rem;
+  color: var(--text-heading);
   line-height: 1.6;
 }
-
-.fp {
-  opacity: 0.75;
+.disclaimerText strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.disclaimerText p {
+  color: var(--text-secondary);
+  margin: 0;
 }
 
-@media (max-width: 680px) {
-  .f1Row { flex-direction: column; gap: 1rem; }
-  .f1Score { font-size: 3rem; }
-  .f1Vs { display: none; }
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .logEntry {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .logMeta {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+  }
+  .logTool {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  .scoreStrip {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .scoreDivider {
+    width: 80%;
+    height: 1px;
+  }
+  .logHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
 }

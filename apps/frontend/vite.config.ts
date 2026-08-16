@@ -5,7 +5,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,
+    port: 5173,
     proxy: {
       '/api': {
         // Dev server proxy: backend runs on port 3000 in dev (tsx watch).

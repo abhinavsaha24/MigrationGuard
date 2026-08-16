@@ -1,157 +1,385 @@
 /* ============================================================
-   BENCHMARK PAGE — local styles
+   BENCHMARK PAGE — True Design Transformation
    ============================================================ */
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 8rem;
+  background: var(--bg);
+}
+
+.header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 5rem;
+}
+
+.headerLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--blue);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ============================================================
+   COMPARISON SECTION
+   ============================================================ */
+.comparisonSection {
+  margin-bottom: 6rem;
+}
 
 .compareGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 2rem;
 }
 
-.toolCard {
+.toolPanel {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1.75rem;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
-.toolCard::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--border-strong), var(--border));
+.panelBlue {
+  border-top: 4px solid var(--blue);
 }
 
-.toolCardMG {
-  border-color: var(--green-border);
-}
-
-.toolCardAtlas {
-  border-color: var(--border);
+.panelRed {
+  border-top: 4px solid var(--red);
 }
 
 .toolHeader {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  align-items: center;
 }
 
 .toolName {
-  font-size: 1.0625rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: var(--text-heading);
+  margin: 0;
+  letter-spacing: -0.02em;
 }
 
-.miniMetrics {
+.f1Score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.f1Label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+.f1Value {
+  font-family: var(--font-mono);
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  line-height: 1;
+}
+
+.metricsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
-.miniMetric {
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  background: var(--surface-raised);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.75rem 0.5rem;
+  background: var(--bg-elevated);
+  padding: 1.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
 }
 
-.mmVal {
-  font-size: 1.25rem;
-  font-weight: 600;
+.metricVal {
   font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-bottom: 0.5rem;
   line-height: 1;
-  margin-bottom: 0.25rem;
+}
+.metricVal.textRed {
+  color: var(--red);
 }
 
-.mmLabel {
-  font-size: 0.625rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.metricLabel {
+  font-size: 0.75rem;
   color: var(--text-secondary);
-  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.green { color: var(--green); }
-.red   { color: var(--red);   }
-
-/* Confusion matrices */
-.confusionRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+/* ============================================================
+   CONFUSION MATRIX
+   ============================================================ */
+.confusionBox {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 2rem;
 }
 
-.confusionWrap {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1.5rem;
-}
-
-.confusionTitle {
+.cbTitle {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-heading);
-  margin-bottom: 0.875rem;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.confusionGrid {
+.cbGrid {
   display: grid;
   grid-template-columns: 120px 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.cbEmpty {
+  /* spacer */
+}
+
+.cbColHead, .cbRowHead {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+.cbColHead {
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
+.cbRowHead {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
+}
+
+.cbCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+}
+
+.cbTrue {
+  background: var(--green-muted);
+  border-color: var(--green-border);
+  color: var(--green);
+}
+
+.cbFalse {
+  background: var(--red-muted);
+  border-color: var(--red-border);
+  color: var(--red);
+}
+
+.cbZero {
+  background: var(--bg-elevated);
+  border-color: var(--border-subtle);
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* ============================================================
+   DATASET LEDGER
+   ============================================================ */
+.ledgerSection {
+  margin-bottom: 6rem;
+}
+
+.sectionHeader {
+  margin-bottom: 2rem;
+}
+.sectionHeader h2 {
+  font-size: 1.5rem;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.ledgerTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.ledgerTable th {
+  background: var(--bg-elevated);
+  padding: 1.25rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.ledgerTable td {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+.ledgerTable tr:last-child td {
+  border-bottom: none;
+}
+
+.monoCell {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-heading);
+}
+
+.cellDesc {
+  font-size: 0.9375rem;
+  color: var(--text-heading);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.cellSub {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  display: inline-block;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Badges */
+.badgeSafe {
+  display: inline-flex;
+  align-items: center;
   gap: 0.375rem;
   font-size: 0.75rem;
-}
-
-.confusionEmpty { background: transparent; }
-
-.confusionHead {
-  background: var(--surface-raised);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.375rem 0.5rem;
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.confusionCell {
-  border-radius: var(--radius-sm);
-  padding: 0.625rem 0.5rem;
-  font-size: 0.8125rem;
-  font-weight: 700;
   font-family: var(--font-mono);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
+  color: var(--green);
+  background: var(--green-muted);
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--green-border);
 }
 
-.tp { background: var(--green-muted); color: var(--green); border-color: var(--green-border); }
-.tn { background: var(--surface-raised); color: var(--text-secondary); }
-.fp { background: var(--surface-raised); color: var(--text-secondary); }
-.fn { background: var(--surface-raised); color: var(--text-secondary); }
+.badgeUnsafe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-heading);
+  background: var(--surface-raised);
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+}
 
-.fpActive { background: var(--red-muted);   color: var(--red);   border-color: var(--red-border); }
-.tnMissed { background: var(--red-muted);   color: var(--red);   border-color: var(--red-border); opacity: 0.6; }
+.badgeFalsePositive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--red);
+  background: var(--red-muted);
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--red-border);
+}
+
+/* ============================================================
+   LIMITATION NOTICE
+   ============================================================ */
+.limitationSection {
+  margin-top: 4rem;
+}
+
+.limitationBox {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--amber-muted);
+  border-left: 4px solid var(--amber);
+  padding: 2rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.limitationIcon {
+  color: var(--amber);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.limitationContent {
+  font-size: 0.9375rem;
+  color: var(--text-heading);
+  line-height: 1.6;
+}
+.limitationContent strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.limitationContent p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .compareGrid {
+    grid-template-columns: 1fr;
+  }
+}
 
 @media (max-width: 768px) {
-  .compareGrid  { grid-template-columns: 1fr; }
-  .confusionRow { grid-template-columns: 1fr; }
-  .miniMetrics  { grid-template-columns: repeat(4, 1fr); }
-}
-
-@media (max-width: 480px) {
-  .miniMetrics { grid-template-columns: repeat(2, 1fr); }
-  .confusionGrid { grid-template-columns: 90px 1fr 1fr; }
+  .title {
+    font-size: 2.5rem;
+  }
+  .metricsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cbGrid {
+    grid-template-columns: 80px 1fr 1fr;
+  }
+  .cbColHead, .cbRowHead {
+    font-size: 0.625rem;
+  }
+  .cbCell {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
 }

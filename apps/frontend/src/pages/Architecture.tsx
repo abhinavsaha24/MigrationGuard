@@ -1,165 +1,145 @@
 import styles from './Architecture.module.css';
-import pageStyles from './Page.module.css';
 
-const PACKAGES = [
-  { id: 'M2', name: 'Sandbox',           desc: 'Ephemeral PostgreSQL container lifecycle management' },
-  { id: 'M3', name: 'Migration Engine',  desc: 'Applies schema migrations against sandbox instances' },
-  { id: 'M4', name: 'App Runner',        desc: 'Executes HTTP workloads against running app versions' },
-  { id: 'M5', name: 'Matrix Engine',     desc: 'Classifies 2×2 compatibility outcomes' },
-  { id: 'M6', name: 'Evidence',          desc: 'Captures and integrity-checks artifacts via SHA-256' },
-  { id: 'M8', name: 'Benchmark Runner',  desc: 'Executes controlled evaluation against ground truth' },
+const SYSTEM_NODES = [
+  { id: 'SYS-01', name: 'Nginx Gateway', desc: 'Reverse proxy and static asset delivery.' },
+  { id: 'SYS-02', name: 'Fastify API', desc: 'Authentication, RBAC, and core business logic.' },
+  { id: 'SYS-03', name: 'PostgreSQL Core', desc: 'Persistent state for users, runs, and metadata.' },
+  { id: 'SYS-04', name: 'MinIO Storage', desc: 'S3-compatible immutable evidence artifact storage.' },
+  { id: 'SYS-05', name: 'Verification Engine', desc: 'Orchestrates the 4-cell matrix test suite.' },
+  { id: 'SYS-06', name: 'Ephemeral Sandbox', desc: 'Isolated Docker containers for runtime evaluation.' },
 ];
 
 export default function Architecture() {
   return (
-    <div className={pageStyles.page}>
-      <div className={pageStyles.pageHeader}>
-        <div className={pageStyles.pageLabel}>System Design</div>
-        <h1 className={pageStyles.pageTitle}>Architecture</h1>
-        <p className={pageStyles.pageSubtitle}>
-          MigrationGuard is a Fastify API monorepo with a React frontend, deployed behind Nginx.
-          The verification engine runs schema migrations and HTTP workloads inside ephemeral Docker
-          containers to produce causal compatibility evidence.
+    <div className={styles.page}>
+      <header className={styles.header}>
+        <div className={styles.headerLabel}>SYSTEM ARCHITECTURE</div>
+        <h1 className={styles.title}>Infrastructure Design</h1>
+        <p className={styles.subtitle}>
+          MigrationGuard isolates untrusted migration execution within ephemeral Docker containers. 
+          The verification engine coordinates the state matrix without exposing the host to application-level faults.
         </p>
-      </div>
+      </header>
 
-      {/* Architecture Diagram */}
-      <section className={pageStyles.section}>
-        <div className={pageStyles.sectionTitle}>System Diagram</div>
+      {/* Hero Architecture Diagram */}
+      <section className={styles.diagramSection}>
         <div className={styles.diagramWrap}>
           <svg
             className={styles.diagram}
-            viewBox="0 0 800 620"
+            viewBox="0 0 1000 700"
+            preserveAspectRatio="xMidYMid meet"
             xmlns="http://www.w3.org/2000/svg"
-            aria-label="MigrationGuard system architecture diagram"
+            aria-label="MigrationGuard architecture"
           >
             <defs>
-              <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-                <polygon points="0 0, 8 3, 0 6" fill="#3b3b48" />
+              <marker id="arrowSolid" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="var(--border-strong)" />
               </marker>
-              <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-                <polygon points="0 0, 8 3, 0 6" fill="#3b82f6" />
+              <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="var(--blue)" />
               </marker>
             </defs>
 
-            {/* === USER TIER === */}
-            <rect x="280" y="20" width="240" height="52" rx="8" fill="#18181c" stroke="#2a2a30" strokeWidth="1.5"/>
-            <text x="400" y="42" textAnchor="middle" fill="#e8e8ed" fontSize="13" fontWeight="600" fontFamily="Inter,sans-serif">Browser / User</text>
-            <text x="400" y="58" textAnchor="middle" fill="#6b6b78" fontSize="11" fontFamily="Inter,sans-serif">React + Vite</text>
+            {/* Browser */}
+            <rect x="400" y="20" width="200" height="50" rx="6" className={styles.svgNode} />
+            <text x="500" y="45" className={styles.svgTextStrong}>Browser UI</text>
+            <text x="500" y="60" className={styles.svgTextMuted}>React SPA</text>
+            <line x1="500" y1="70" x2="500" y2="110" className={styles.svgLine} markerEnd="url(#arrowSolid)" />
 
-            {/* Arrow: User → Nginx */}
-            <line x1="400" y1="72" x2="400" y2="108" stroke="#2a2a30" strokeWidth="1.5" markerEnd="url(#arrowhead)"/>
+            {/* Nginx */}
+            <rect x="400" y="115" width="200" height="50" rx="6" className={styles.svgNodeBlue} />
+            <text x="500" y="140" className={styles.svgTextBlue}>Nginx Gateway</text>
+            <text x="500" y="155" className={styles.svgTextMuted}>:80 Public</text>
+            <line x1="500" y1="165" x2="500" y2="205" className={styles.svgLine} markerEnd="url(#arrowSolid)" />
 
-            {/* === NGINX === */}
-            <rect x="300" y="110" width="200" height="52" rx="8" fill="#1f1f24" stroke="#3b82f6" strokeWidth="1.5"/>
-            <text x="400" y="132" textAnchor="middle" fill="#e8e8ed" fontSize="13" fontWeight="600" fontFamily="Inter,sans-serif">Nginx</text>
-            <text x="400" y="148" textAnchor="middle" fill="#3b82f6" fontSize="11" fontFamily="Inter,sans-serif">:80 · Public entry point</text>
+            {/* Fastify */}
+            <rect x="350" y="210" width="300" height="60" rx="6" className={styles.svgNode} />
+            <text x="500" y="238" className={styles.svgTextStrong}>Fastify API</text>
+            <text x="500" y="255" className={styles.svgTextMuted}>Internal :3000 · Auth & Runs</text>
 
-            {/* Arrow: Nginx → Fastify */}
-            <line x1="400" y1="162" x2="400" y2="198" stroke="#2a2a30" strokeWidth="1.5" markerEnd="url(#arrowhead)"/>
+            {/* DB & Storage Lines */}
+            <path d="M350 240 L200 240 L200 310" className={styles.svgLine} fill="none" markerEnd="url(#arrowSolid)" />
+            <path d="M650 240 L800 240 L800 310" className={styles.svgLine} fill="none" markerEnd="url(#arrowSolid)" />
+            <line x1="500" y1="270" x2="500" y2="345" className={styles.svgLineActive} strokeDasharray="6 4" markerEnd="url(#arrowBlue)" />
 
-            {/* === FASTIFY API === */}
-            <rect x="250" y="200" width="300" height="72" rx="8" fill="#1f1f24" stroke="#2a2a30" strokeWidth="1.5"/>
-            <text x="400" y="226" textAnchor="middle" fill="#e8e8ed" fontSize="13" fontWeight="600" fontFamily="Inter,sans-serif">Fastify API</text>
-            <text x="400" y="242" textAnchor="middle" fill="#6b6b78" fontSize="11" fontFamily="Inter,sans-serif">Auth · RBAC · Runs · Presentations</text>
-            <text x="400" y="258" textAnchor="middle" fill="#3b82f6" fontSize="10" fontFamily="Inter,sans-serif">:3000 · Internal only</text>
+            {/* Postgres */}
+            <rect x="100" y="315" width="200" height="60" rx="6" className={styles.svgNodeSolid} />
+            <text x="200" y="343" className={styles.svgTextStrong}>PostgreSQL</text>
+            <text x="200" y="360" className={styles.svgTextMuted}>:5432 · Metadata</text>
 
-            {/* Arrows: Fastify → PostgreSQL / MinIO */}
-            <line x1="310" y1="272" x2="160" y2="330" stroke="#2a2a30" strokeWidth="1.5" markerEnd="url(#arrowhead)"/>
-            <line x1="490" y1="272" x2="640" y2="330" stroke="#2a2a30" strokeWidth="1.5" markerEnd="url(#arrowhead)"/>
+            {/* MinIO */}
+            <rect x="700" y="315" width="200" height="60" rx="6" className={styles.svgNodeSolid} />
+            <text x="800" y="343" className={styles.svgTextStrong}>MinIO S3</text>
+            <text x="800" y="360" className={styles.svgTextMuted}>:9000 · Evidence</text>
 
-            {/* === POSTGRESQL === */}
-            <rect x="60" y="332" width="200" height="60" rx="8" fill="#18181c" stroke="#2a2a30" strokeWidth="1.5"/>
-            <text x="160" y="357" textAnchor="middle" fill="#e8e8ed" fontSize="12" fontWeight="600" fontFamily="Inter,sans-serif">PostgreSQL</text>
-            <text x="160" y="373" textAnchor="middle" fill="#6b6b78" fontSize="11" fontFamily="Inter,sans-serif">Metadata · Users · Runs</text>
-            <text x="160" y="385" textAnchor="middle" fill="#3b82f6" fontSize="10" fontFamily="Inter,sans-serif">:5432 · Internal</text>
+            {/* Verification Engine */}
+            <rect x="350" y="350" width="300" height="60" rx="6" className={styles.svgNodeBlue} />
+            <text x="500" y="378" className={styles.svgTextBlue}>Verification Engine</text>
+            <text x="500" y="395" className={styles.svgTextMuted}>Orchestrator</text>
+            <line x1="500" y1="410" x2="500" y2="475" className={styles.svgLineActive} markerEnd="url(#arrowBlue)" />
 
-            {/* === MINIO === */}
-            <rect x="540" y="332" width="200" height="60" rx="8" fill="#18181c" stroke="#2a2a30" strokeWidth="1.5"/>
-            <text x="640" y="357" textAnchor="middle" fill="#e8e8ed" fontSize="12" fontWeight="600" fontFamily="Inter,sans-serif">MinIO</text>
-            <text x="640" y="373" textAnchor="middle" fill="#6b6b78" fontSize="11" fontFamily="Inter,sans-serif">Evidence artifacts</text>
-            <text x="640" y="385" textAnchor="middle" fill="#3b82f6" fontSize="10" fontFamily="Inter,sans-serif">:9001 · Local demo only</text>
+            {/* Docker Boundry Box */}
+            <rect x="250" y="480" width="500" height="190" rx="8" className={styles.svgBoundary} strokeDasharray="8 6" />
+            <text x="500" y="505" className={styles.svgTextMuted} fontWeight="600">DOCKER DAEMON</text>
 
-            {/* Arrow: Fastify → Verification Engine */}
-            <line x1="400" y1="272" x2="400" y2="408" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#arrowBlue)"/>
+            {/* Matrix Logic */}
+            <rect x="350" y="520" width="300" height="40" rx="6" className={styles.svgNode} />
+            <text x="500" y="545" className={styles.svgTextStrong}>Compatibility Matrix Engine</text>
+            
+            <path d="M400 560 L300 560 L300 600" className={styles.svgLine} fill="none" markerEnd="url(#arrowSolid)" />
+            <path d="M600 560 L700 560 L700 600" className={styles.svgLine} fill="none" markerEnd="url(#arrowSolid)" />
 
-            {/* === VERIFICATION ENGINE === */}
-            <rect x="250" y="410" width="300" height="52" rx="8" fill="#1f1f24" stroke="#3b82f6" strokeWidth="1.5"/>
-            <text x="400" y="432" textAnchor="middle" fill="#e8e8ed" fontSize="13" fontWeight="600" fontFamily="Inter,sans-serif">Verification Engine</text>
-            <text x="400" y="448" textAnchor="middle" fill="#6b6b78" fontSize="11" fontFamily="Inter,sans-serif">Sandbox · Runner · Matrix · Evidence</text>
+            {/* Sandboxes */}
+            <rect x="200" y="605" width="200" height="40" rx="6" className={styles.svgNodeSolid} />
+            <text x="300" y="630" className={styles.svgTextStrong}>V1 Sandbox</text>
 
-            {/* Arrow: Engine → Compatibility Matrix */}
-            <line x1="400" y1="462" x2="400" y2="498" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#arrowBlue)"/>
-
-            {/* === COMPATIBILITY MATRIX === */}
-            <rect x="280" y="500" width="240" height="44" rx="8" fill="#18181c" stroke="#34d399" strokeWidth="1.5"/>
-            <text x="400" y="521" textAnchor="middle" fill="#34d399" fontSize="12" fontWeight="600" fontFamily="Inter,sans-serif">Compatibility Matrix</text>
-            <text x="400" y="537" textAnchor="middle" fill="#6b6b78" fontSize="11" fontFamily="Inter,sans-serif">OLD+V1 · OLD+V2 · NEW+V1 · NEW+V2</text>
-
-            {/* Arrows to Docker Sandboxes */}
-            <line x1="330" y1="544" x2="180" y2="582" stroke="#2a2a30" strokeWidth="1.5" markerEnd="url(#arrowhead)"/>
-            <line x1="470" y1="544" x2="620" y2="582" stroke="#2a2a30" strokeWidth="1.5" markerEnd="url(#arrowhead)"/>
-
-            {/* === V1 SANDBOX === */}
-            <rect x="80" y="584" width="200" height="28" rx="6" fill="#18181c" stroke="#2a2a30" strokeWidth="1"/>
-            <text x="180" y="601" textAnchor="middle" fill="#6b6b78" fontSize="11" fontFamily="Inter,sans-serif">V1 Docker Sandbox</text>
-
-            {/* === V2 SANDBOX === */}
-            <rect x="520" y="584" width="200" height="28" rx="6" fill="#18181c" stroke="#2a2a30" strokeWidth="1"/>
-            <text x="620" y="601" textAnchor="middle" fill="#6b6b78" fontSize="11" fontFamily="Inter,sans-serif">V2 Docker Sandbox</text>
+            <rect x="600" y="605" width="200" height="40" rx="6" className={styles.svgNodeSolid} />
+            <text x="700" y="630" className={styles.svgTextStrong}>V2 Sandbox</text>
           </svg>
         </div>
       </section>
 
-      {/* Core Packages */}
-      <section className={pageStyles.section}>
-        <div className={pageStyles.sectionTitle}>Core Packages</div>
-        <div className={styles.packageGrid}>
-          {PACKAGES.map(p => (
-            <div key={p.id} className={styles.packageCard}>
-              <div className={styles.packageId}>{p.id}</div>
-              <div className={styles.packageName}>{p.name}</div>
-              <div className={styles.packageDesc}>{p.desc}</div>
+      {/* Components List */}
+      <section className={styles.componentsSection}>
+        <div className={styles.sectionHeader}>
+          <h2>Core Components</h2>
+        </div>
+        <div className={styles.nodeGrid}>
+          {SYSTEM_NODES.map(node => (
+            <div key={node.id} className={styles.nodeCard}>
+              <div className={styles.nodeId}>{node.id}</div>
+              <h3 className={styles.nodeName}>{node.name}</h3>
+              <p className={styles.nodeDesc}>{node.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Deployment notes */}
-      <section className={pageStyles.section}>
-        <div className={pageStyles.sectionTitle}>Deployment Configuration</div>
-        <div className={styles.deployGrid}>
-          <div className={styles.deployCard}>
-            <div className={styles.deployKey}>Public Entry Point</div>
-            <code>http://localhost:80</code>
-          </div>
-          <div className={styles.deployCard}>
-            <div className={styles.deployKey}>API (internal)</div>
-            <code>backend:3000</code>
-          </div>
-          <div className={styles.deployCard}>
-            <div className={styles.deployKey}>Database (internal)</div>
-            <code>postgres:5432</code>
-          </div>
-          <div className={styles.deployCard}>
-            <div className={styles.deployKey}>Storage (local demo only)</div>
-            <code>minio:9000 / :9001</code>
-          </div>
-          <div className={styles.deployCard}>
-            <div className={styles.deployKey}>Auth</div>
-            <code>JWT · RBAC (ADMIN / REVIEWER)</code>
-          </div>
-          <div className={styles.deployCard}>
-            <div className={styles.deployKey}>Status</div>
-            <code>LOCAL_PRODUCTION_SIMULATION</code>
+      {/* Deployment Specs */}
+      <section className={styles.specsSection}>
+        <div className={styles.specsPanel}>
+          <div className={styles.specsHeader}>LOCAL_PRODUCTION_SIMULATION CONFIGURATION</div>
+          <div className={styles.specsBody}>
+            <div className={styles.specRow}>
+              <span className={styles.specKey}>Network Entry</span>
+              <span className={styles.specVal}><code>http://localhost:80</code></span>
+            </div>
+            <div className={styles.specRow}>
+              <span className={styles.specKey}>Internal API</span>
+              <span className={styles.specVal}><code>backend:3000</code></span>
+            </div>
+            <div className={styles.specRow}>
+              <span className={styles.specKey}>Auth Strategy</span>
+              <span className={styles.specVal}>JWT Bearer · RBAC enforcement</span>
+            </div>
+            <div className={styles.specRow}>
+              <span className={styles.specKey}>Storage Warning</span>
+              <span className={styles.specVal}>MinIO <code>:9001</code> exposed for local inspection only</span>
+            </div>
           </div>
         </div>
       </section>
-
-      <div className={`${pageStyles.notice} ${pageStyles.noticeAmber}`}>
-        <strong>Note:</strong> MinIO port :9001 (console) is intentionally exposed in the local demo configuration
-        for storage inspection. In a production deployment this port should not be publicly accessible.
-      </div>
+      
     </div>
   );
 }

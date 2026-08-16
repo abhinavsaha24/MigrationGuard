@@ -1,136 +1,231 @@
 /* ============================================================
-   MILESTONES PAGE — local styles
+   MILESTONES PAGE — True Design Transformation
    ============================================================ */
 
-/* Timeline strip */
-.timelineSection {
-  margin-bottom: 3rem;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 8rem;
+  background: var(--bg);
 }
 
-.timelineTrack {
+.header {
+  margin-bottom: 5rem;
+}
+
+.headerLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--blue);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--text-heading);
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 700px;
+}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timelineSection {
+  position: relative;
+}
+
+.timelineContainer {
   display: flex;
-  align-items: center;
-  gap: 0;
-  min-width: max-content;
+  flex-direction: column;
+  position: relative;
+}
+
+/* The continuous vertical axis */
+.timelineAxis {
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+  left: 120px; /* Aligned with nodeMarker */
+  width: 2px;
+  background: var(--border-strong);
+  z-index: 0;
 }
 
 .timelineNode {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-.timelineDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--green);
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 2px var(--green-border);
-  flex-shrink: 0;
-}
-
-.timelineId {
-  font-size: 0.625rem;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  color: var(--text-secondary);
-  margin-top: 0.5rem;
-}
-
-.timelineLine {
-  position: absolute;
-  top: 4px;
-  left: calc(50% + 5px);
-  width: 64px;
-  height: 2px;
-  background: var(--green-border);
-}
-
-/* Milestone list */
-.milestoneList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.milestoneCard {
-  display: flex;
-  gap: 1.25rem;
   align-items: flex-start;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+.timelineNode:last-child {
+  margin-bottom: 0;
+}
+
+/* Left side: Date */
+.nodeDate {
+  width: 120px;
+  padding-right: 1.5rem;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* Center: Marker on axis */
+.nodeMarker {
+  width: 2px; /* same width as axis to center it */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.commitIcon {
+  color: var(--blue);
+  background: var(--bg); /* hide axis behind icon */
+  padding: 2px;
+  transform: translateX(-0.5px); /* micro-adjustment for centering */
+}
+
+/* Right side: Content card */
+.nodeContent {
+  flex: 1;
+  padding-left: 2.5rem;
+}
+
+.nodeCard {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1.25rem 1.5rem;
-  transition: border-color 0.15s, transform 0.15s;
-  position: relative;
-  overflow: hidden;
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.milestoneCard::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--border-strong), var(--border));
-}
-.milestoneCard:hover {
+.nodeCard:hover {
+  transform: translateX(4px);
   border-color: var(--border-strong);
-  transform: translateY(-1px);
 }
 
-.milestoneLeft {
-  flex-shrink: 0;
-  padding-top: 1px;
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
-.milestoneId {
-  display: inline-block;
+.idBadge {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 700;
   color: var(--blue);
   background: var(--blue-muted);
   border: 1px solid var(--blue-border);
+  padding: 0.25rem 0.5rem;
   border-radius: var(--radius-sm);
-  padding: 0.15em 0.5em;
-  min-width: 2.5rem;
-  text-align: center;
 }
 
-.milestoneBody {
-  flex: 1;
-}
-
-.milestoneHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.25rem;
-  flex-wrap: wrap;
-}
-
-.milestoneTitle {
-  font-size: 0.9375rem;
+.cardTitle {
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--text-heading);
+  margin: 0;
 }
 
-.milestoneStatus {
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 600;
   color: var(--green);
   background: var(--green-muted);
   border: 1px solid var(--green-border);
-  border-radius: 100px;
-  padding: 0.15em 0.6em;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  margin-left: auto; /* push to right */
 }
 
-.milestoneDesc {
-  font-size: 0.875rem;
+.cardBody p {
+  font-size: 0.9375rem;
   color: var(--text-secondary);
   line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================================
+   END LOG MARKER
+   ============================================================ */
+.timelineEnd {
+  margin-bottom: 0;
+  opacity: 0.6;
+}
+
+.endDot {
+  width: 8px;
+  height: 8px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  margin-top: 0.4rem;
+  transform: translateX(-0.5px);
+}
+
+.endText {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .timelineAxis {
+    left: 20px;
+  }
+  
+  .timelineNode {
+    flex-direction: column;
+    padding-left: 48px; /* space for axis */
+  }
+  
+  .nodeDate {
+    width: auto;
+    text-align: left;
+    padding-right: 0;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .nodeMarker {
+    position: absolute;
+    left: 20px;
+    top: 0;
+  }
+  
+  .nodeContent {
+    padding-left: 0;
+    width: 100%;
+  }
+  
+  .statusBadge {
+    margin-left: 0; /* don't push to right on mobile */
+  }
 }

@@ -1,104 +1,112 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* =====================================================================
-   DESIGN TOKENS - PREMIUM TECHNICAL THEME
+   TRUE DESIGN SYSTEM - TECHNICAL & EDITORIAL
    ===================================================================== */
 :root {
-  /* Default to Dark Mode */
-  --bg:            #080808;
-  --bg-elevated:   #0A0A0A;
-  --surface:       #111111;
-  --surface-raised:#1A1A1A;
-  --surface-raised-hover: #222222;
-  --border:        #2A2A2A;
-  --border-subtle: #1C1C1C;
-  --border-strong: #333333;
+  /* DARK MODE (Default) - Technical Charcoal */
+  --bg:            #09090b; /* Near black */
+  --bg-elevated:   #0e0e11;
+  --surface:       #131316;
+  --surface-raised:#18181b;
+  --surface-raised-hover: #1f1f22;
+  
+  --border:        #27272a;
+  --border-subtle: #1f1f22;
+  --border-strong: #3f3f46;
 
-  --text:          #A1A1AA;
-  --text-secondary:#71717A;
-  --text-primary:  #E4E4E7;
-  --text-heading:  #F4F4F5;
+  --text:          #a1a1aa;
+  --text-secondary:#71717a;
+  --text-primary:  #e4e4e7;
+  --text-heading:  #fafafa;
 
-  /* Accent — Technical Blue */
-  --blue:          #2563EB;
-  --blue-muted:    rgba(37,99,235,0.12);
-  --blue-border:   rgba(37,99,235,0.3);
-  --blue-hover:    #3B82F6;
+  /* Accent — Restrained Electric Blue */
+  --blue:          #3b82f6;
+  --blue-muted:    rgba(59, 130, 246, 0.1);
+  --blue-border:   rgba(59, 130, 246, 0.2);
+  --blue-hover:    #60a5fa;
 
-  /* Status */
-  --green:         #10B981;
-  --green-muted:   rgba(16,185,129,0.1);
-  --green-border:  rgba(16,185,129,0.25);
+  /* Semantics */
+  --green:         #10b981;
+  --green-muted:   rgba(16, 185, 129, 0.1);
+  --green-border:  rgba(16, 185, 129, 0.2);
 
-  --red:           #EF4444;
-  --red-muted:     rgba(239,68,68,0.1);
-  --red-border:    rgba(239,68,68,0.25);
+  --red:           #ef4444;
+  --red-muted:     rgba(239, 68, 68, 0.1);
+  --red-border:    rgba(239, 68, 68, 0.2);
 
-  --amber:         #F59E0B;
-  --amber-muted:   rgba(245,158,11,0.1);
-  --amber-border:  rgba(245,158,11,0.25);
+  --amber:         #f59e0b;
+  --amber-muted:   rgba(245, 158, 11, 0.1);
+  --amber-border:  rgba(245, 158, 11, 0.2);
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
 
   /* Spacing */
-  --radius-sm:  2px;
-  --radius-md:  4px;
+  --radius-sm:  4px;
+  --radius-md:  6px;
   --radius-lg:  8px;
   --radius-xl:  12px;
+  
+  /* Shadows */
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.5);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -2px rgba(0,0,0,0.5);
+  --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -4px rgba(0,0,0,0.5);
 
-  /* Shadows (Subtle, technical) */
-  --shadow-sm:  0 1px 2px rgba(0,0,0,0.8);
-  --shadow-md:  0 4px 12px rgba(0,0,0,0.6);
-  --shadow-lg:  0 8px 24px rgba(0,0,0,0.8);
-
-  /* Grid Language */
+  /* Grid lines */
   --grid-line:  var(--border-subtle);
+  --grid-bg-pattern: var(--border-subtle);
+  --grid-opacity: 0.5;
+  
+  /* Layout Constants */
+  --header-height: 60px;
 }
 
-/* Light Theme Variables */
 [data-theme='light'] {
-  --bg:            #FDFDFD;
-  --bg-elevated:   #F9F9FB;
-  --surface:       #FFFFFF;
-  --surface-raised:#F4F4F7;
-  --surface-raised-hover: #EBECEF;
-  --border:        #E2E2E8;
-  --border-subtle: #F0F0F5;
-  --border-strong: #D1D1D8;
+  /* LIGHT MODE - Warm Technical Off-White */
+  --bg:            #fcfcfd;
+  --bg-elevated:   #f9f9fb;
+  --surface:       #ffffff;
+  --surface-raised:#f4f4f5;
+  --surface-raised-hover: #e4e4e7;
+  
+  --border:        #e4e4e7;
+  --border-subtle: #f4f4f5;
+  --border-strong: #d4d4d8;
 
-  --text:          #52525B;
-  --text-secondary:#71717A;
-  --text-primary:  #18181B;
-  --text-heading:  #09090B;
+  --text:          #52525b;
+  --text-secondary:#71717a;
+  --text-primary:  #27272a;
+  --text-heading:  #09090b; /* Dark Ink */
 
-  --blue:          #1D4ED8;
-  --blue-muted:    rgba(29,78,216,0.1);
-  --blue-border:   rgba(29,78,216,0.2);
-  --blue-hover:    #2563EB;
+  --blue:          #2563eb;
+  --blue-muted:    rgba(37, 99, 235, 0.08);
+  --blue-border:   rgba(37, 99, 235, 0.15);
+  --blue-hover:    #1d4ed8;
 
   --green:         #059669;
-  --green-muted:   rgba(5,150,105,0.1);
-  --green-border:  rgba(5,150,105,0.25);
+  --green-muted:   rgba(5, 150, 105, 0.08);
+  --green-border:  rgba(5, 150, 105, 0.15);
 
-  --red:           #DC2626;
-  --red-muted:     rgba(220,38,38,0.1);
-  --red-border:    rgba(220,38,38,0.25);
+  --red:           #dc2626;
+  --red-muted:     rgba(220, 38, 38, 0.08);
+  --red-border:    rgba(220, 38, 38, 0.15);
 
-  --amber:         #D97706;
-  --amber-muted:   rgba(217,119,6,0.1);
-  --amber-border:  rgba(217,119,6,0.25);
+  --amber:         #d97706;
+  --amber-muted:   rgba(217, 119, 6, 0.08);
+  --amber-border:  rgba(217, 119, 6, 0.15);
 
   --shadow-sm:  0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md:  0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg:  0 8px 24px rgba(0,0,0,0.12);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -4px rgba(0,0,0,0.05);
 
-  --grid-line:  var(--border-subtle);
+  --grid-bg-pattern: var(--border-strong);
+  --grid-opacity: 0.7;
 }
 
 /* =====================================================================
-   RESET + BASE
+   RESET & BASE
    ===================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -108,6 +116,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height); /* Fix overlap bug */
   -webkit-text-size-adjust: 100%;
 }
 
@@ -120,7 +129,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
-  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: linear-gradient(var(--grid-bg-pattern) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--grid-bg-pattern) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center center;
+  opacity: var(--grid-opacity);
+  z-index: -1;
+  pointer-events: none;
 }
 
 #root {
@@ -138,15 +159,15 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   color: var(--text-heading);
   letter-spacing: -0.02em;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
-h1 { font-size: 2rem; letter-spacing: -0.04em; }
-h2 { font-size: 1.5rem;  letter-spacing: -0.03em; }
+h1 { font-size: 2.25rem; letter-spacing: -0.03em; }
+h2 { font-size: 1.5rem;  letter-spacing: -0.02em; }
 h3 { font-size: 1.125rem; letter-spacing: -0.01em; }
-h4 { font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+h4 { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 600; }
 
-p { color: var(--text); line-height: 1.7; }
+p { color: var(--text); line-height: 1.7; margin-bottom: 1rem; }
 
 a {
   color: var(--blue);
@@ -169,14 +190,14 @@ code {
 }
 
 /* =====================================================================
-   UTILITY CLASSES & GRID LANGUAGE
+   COMPONENTS
    ===================================================================== */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
   font-size: 0.6875rem;
-  font-weight: 500;
+  font-weight: 600;
   font-family: var(--font-mono);
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -205,20 +226,9 @@ code {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   position: relative;
-  overflow: hidden;
-}
-
-.technical-panel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--border-strong), var(--border));
 }
 
 @media (max-width: 768px) {
-  h1 { font-size: 1.5rem; }
+  h1 { font-size: 1.75rem; }
   h2 { font-size: 1.25rem; }
 }

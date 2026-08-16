@@ -1,97 +1,358 @@
 /* ============================================================
-   RESEARCH PAGE — local styles
+   RESEARCH PAGE — Digital Technical Paper
    ============================================================ */
 
-.questionCard {
-  background: var(--blue-muted);
-  border: 1px solid var(--blue-border);
-  border-radius: var(--radius-sm);
-  padding: 1.5rem 1.75rem;
-}
-.questionCard p {
-  font-size: 1.0625rem;
-  color: var(--text-primary);
-  font-style: italic;
-  line-height: 1.7;
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 8rem;
+  background: var(--bg);
 }
 
-.hypothesisCard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--blue);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  padding: 1.25rem 1.5rem;
-}
-.hypothesisCard p {
-  font-size: 0.9375rem;
-  color: var(--text);
-  line-height: 1.7;
+/* ============================================================
+   PAPER HEADER
+   ============================================================ */
+.paperHeader {
+  border-bottom: 2px solid var(--text-heading);
+  padding-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
-.stepsGrid {
+.metaStrip {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+}
+.metaItem::after {
+  content: "•";
+  margin-left: 1.5rem;
+  color: var(--border-strong);
+}
+.metaItem:last-child::after {
+  display: none;
+}
+
+.paperTitle {
+  font-family: var(--font-sans);
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--text-heading);
+  line-height: 1.1;
+  margin-bottom: 2rem;
+}
+
+.paperAbstract {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 800px;
+}
+.paperAbstract strong {
+  color: var(--text-heading);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 0.5rem;
+}
+
+/* ============================================================
+   PAPER BODY
+   ============================================================ */
+.paperBody {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 5rem;
 }
 
-.step {
+.paperSection {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
+}
+
+.sectionMargin {
   display: flex;
-  gap: 1.25rem;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 2px solid var(--border-strong);
+  padding-top: 1rem;
+}
+
+.marginNumber {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--blue);
+}
+
+.marginLabel {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.sectionContent {
+  max-width: 700px;
+}
+
+.sectionHeading {
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  color: var(--text-heading);
+}
+
+.paragraph {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.calloutBox {
+  display: flex;
+  gap: 1rem;
+  background: var(--surface-raised);
+  border-left: 4px solid var(--blue);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.calloutBox svg {
+  color: var(--blue);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+/* ============================================================
+   PIPELINE STEPS
+   ============================================================ */
+.stepList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.stepItem {
+  display: flex;
+  gap: 1.5rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1rem 1.25rem;
-  transition: border-color 0.15s, transform 0.15s;
-  position: relative;
-  overflow: hidden;
-}
-.step::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, var(--border), var(--border-strong), var(--border));
-}
-.step:hover {
-  border-color: var(--border-strong);
-  transform: translateY(-1px);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
 }
 
-.stepNum {
+.stepMarker {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 0.875rem;
+  font-weight: 600;
   color: var(--blue);
   background: var(--blue-muted);
-  border: 1px solid var(--blue-border);
-  border-radius: var(--radius-sm);
-  padding: 0.2em 0.5em;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.stepBody {
-  flex: 1;
 }
 
 .stepTitle {
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--text-heading);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .stepDesc {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================================
+   MATRIX TABLE
+   ============================================================ */
+.matrixTable {
+  margin-top: 2rem;
+  border-top: 1px solid var(--border-strong);
+}
+
+.matrixRow {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.matrixCellHeader {
+  padding: 1.5rem 1rem 1.5rem 0;
+  font-family: var(--font-mono);
   font-size: 0.875rem;
-  color: var(--text);
+  font-weight: 600;
+  color: var(--text-heading);
+  border-right: 1px solid var(--border-subtle);
+}
+
+.matrixCellData {
+  padding: 1.5rem 0 1.5rem 1.5rem;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.matrixCellData strong {
+  color: var(--text-heading);
+}
+
+/* ============================================================
+   FAULT CLASSES
+   ============================================================ */
+.faultTableWrap {
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+
+.faultTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  text-align: left;
+}
+
+.faultTable th {
+  padding: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--border-strong);
+}
+
+.faultTable td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.faultTable code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-heading);
+  background: var(--surface-raised);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.faultDesc {
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
-.matrixIntro {
+.badgeSafe {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  color: var(--green);
+  background: var(--green-muted);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--green-border);
+}
+
+.badgeUnsafe {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  color: var(--red);
+  background: var(--red-muted);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--red-border);
+}
+
+/* ============================================================
+   EVALUATION BOUNDARY
+   ============================================================ */
+.limitationNotice {
+  display: flex;
+  gap: 1rem;
+  background: var(--amber-muted);
+  border-left: 4px solid var(--amber);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.limitationIcon {
+  color: var(--amber);
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.limitationText {
   font-size: 0.9375rem;
-  color: var(--text);
-  line-height: 1.7;
-  margin-bottom: 1.25rem;
-  max-width: 640px;
+  color: var(--text-heading);
+  line-height: 1.6;
+}
+.limitationText strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .paperSection {
+    grid-template-columns: 150px 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .paperTitle {
+    font-size: 2.5rem;
+  }
+  .paperSection {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .sectionMargin {
+    border-top: none;
+    border-bottom: 1px solid var(--border-strong);
+    padding-bottom: 1rem;
+    padding-top: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .marginNumber {
+    font-size: 1.25rem;
+  }
+  .matrixRow {
+    grid-template-columns: 1fr;
+  }
+  .matrixCellHeader {
+    border-right: none;
+    padding-bottom: 0.5rem;
+    padding-top: 1.5rem;
+  }
+  .matrixCellData {
+    padding-left: 0;
+    padding-top: 0.5rem;
+  }
 }

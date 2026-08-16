@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShieldCheck, LogOut, Moon, Sun, LayoutDashboard, Activity, ArrowLeft } from 'lucide-react';
+import { LogOut, Moon, Sun, LayoutDashboard, Activity, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
 import styles from './DashboardLayout.module.css';
