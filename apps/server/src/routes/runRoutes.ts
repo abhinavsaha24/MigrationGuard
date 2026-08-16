@@ -10,10 +10,37 @@ const runDecisionSchema = z.object({
   comment: z.string().optional(),
 });
 
+const runCreateSchema = z.object({
+  runId: z.string().min(1),
+  migrationName: z.string().min(1),
+  status: z.string().min(1),
+  durationMs: z.number(),
+  artifactKey: z.string().nullable(),
+  artifactHash: z.string().nullable(),
+  compatibility: z.array(z.object({
+    appVersion: z.string(),
+    dbVersion: z.string(),
+    status: z.string(),
+    durationMs: z.number(),
+    error: z.string().nullable().optional(),
+  })),
+  evidence: z.array(z.object({
+    faultType: z.string(),
+    confidence: z.string(),
+    operation: z.string().optional(),
+    observedError: z.string().optional(),
+  })),
+});
+
 export async function setupRunRoutes(app: FastifyInstance) {
   // Submit a Verification Run
   app.post('/', { preValidation: [(app as any).authenticate] }, async (request, reply) => {
-    const body: any = request.body;
+    let body;
+    try {
+      body = runCreateSchema.parse(request.body);
+    } catch (e: any) {
+      return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: 'Invalid run payload' } });
+    }
     try {
       const run = await prisma.verificationRun.create({
         data: {
