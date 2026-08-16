@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { prisma } from '../config/prisma.js';
-import { uploadFile, getFileUrl } from '../services/storageService.js';
+import { uploadFile, getFileStream } from '../services/storageService.js';
 import * as crypto from 'crypto';
 import { z } from 'zod';
 
@@ -15,21 +15,25 @@ const runCreateSchema = z.object({
   migrationName: z.string().min(1),
   status: z.string().min(1),
   durationMs: z.number(),
-  artifactKey: z.string().nullable(),
-  artifactHash: z.string().nullable(),
-  compatibility: z.array(z.object({
-    appVersion: z.string(),
-    dbVersion: z.string(),
-    status: z.string(),
-    durationMs: z.number(),
-    error: z.string().nullable().optional(),
-  })),
-  evidence: z.array(z.object({
-    faultType: z.string(),
-    confidence: z.string(),
-    operation: z.string().optional(),
-    observedError: z.string().optional(),
-  })),
+  artifactKey: z.string().nullable().optional(),
+  artifactHash: z.string().nullable().optional(),
+  compatibility: z.array(
+    z.object({
+      appVersion: z.string(),
+      dbVersion: z.string(),
+      status: z.string(),
+      durationMs: z.number(),
+      error: z.string().nullable().optional(),
+    }),
+  ),
+  evidence: z.array(
+    z.object({
+      faultType: z.string(),
+      confidence: z.string(),
+      operation: z.string().optional(),
+      observedError: z.string().optional(),
+    }),
+  ),
 });
 
 export async function setupRunRoutes(app: FastifyInstance) {
@@ -39,7 +43,9 @@ export async function setupRunRoutes(app: FastifyInstance) {
     try {
       body = runCreateSchema.parse(request.body);
     } catch (e: any) {
-      return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: 'Invalid run payload' } });
+      return reply
+        .status(400)
+        .send({ error: { code: 'VALIDATION_ERROR', message: 'Invalid run payload' } });
     }
     try {
       const run = await prisma.verificationRun.create({
@@ -127,13 +133,39 @@ export async function setupRunRoutes(app: FastifyInstance) {
     });
     if (!run) return reply.status(404).send();
 
-    let artifactUrl = null;
-    if (run.artifactKey) {
-      artifactUrl = await getFileUrl(run.artifactKey);
-    }
-
-    return reply.send({ ...run, artifactUrl });
+    return reply.send(run);
   });
+
+  // Download Evidence Artifact
+  app.get(
+    '/:id/evidence',
+    { preValidation: [(app as any).authenticate] },
+    async (request, reply) => {
+      const { id } = paramIdSchema.parse(request.params);
+      const run = await prisma.verificationRun.findUnique({
+        where: { id },
+        select: { artifactKey: true },
+      });
+
+      if (!run)
+        return reply.status(404).send({ error: { code: 'NOT_FOUND', message: 'Run not found' } });
+      if (!run.artifactKey)
+        return reply
+          .status(404)
+          .send({ error: { code: 'NOT_FOUND', message: 'No artifact for this run' } });
+
+      try {
+        const stream = await getFileStream(run.artifactKey);
+        reply.header('Content-Type', 'application/json');
+        reply.header('Content-Disposition', `attachment; filename="evidence-${id}.json"`);
+        return reply.send(stream);
+      } catch (e: any) {
+        return reply
+          .status(404)
+          .send({ error: { code: 'NOT_FOUND', message: 'Artifact not found in storage' } });
+      }
+    },
+  );
 
   // Reviewer Decision
   app.post(

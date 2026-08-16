@@ -57,6 +57,34 @@ export default function RunDetail() {
   const [run, setRun] = useState<Run | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
+
+  const handleDownload = async () => {
+    if (!run || !run.id) return;
+    setDownloading(true);
+    setDownloadError(null);
+    try {
+      const res = await fetch(`/api/runs/${run.id}/evidence`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = `evidence-${run.id}.json`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    } catch (e: any) {
+      setDownloadError(e.message);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   useEffect(() => {
     fetch(`/api/runs/${id}`, {
@@ -110,9 +138,29 @@ export default function RunDetail() {
           ID: {run.id}
         </p>
         {run.artifactHash && (
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-            SHA-256: {run.artifactHash}
-          </p>
+          <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0 }}>
+              SHA-256: {run.artifactHash}
+            </p>
+            <button
+              onClick={handleDownload}
+              disabled={downloading}
+              style={{
+                background: 'var(--accent)',
+                color: 'var(--bg-card)',
+                border: 'none',
+                padding: '0.375rem 0.75rem',
+                borderRadius: '4px',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                cursor: downloading ? 'not-allowed' : 'pointer',
+                opacity: downloading ? 0.7 : 1
+              }}
+            >
+              {downloading ? 'Downloading...' : 'Download Evidence'}
+            </button>
+            {downloadError && <span style={{ color: 'var(--red)', fontSize: '0.75rem' }}>{downloadError}</span>}
+          </div>
         )}
       </div>
 

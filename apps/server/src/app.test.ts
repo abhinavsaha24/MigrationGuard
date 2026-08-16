@@ -156,9 +156,15 @@ describe('M10 API - Presentations', () => {
     expect(res.json().publishedAt).toBeDefined();
   });
 
-  it('GET /api/presentations/:id should return presigned URLs', async () => {
-    const res = await app.inject({ method: 'GET', url: `/api/presentations/${presentationId}` });
+  it('GET /api/presentations/:id should return presentation details', async () => {
+    const res = await app.inject({
+      method: 'GET',
+      url: `/api/presentations/${presentationId}`,
+    });
     expect(res.statusCode).toBe(200);
-    expect(res.json().versions[0].url).toContain('X-Amz-Signature');
+    const body = res.json();
+    expect(body.id).toBe(presentationId);
+    expect(body.versions).toBeDefined();
+    // Storage downloads are now served via a proxy endpoint and URLs are no longer statically provided
   });
 });

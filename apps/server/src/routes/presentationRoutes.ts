@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { prisma } from '../config/prisma.js';
-import { uploadFile, getFileUrl } from '../services/storageService.js';
+import { uploadFile, getFileStream } from '../services/storageService.js';
 import { z } from 'zod';
 
 const paramIdSchema = z.object({ id: z.string().min(1) });
@@ -149,16 +149,34 @@ export async function setupPresentationRoutes(app: FastifyInstance) {
         },
       },
     });
-    if (!presentation) return reply.status(404).send();
-
-    // Map versions to include presigned URLs
-    const versionsWithUrls = await Promise.all(
-      presentation.versions.map(async (v) => {
-        const url = await getFileUrl(v.storageKey);
-        return { ...v, url };
-      }),
-    );
-
-    return reply.send({ ...presentation, versions: versionsWithUrls });
+    return reply.send(presentation);
   });
+
+  // Download Presentation Version
+  app.get(
+    '/:id/versions/:versionId/download',
+    { preValidation: [(app as any).authenticate] },
+    async (request, reply) => {
+      const { versionId } = paramPublishSchema.parse(request.params);
+      const version = await prisma.presentationVersion.findUnique({
+        where: { id: versionId },
+      });
+
+      if (!version)
+        return reply
+          .status(404)
+          .send({ error: { code: 'NOT_FOUND', message: 'Version not found' } });
+
+      try {
+        const stream = await getFileStream(version.storageKey);
+        reply.header('Content-Type', version.mimeType || 'application/octet-stream');
+        reply.header('Content-Disposition', `attachment; filename="${version.originalFilename}"`);
+        return reply.send(stream);
+      } catch (e: any) {
+        return reply
+          .status(404)
+          .send({ error: { code: 'NOT_FOUND', message: 'File not found in storage' } });
+      }
+    },
+  );
 }
