@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import styles from './Dashboard.module.css';
+import { CheckCircle, XCircle, ArrowLeft, Download, AlertTriangle } from 'lucide-react';
+import styles from './RunDetail.module.css';
 
 interface CompatibilityResult {
   id: string;
@@ -45,10 +46,18 @@ interface Run {
 function StatusBadge({ status }: { status: string }) {
   const s = status?.toUpperCase();
   if (s === 'PASS' || s === 'SAFE' || s === 'COMPATIBLE')
-    return <span className={styles.statusSafe}>✓ {status}</span>;
+    return (
+      <span className={styles.badgeSafe}>
+        <CheckCircle size={14} /> {status}
+      </span>
+    );
   if (s === 'FAIL' || s === 'UNSAFE' || s === 'INCOMPATIBLE')
-    return <span className={styles.statusUnsafe}>✗ {status}</span>;
-  return <span className={styles.statusPending}>{status}</span>;
+    return (
+      <span className={styles.badgeUnsafe}>
+        <XCircle size={14} /> {status}
+      </span>
+    );
+  return <span className={styles.badgePending}>{status}</span>;
 }
 
 export default function RunDetail() {
@@ -98,94 +107,97 @@ export default function RunDetail() {
     .catch(e => { setError(e.message); setLoading(false); });
   }, [id, token]);
 
-  if (loading) return <div className={styles.container}><p style={{ color: 'var(--text-secondary)' }}>Loading…</p></div>;
-  if (error)   return <div className={styles.container}><p style={{ color: 'var(--red)' }}>Error: {error}</p></div>;
-  if (!run)    return <div className={styles.container}><p style={{ color: 'var(--text-secondary)' }}>Run not found.</p></div>;
+  if (loading) return (
+    <div className={styles.consoleContainer}>
+      <div style={{ textAlign: 'center', padding: '5rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>Loading…</div>
+    </div>
+  );
+  if (error) return (
+    <div className={styles.consoleContainer}>
+      <div style={{ textAlign: 'center', padding: '5rem', color: 'var(--red)', fontFamily: 'var(--font-mono)' }}>Error: {error}</div>
+    </div>
+  );
+  if (!run) return (
+    <div className={styles.consoleContainer}>
+      <div style={{ textAlign: 'center', padding: '5rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>Run not found.</div>
+    </div>
+  );
 
-  const passCount = run.compatibility.filter(c => c.status === 'PASS').length;
-  const failCount = run.compatibility.filter(c => c.status === 'FAIL').length;
+  const passCount = run.compatibility?.filter(c => c.status === 'PASS').length || 0;
+  const failCount = run.compatibility?.filter(c => c.status === 'FAIL').length || 0;
 
   return (
-    <div className={styles.container}>
-      <Link to="/dashboard/runs" className={styles.backBtn}>← Back to Runs</Link>
+    <div className={styles.consoleContainer}>
+      <Link to="/dashboard/runs" className={styles.backBtn}>
+        <ArrowLeft size={14} /> Back to Verification Runs
+      </Link>
 
-      <h1 className={styles.title}>{run.migrationName || 'Verification Run'}</h1>
-      <p className={styles.subtitle} style={{ marginBottom: '1.5rem' }}>
-        {new Date(run.timestamp).toLocaleString()}
-      </p>
+      <div className={styles.headerTop}>
+        <div>
+          <h1 className={styles.title}>{run.migrationName || 'Verification Run'}</h1>
+          <p className={styles.subtitle}>ID: {run.id}</p>
+        </div>
+        <StatusBadge status={run.status} />
+      </div>
 
-      <div className={styles.section}>
-        <h2>Overview</h2>
-        <div className={styles.stats}>
-          <div className={styles.statCard}>
-            <h3>Result</h3>
-            <div className={styles.value}><StatusBadge status={run.status} /></div>
-          </div>
-          <div className={styles.statCard}>
-            <h3>Duration</h3>
-            <div className={styles.value} style={{ fontSize: '1.25rem' }}>{(run.durationMs / 1000).toFixed(1)}s</div>
-          </div>
-          <div className={styles.statCard}>
-            <h3>Pass / Fail</h3>
-            <div className={styles.value} style={{ fontSize: '1.25rem' }}>
-              <span style={{ color: 'var(--green)' }}>{passCount}</span>
-              {' / '}
-              <span style={{ color: 'var(--red)' }}>{failCount}</span>
-            </div>
+      <div className={styles.metricsGrid}>
+        <div className={styles.metricBlock}>
+          <span className={styles.metricLabel}>Result</span>
+          <div className={styles.metricValue}>
+            {run.status === 'SAFE' ? <CheckCircle className={styles.badgeSafe} size={24} style={{ border: 'none', background: 'transparent', padding: 0 }} /> : 
+             run.status === 'UNSAFE' ? <XCircle className={styles.badgeUnsafe} size={24} style={{ border: 'none', background: 'transparent', padding: 0 }} /> : null}
+            {run.status}
           </div>
         </div>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-          ID: {run.id}
-        </p>
-        {run.artifactHash && (
-          <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0 }}>
-              SHA-256: {run.artifactHash}
-            </p>
-            <button
-              onClick={handleDownload}
-              disabled={downloading}
-              style={{
-                background: 'var(--accent)',
-                color: 'var(--bg-card)',
-                border: 'none',
-                padding: '0.375rem 0.75rem',
-                borderRadius: '4px',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                cursor: downloading ? 'not-allowed' : 'pointer',
-                opacity: downloading ? 0.7 : 1
-              }}
-            >
-              {downloading ? 'Downloading...' : 'Download Evidence'}
-            </button>
-            {downloadError && <span style={{ color: 'var(--red)', fontSize: '0.75rem' }}>{downloadError}</span>}
+        <div className={styles.metricBlock}>
+          <span className={styles.metricLabel}>Duration</span>
+          <div className={styles.metricValue}>{(run.durationMs / 1000).toFixed(1)}s</div>
+        </div>
+        <div className={styles.metricBlock}>
+          <span className={styles.metricLabel}>Pass</span>
+          <div className={styles.metricValue} style={{ color: 'var(--green)' }}>{passCount}</div>
+        </div>
+        <div className={styles.metricBlock}>
+          <span className={styles.metricLabel}>Fail</span>
+          <div className={styles.metricValue} style={{ color: 'var(--red)' }}>{failCount}</div>
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Technical Metadata</h2>
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', fontFamily: 'var(--font-mono)', fontSize: '0.8125rem' }}>
+          <div>
+            <span style={{ color: 'var(--text-secondary)', marginRight: '0.5rem' }}>Timestamp:</span>
+            <span>{new Date(run.timestamp).toLocaleString()}</span>
           </div>
-        )}
+          {run.artifactHash && (
+            <div>
+              <span style={{ color: 'var(--text-secondary)', marginRight: '0.5rem' }}>SHA-256:</span>
+              <span>{run.artifactHash}</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {run.compatibility && run.compatibility.length > 0 && (
         <div className={styles.section}>
-          <h2>Compatibility Matrix</h2>
+          <h2 className={styles.sectionTitle}>Compatibility Matrix</h2>
           <div className={styles.matrixGrid}>
             {run.compatibility.map((c) => {
               const isPass = c.status === 'PASS';
               return (
-                <div
-                  key={c.id}
-                  className={`${styles.matrixCard} ${isPass ? styles.compatible : styles.incompatible}`}
-                >
-                  <div className={styles.matrixCell}>
-                    {c.appVersion} + {c.dbVersion}
-                  </div>
-                  <div className={styles.matrixStatus}>
+                <div key={c.id} className={`${styles.matrixCell} ${isPass ? styles.pass : styles.fail}`}>
+                  <div className={styles.matrixStatusRow}>
+                    <span className={styles.matrixAppDb}>{c.appVersion} + {c.dbVersion}</span>
                     <StatusBadge status={c.status} />
                   </div>
-                  {c.error && (
-                    <div className={styles.matrixFault}>{c.error}</div>
-                  )}
                   {c.durationMs > 0 && (
-                    <div className={styles.matrixFault}>{c.durationMs}ms</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+                      Latency: {c.durationMs}ms
+                    </div>
+                  )}
+                  {c.error && (
+                    <div className={styles.matrixError}>{c.error}</div>
                   )}
                 </div>
               );
@@ -196,37 +208,35 @@ export default function RunDetail() {
 
       {run.evidence && run.evidence.length > 0 && (
         <div className={styles.section}>
-          <h2>Evidence ({run.evidence.length})</h2>
-          <div className={styles.grid}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.75rem' }}>
+            <h2 className={styles.sectionTitle} style={{ border: 'none', padding: 0, margin: 0 }}>Evidence Logs</h2>
+            {run.artifactHash && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                {downloadError && <span style={{ color: 'var(--red)', fontSize: '0.75rem' }}>{downloadError}</span>}
+                <button onClick={handleDownload} disabled={downloading} className={styles.btnDownload}>
+                  <Download size={14} /> {downloading ? 'Downloading...' : 'Download Cryptographic Evidence'}
+                </button>
+              </div>
+            )}
+          </div>
+          
+          <div className={styles.evidenceList}>
             {run.evidence.map((e) => (
-              <div key={e.id} className={styles.card}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                  <span
-                    style={{
-                      fontSize: '0.6875rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.07em',
-                      textTransform: 'uppercase',
-                      padding: '0.2em 0.6em',
-                      borderRadius: '100px',
-                      background: e.confidence === 'CONFIRMED' ? 'var(--red-muted)' : 'var(--amber-muted)',
-                      border: `1px solid ${e.confidence === 'CONFIRMED' ? 'var(--red-border)' : 'var(--amber-border)'}`,
-                      color: e.confidence === 'CONFIRMED' ? 'var(--red)' : 'var(--amber)',
-                    }}
-                  >
-                    {e.confidence}
-                  </span>
-                  <h3 style={{ fontSize: '0.875rem', margin: 0 }}>{e.faultType}</h3>
+              <div key={e.id} className={styles.evidenceItem}>
+                <div className={styles.evidenceHeader}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <span className={e.confidence === 'CONFIRMED' ? styles.badgeConfirmed : styles.badgePending}>
+                      {e.confidence === 'CONFIRMED' ? <AlertTriangle size={12} /> : null}
+                      {e.confidence}
+                    </span>
+                    <span className={styles.evidenceType}>{e.faultType}</span>
+                  </div>
                 </div>
                 {e.operation && (
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--blue)' }}>
-                    {e.operation}
-                  </p>
+                  <div><span className={styles.evidenceOp}>{e.operation}</span></div>
                 )}
                 {e.observedError && (
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.375rem' }}>
-                    {e.observedError}
-                  </p>
+                  <div className={styles.evidenceError}>{e.observedError}</div>
                 )}
               </div>
             ))}
@@ -236,32 +246,21 @@ export default function RunDetail() {
 
       {run.ReviewerDecision && run.ReviewerDecision.length > 0 && (
         <div className={styles.section}>
-          <h2>Reviewer Decisions</h2>
-          <div className={styles.grid}>
+          <h2 className={styles.sectionTitle}>Reviewer Decisions</h2>
+          <div className={styles.decisionList}>
             {run.ReviewerDecision.map((d) => (
-              <div key={d.id} className={styles.card}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.375rem' }}>
-                  <span
-                    style={{
-                      fontSize: '0.6875rem',
-                      fontWeight: 600,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.07em',
-                      padding: '0.2em 0.6em',
-                      borderRadius: '100px',
-                      background: d.decision === 'ACCEPTED' ? 'var(--green-muted)' : d.decision === 'REJECTED' ? 'var(--red-muted)' : 'var(--amber-muted)',
-                      border: `1px solid ${d.decision === 'ACCEPTED' ? 'var(--green-border)' : d.decision === 'REJECTED' ? 'var(--red-border)' : 'var(--amber-border)'}`,
-                      color: d.decision === 'ACCEPTED' ? 'var(--green)' : d.decision === 'REJECTED' ? 'var(--red)' : 'var(--amber)',
-                    }}
-                  >
+              <div key={d.id} className={styles.decisionItem}>
+                <div className={styles.decisionHeader}>
+                  <span className={
+                    d.decision === 'ACCEPTED' ? styles.badgeSafe :
+                    d.decision === 'REJECTED' ? styles.badgeUnsafe : styles.badgePending
+                  }>
                     {d.decision}
                   </span>
-                  <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>{d.reviewer.email}</span>
+                  <span className={styles.decisionReviewer}>{d.reviewer.email}</span>
+                  <span className={styles.decisionTime}>{new Date(d.timestamp).toLocaleString()}</span>
                 </div>
-                {d.comment && <p style={{ fontSize: '0.8125rem' }}>{d.comment}</p>}
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-                  {new Date(d.timestamp).toLocaleString()}
-                </p>
+                {d.comment && <p className={styles.decisionComment}>{d.comment}</p>}
               </div>
             ))}
           </div>
@@ -270,8 +269,10 @@ export default function RunDetail() {
 
       {(!run.compatibility || run.compatibility.length === 0) &&
        (!run.evidence || run.evidence.length === 0) && (
-        <div className={styles.emptyState}>
-          <p>No compatibility matrix or evidence recorded for this run.</p>
+        <div className={styles.section}>
+          <div style={{ textAlign: 'center', padding: '3rem', background: 'var(--surface)', border: '1px dashed var(--border)', borderRadius: 'var(--radius-md)' }}>
+            <p style={{ color: 'var(--text-secondary)' }}>No compatibility matrix or evidence recorded for this run.</p>
+          </div>
         </div>
       )}
     </div>

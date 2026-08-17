@@ -1,80 +1,62 @@
 # MigrationGuard
 
-**Application-Aware PostgreSQL Migration and Rolling-Deployment Verifier**
-
-## Core Problem
-
-A PostgreSQL migration can execute successfully while still breaking an application during a rolling deployment because old and new application versions may temporarily interact with different database schema states. MigrationGuard verifies whether old and new versions of an application remain compatible with the old and new PostgreSQL schemas during a migration transition.
-
-## Project Status: 🔒 RELEASE CANDIDATE (M0-M12 COMPLETE)
-
-MigrationGuard has completed its final milestone (M12) and achieved full repository freeze and hardening. It is functionally complete, regression-safe, and internally consistent.
-
-| Milestone | Name                                         | Status      |
-| --------- | -------------------------------------------- | ----------- |
-| M0        | Foundation                                   | ✅ COMPLETE |
-| M1        | Controlled PoC                               | ✅ COMPLETE |
-| M2        | PostgreSQL Sandbox                           | ✅ COMPLETE |
-| M3        | Migration Engine                             | ✅ COMPLETE |
-| M4        | Application Runner                           | ✅ COMPLETE |
-| M5        | Workload Replay Platform                     | ✅ COMPLETE |
-| M6        | Compatibility Matrix Engine                  | ✅ COMPLETE |
-| M7        | Evidence Engine + Fault Catalogue            | ✅ COMPLETE |
-| M8        | Research Benchmark                           | ✅ COMPLETE |
-| M9        | Production CLI + GitHub Actions              | ✅ COMPLETE |
-| M10       | Hosted Backend Foundation                    | ✅ COMPLETE |
-| M11       | Productization & Local Production Simulation | ✅ COMPLETE |
-| M12       | Final Repository Hardening & Sign-off        | ✅ COMPLETE |
+MigrationGuard is a dynamic, application-aware database migration verification engine. Unlike static analysis tools (e.g., Atlas or Prisma Migrate), MigrationGuard verifies migration safety by executing the actual application workload against isolated pre- and post-migration database states in an ephemeral Docker sandbox. This guarantees backward compatibility during rolling deployments.
 
 ## Architecture
 
-- **CLI** (`cli/`) — Verification and benchmark runner
-- **Backend** (`apps/server/`) — Fastify + TypeScript REST API, JWT auth, RBAC, Prisma/PostgreSQL, MinIO/S3 storage
-- **Frontend** (`apps/frontend/`) — React + Vite + TypeScript SPA, dark-mode dashboard
-- **Packages** — Modular engines: `sandbox`, `migration-engine`, `application-runner`, `workload`, `compatibility`, `matrix-engine`, `evidence`, `benchmark-runner`
+MigrationGuard orchestrates a 4-state Compatibility Matrix during CI:
 
-## Quick Start (Development)
+1. **OLD APP + V1 DB**: Tests the pre-migration baseline.
+2. **NEW APP + V1 DB**: Tests backwards compatibility. A new application instance connecting to a database that has _not_ yet been migrated.
+3. **OLD APP + V2 DB**: Tests backwards compatibility. An old application instance connecting to a database that _has_ been migrated.
+4. **NEW APP + V2 DB**: Tests the post-migration baseline.
 
-```bash
-npm install
-npm run build
-npm run test
-npm run verify   # runs CLI verification (expects FAIL - detects DESTRUCTIVE_RENAME)
-```
+Execution outcomes are analyzed by the **Evidence Engine**, which maps observed HTTP failures directly to underlying PostgreSQL schema constraints (e.g., `COLUMN_REMOVAL`, `DESTRUCTIVE_RENAME`, `TYPE_NARROWING`).
 
-## Local Production Simulation
+## Research Methodology & Benchmark Results
 
-> **Deployment Status: `LOCAL_PRODUCTION_SIMULATION`**
-> No public cloud, VPS, DNS or real TLS certificate. Production-structured, locally reproducible.
+MigrationGuard was rigorously evaluated against an explicit ground truth matrix comparing its causal analysis against the static capabilities of Atlas.
 
-```bash
-# Start full stack (Frontend + Backend + PostgreSQL + MinIO)
-docker compose -f docker-compose.prod.yml up -d --build
+- **Benchmark Results**: MigrationGuard achieved **100% Precision** and **100% Recall** (F1 = 1.00), successfully isolating injected structural faults while passing safe migrations.
+- **Limitation Statement (n=4)**: The evaluation utilized an explicitly constrained dataset (n=4) covering safe column additions, type narrowing, and destructive drops. While achieving perfect metrics within this set, this result does not imply generalized 100% accuracy on all arbitrary PostgreSQL schema changes.
 
-# Access
-# Frontend: http://localhost
-# MinIO Console: http://localhost:9001
-```
+## Running the Application
 
-**Default Credentials:**
+### Local Demonstration
 
-- Admin: `admin@migrationguard.dev` (`admin123!`)
-- Reviewer: `reviewer@migrationguard.dev` (`reviewer123!`)
-
-## Test Suite
+To launch the full stack (Frontend, Backend, PostgreSQL, MinIO) locally for demonstration:
 
 ```bash
-npm run test          # Core Unit & Integration Tests (all pass)
-npm run lint          # ESLint rules
-npm run format:check  # Prettier style validation
+docker compose up -d --build
 ```
 
-## Documentation
+For detailed instructions, see the [Local Demo Runbook](docs/LOCAL-DEMO-RUNBOOK.md).
 
-- [`docs/FINAL-PROJECT-AUDIT.md`](docs/FINAL-PROJECT-AUDIT.md) — Definitive project state and architecture.
-- [`docs/FINAL-RELEASE-AUDIT.md`](docs/FINAL-RELEASE-AUDIT.md) — Release validation and sign-off.
-- [`docs/architecture/DEPLOYMENT-READINESS.md`](docs/architecture/DEPLOYMENT-READINESS.md) — Infrastructure deployment posture.
-- [`docs/security/FINAL-SECURITY-REVIEW.md`](docs/security/FINAL-SECURITY-REVIEW.md) — Vulnerability assessment and accepted risks.
-- [`docs/research/MIGRATIONGUARD-RESEARCH-PAPER.md`](docs/research/MIGRATIONGUARD-RESEARCH-PAPER.md) — Final research benchmark evaluation.
-- [`docs/research/REPRODUCIBILITY.md`](docs/research/REPRODUCIBILITY.md) — Instructions for reproducing the M8 benchmark.
-- [`docs/benchmark/GROUND-TRUTH.md`](docs/benchmark/GROUND-TRUTH.md) — Definition of benchmark test fixtures.
+### Production Deployment
+
+MigrationGuard is engineered for secure deployment via an Nginx reverse proxy. For VPS deployment configuration, environment variables, and certificate handling, see the [Production Deployment Runbook](docs/PRODUCTION-DEPLOYMENT.md).
+
+## Documentation Index
+
+The repository contains extensive architectural, research, and audit documentation:
+
+- **Architecture & System Design**
+  - [Final Architecture](docs/architecture/FINAL-ARCHITECTURE.md)
+  - [System Specifications](MIGRATIONGUARD_SPEC.md)
+- **Deployment & Runbooks**
+  - [Deployment Readiness Status](docs/DEPLOYMENT-READINESS.md)
+  - [Production Deployment](docs/PRODUCTION-DEPLOYMENT.md)
+  - [Local Demo Runbook](docs/LOCAL-DEMO-RUNBOOK.md)
+- **Research & Benchmarks**
+  - [Research Paper & Summary](docs/research/MIGRATIONGUARD-RESEARCH-PAPER.md)
+  - [Performance Metrics](docs/research/FINAL-PERFORMANCE.md)
+  - [Reproducibility Guide](docs/research/REPRODUCIBILITY.md)
+  - [Benchmark Results](docs/benchmark/RESULTS.md)
+  - [Benchmark Ground Truth](docs/benchmark/GROUND-TRUTH.md)
+  - [Benchmark Repository Selection](docs/benchmark/REPOSITORY-SELECTION.md)
+  - [Baseline Methodology](docs/benchmark/BASELINE.md)
+- **Security & Final Reports**
+  - [Final Release Report](docs/FINAL-RELEASE-REPORT.md)
+  - [Final Security Review](docs/security/FINAL-SECURITY-REVIEW.md)
+- **Historical Archive**
+  - Architectural milestones and early audit decisions are preserved in `docs/archive/`.
