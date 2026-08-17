@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 COPY package*.json ./
 COPY . .
-RUN npm ci
+RUN npm ci --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtimeout=120000
 # We must generate prisma for the monorepo to build types correctly
 RUN cd apps/server && npx prisma generate
 RUN npm run build --workspace=@migrationguard/frontend
