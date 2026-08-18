@@ -5,6 +5,9 @@ coverage
 .DS_Store
 *.log
 
+# Large binaries — download separately
+bin/
+
 # Generated reports (local verification runs)
 reports/
 
