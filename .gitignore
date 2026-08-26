@@ -23,3 +23,16 @@ output.txt
 
 # OS artifacts
 Thumbs.db
+**/.env
+
+# Scratch directories
+scratch/
+**/scratch/
+
+# Vite temp files
+**/*.timestamp-*.mjs
+
+# Root-level log artifacts
+benchmark-baseline.log
+mutate-baseline.log
+run*.log

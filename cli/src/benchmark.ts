@@ -24,9 +24,10 @@ function calculateMetrics(results: BenchmarkResult[], evaluator: 'migrationguard
 
     if (r.groundTruth === 'UNSAFE') {
       if (verdict === 'UNSAFE') tp++;
-      else if (verdict === 'SAFE') fn++;
+      else if (verdict === 'SAFE' || verdict === 'SAFE_VERIFIED' || verdict === 'SAFE_UNEXERCISED')
+        fn++;
     } else if (r.groundTruth === 'SAFE') {
-      if (verdict === 'SAFE') tn++;
+      if (verdict === 'SAFE' || verdict === 'SAFE_VERIFIED' || verdict === 'SAFE_UNEXERCISED') tn++;
       else if (verdict === 'UNSAFE') fp++;
     }
   }

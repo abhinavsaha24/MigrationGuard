@@ -32,6 +32,14 @@ export type FaultType =
 
 export type Confidence = 'CONFIRMED' | 'LIKELY' | 'UNKNOWN';
 
+export type RolloutSequence =
+  | 'ROLL_OUT_ORDER_INDEPENDENT'
+  | 'DB_FIRST_REQUIRED'
+  | 'APP_FIRST_REQUIRED'
+  | 'NO_SAFE_ROLLOUT'
+  | 'UNKNOWN'
+  | 'INCOMPLETE';
+
 export interface EvidenceRecord {
   evidenceId: string;
   runId: string;
@@ -46,12 +54,21 @@ export interface EvidenceRecord {
   expectedResult?: unknown;
   actualResult?: unknown;
   databaseError?: string;
+  observedSql?: string;
+  executedQueries?: string[];
   httpStatus?: number;
   durationMs: number;
   failureCategory: FailureCategory;
   faultType: FaultType;
   confidence: Confidence;
   causalChain?: string[];
+  rolloutSequence?: RolloutSequence;
+  inputHashes?: Record<string, string>;
+  workloadCoverage?: {
+    affectedColumns: string[];
+    exercisedColumns: string[];
+    coverageGaps: string[];
+  };
   reproducibility: {
     nodeVersion: string;
     osPlatform: string;
@@ -96,7 +113,10 @@ export function generateReport(evidenceList: EvidenceRecord[], reportsDir: strin
     if (evidence.failureCategory !== 'NONE') {
       md += `### Failure Evidence\n`;
       if (evidence.databaseError) {
-        md += `**Observed Error:**\n\`\`\`text\n${evidence.databaseError}\n\`\`\`\n\n`;
+        md += `**Observed Database Error:**\n\`\`\`text\n${evidence.databaseError}\n\`\`\`\n\n`;
+      }
+      if (evidence.observedSql) {
+        md += `**Observed Failing SQL:**\n\`\`\`sql\n${evidence.observedSql}\n\`\`\`\n\n`;
       }
       if (evidence.migrationStatement && evidence.migrationStatement !== 'UNKNOWN') {
         md += `**Migration Statement:**\n\`\`\`sql\n${evidence.migrationStatement}\n\`\`\`\n\n`;
@@ -107,6 +127,9 @@ export function generateReport(evidenceList: EvidenceRecord[], reportsDir: strin
           md += `${index + 1}. ${step}\n`;
         });
         md += `\n`;
+      }
+      if (evidence.rolloutSequence) {
+        md += `**Rollout Sequence:** ${evidence.rolloutSequence}\n\n`;
       }
       if (evidence.actualResult) {
         md += `**Actual Response:**\n\`\`\`json\n${JSON.stringify(evidence.actualResult, null, 2)}\n\`\`\`\n\n`;

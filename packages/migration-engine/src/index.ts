@@ -45,7 +45,7 @@ export class MigrationEngine {
 
     try {
       execSync(
-        `npx prisma migrate deploy --schema ${path.join(this.workspaceDir, 'schema.prisma')}`,
+        `npx prisma migrate deploy --schema "${path.join(this.workspaceDir, 'schema.prisma')}"`,
         {
           env: { ...process.env, DATABASE_URL: this.databaseUrl },
           stdio: 'pipe',
@@ -64,7 +64,7 @@ export class MigrationEngine {
     if (!this.workspaceDir) throw new MigrationError('Workspace not prepared.');
     try {
       execSync(
-        `npx prisma db execute --file ${sqlPath} --schema ${path.join(this.workspaceDir, 'schema.prisma')}`,
+        `npx prisma db execute --file "${sqlPath}" --schema "${path.join(this.workspaceDir, 'schema.prisma')}"`,
         {
           env: { ...process.env, DATABASE_URL: this.databaseUrl },
           stdio: 'pipe',

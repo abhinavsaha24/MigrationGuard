@@ -1,0 +1,14 @@
+{
+  "name": "@migrationguard/mutation-engine",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  }
+}

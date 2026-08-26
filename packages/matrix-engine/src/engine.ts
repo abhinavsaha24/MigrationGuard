@@ -134,6 +134,7 @@ export class CompatibilityMatrixEngine {
     let status: MatrixRunStatus = 'PASS';
     let errorStr: string | undefined;
     let workloadResult;
+    let telemetry;
 
     try {
       await runner.start(this.config.sandbox.getDatabaseUrl());
@@ -150,10 +151,12 @@ export class CompatibilityMatrixEngine {
         completedAt: new Date().toISOString(),
         durationMs: Date.now() - start,
         error: errorStr,
+        schemaMetadata: this.config.sandbox.getSchemaMetadata(),
       };
     }
 
     try {
+      this.config.sandbox.clearTelemetry();
       workloadResult = await this.config.workloadEngine.replay(
         this.config.workload,
         `http://localhost:${runner.getPort()}`,
@@ -162,9 +165,11 @@ export class CompatibilityMatrixEngine {
         status = 'WORKLOAD_FAILURE';
       }
     } catch (err) {
+      console.error('[MatrixEngine] Quadrant Execution Error:', err);
       status = 'INFRASTRUCTURE_FAILURE';
       errorStr = (err as Error).message;
     } finally {
+      telemetry = this.config.sandbox.getTelemetry();
       runner.stop();
     }
 
@@ -175,10 +180,12 @@ export class CompatibilityMatrixEngine {
       workloadId: this.config.workload.id,
       status,
       workloadResult,
+      telemetry,
       startedAt,
       completedAt: new Date().toISOString(),
       durationMs: Date.now() - start,
       error: errorStr,
+      schemaMetadata: this.config.sandbox.getSchemaMetadata(),
     };
   }
 

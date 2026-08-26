@@ -5,7 +5,7 @@ const CASES = [
   {
     id: 'TRACK_A_DESTRUCTIVE_RENAME',
     track: 'A',
-    description: 'Column renamed: name → full_name',
+    description: 'Column renamed: name \u2192 full_name',
     fault: 'DESTRUCTIVE_RENAME',
     expected: 'UNSAFE',
     mg: { verdict: 'UNSAFE', correct: true },
@@ -37,6 +37,15 @@ const CASES = [
     expected: 'SAFE',
     mg: { verdict: 'SAFE', correct: true },
     atlas: { verdict: 'UNSAFE', correct: false },
+  },
+  {
+    id: 'TRACK_B_NATIVE_RENAME',
+    track: 'B',
+    description: 'Native RENAME COLUMN (ALTER TABLE \u2026 RENAME COLUMN)',
+    fault: 'DESTRUCTIVE_RENAME',
+    expected: 'UNSAFE',
+    mg: { verdict: 'UNSAFE', correct: true },
+    atlas: { verdict: 'UNSAFE', correct: true },
   },
 ];
 
@@ -70,14 +79,13 @@ export default function Benchmark() {
         <h1 className={styles.title}>Comparative Analysis</h1>
         <p className={styles.subtitle}>
           Controlled evaluation of MigrationGuard against Atlas (schema-only static analysis)
-          on four benchmark migration cases. Dataset: n=4.
+          on five benchmark migration cases. Dataset: <strong>n=5</strong> (preliminary).
         </p>
       </header>
 
-      {/* Hero Metrics Comparison */}
       <section className={styles.comparisonSection}>
         <div className={styles.compareGrid}>
-          
+
           {/* MigrationGuard Panel */}
           <div className={`${styles.toolPanel} ${styles.panelBlue}`}>
             <div className={styles.toolHeader}>
@@ -85,12 +93,13 @@ export default function Benchmark() {
               <div className={styles.f1Score}>
                 <span className={styles.f1Label}>F1 SCORE</span>
                 <span className={styles.f1Value}>1.00</span>
+                <span className={styles.f1Context}>n=5 &middot; preliminary</span>
               </div>
             </div>
-            
+
             <div className={styles.metricsGrid}>
               <div className={styles.metricItem}>
-                <div className={styles.metricVal}>2</div>
+                <div className={styles.metricVal}>3</div>
                 <div className={styles.metricLabel}>True Positives</div>
               </div>
               <div className={styles.metricItem}>
@@ -114,7 +123,7 @@ export default function Benchmark() {
                 <div className={styles.cbColHead}>Pred UNSAFE</div>
                 <div className={styles.cbColHead}>Pred SAFE</div>
                 <div className={styles.cbRowHead}>Actual UNSAFE</div>
-                <div className={`${styles.cbCell} ${styles.cbTrue}`}>TP=2</div>
+                <div className={`${styles.cbCell} ${styles.cbTrue}`}>TP=3</div>
                 <div className={`${styles.cbCell} ${styles.cbZero}`}>FN=0</div>
                 <div className={styles.cbRowHead}>Actual SAFE</div>
                 <div className={`${styles.cbCell} ${styles.cbZero}`}>FP=0</div>
@@ -129,13 +138,14 @@ export default function Benchmark() {
               <h2 className={styles.toolName}>Atlas (Static)</h2>
               <div className={styles.f1Score}>
                 <span className={styles.f1Label}>F1 SCORE</span>
-                <span className={styles.f1Value}>0.67</span>
+                <span className={styles.f1Value}>0.75</span>
+                <span className={styles.f1Context}>n=5 &middot; preliminary</span>
               </div>
             </div>
 
             <div className={styles.metricsGrid}>
               <div className={styles.metricItem}>
-                <div className={styles.metricVal}>2</div>
+                <div className={styles.metricVal}>3</div>
                 <div className={styles.metricLabel}>True Positives</div>
               </div>
               <div className={styles.metricItem}>
@@ -159,7 +169,7 @@ export default function Benchmark() {
                 <div className={styles.cbColHead}>Pred UNSAFE</div>
                 <div className={styles.cbColHead}>Pred SAFE</div>
                 <div className={styles.cbRowHead}>Actual UNSAFE</div>
-                <div className={`${styles.cbCell} ${styles.cbTrue}`}>TP=2</div>
+                <div className={`${styles.cbCell} ${styles.cbTrue}`}>TP=3</div>
                 <div className={`${styles.cbCell} ${styles.cbZero}`}>FN=0</div>
                 <div className={styles.cbRowHead}>Actual SAFE</div>
                 <div className={`${styles.cbCell} ${styles.cbFalse}`}>FP=2</div>
@@ -167,16 +177,16 @@ export default function Benchmark() {
               </div>
             </div>
           </div>
-          
+
         </div>
       </section>
 
       {/* Dataset Ledger */}
       <section className={styles.ledgerSection}>
         <div className={styles.sectionHeader}>
-          <h2>Controlled Dataset Ledger (n=4)</h2>
+          <h2>Controlled Dataset Ledger (n=5)</h2>
         </div>
-        
+
         <div className={styles.tableWrap}>
           <table className={styles.ledgerTable}>
             <thead>
@@ -217,15 +227,16 @@ export default function Benchmark() {
           <div className={styles.limitationContent}>
             <strong>Dataset limitation explicitly acknowledged.</strong>
             <p>
-              These results confirm correct classification within the
-              controlled benchmark. They do not establish generalized production accuracy.
+              These results confirm correct classification within the controlled benchmark
+              of <strong>n=5 cases</strong>. They do not establish generalized production accuracy.
+              This is a preliminary proof-of-concept evaluation, not a production validation suite.
               Atlas's two false positives arise from schema-only analysis flagging nullable column
               additions as unsafe without verifying application behavior.
             </p>
           </div>
         </div>
       </section>
-      
+
     </div>
   );
 }

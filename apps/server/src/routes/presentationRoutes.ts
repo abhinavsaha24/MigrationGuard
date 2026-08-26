@@ -169,8 +169,10 @@ export async function setupPresentationRoutes(app: FastifyInstance) {
 
       try {
         const stream = await getFileStream(version.storageKey);
+        const safeFilename = (version.originalFilename || 'download')
+          .replace(/[^a-zA-Z0-9._-]/g, '_');
         reply.header('Content-Type', version.mimeType || 'application/octet-stream');
-        reply.header('Content-Disposition', `attachment; filename="${version.originalFilename}"`);
+        reply.header('Content-Disposition', `attachment; filename="${safeFilename}"`);
         return reply.send(stream);
       } catch (e: any) {
         return reply

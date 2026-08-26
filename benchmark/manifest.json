@@ -35,6 +35,15 @@
       "faultType": "NONE",
       "groundTruth": "SAFE",
       "workload": "benchmark/workloads/express-real.json"
+    },
+    {
+      "testId": "TRACK_B_NATIVE_RENAME",
+      "track": "B",
+      "repository": "benchmark/fixtures/native-rename",
+      "migration": "20240102000000_v2",
+      "faultType": "DESTRUCTIVE_RENAME",
+      "groundTruth": "UNSAFE",
+      "workload": "benchmark/fixtures/native-rename/workload.json"
     }
   ]
 }

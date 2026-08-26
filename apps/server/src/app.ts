@@ -20,8 +20,13 @@ export async function buildApp(): Promise<FastifyInstance> {
     },
   });
 
+  const origin = process.env.FRONTEND_ORIGIN;
+  if (!origin) {
+    app.log.warn('FRONTEND_ORIGIN not set, CORS restricted to empty.');
+  }
+
   await app.register(cors, {
-    origin: process.env.FRONTEND_ORIGIN || '*',
+    origin: origin || false,
   });
 
   await app.register(rateLimit as any, {
@@ -29,8 +34,13 @@ export async function buildApp(): Promise<FastifyInstance> {
     timeWindow: '1 minute',
   });
 
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error('FATAL: JWT_SECRET environment variable is required.');
+  }
+
   await app.register(jwt, {
-    secret: process.env.JWT_SECRET || 'supersecret_fallback_key',
+    secret: jwtSecret,
   });
 
   await app.register(multipart, {

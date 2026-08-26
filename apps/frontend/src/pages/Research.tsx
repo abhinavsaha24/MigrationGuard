@@ -178,8 +178,8 @@ export default function Research() {
             <div className={styles.limitationNotice}>
               <AlertTriangle size={16} className={styles.limitationIcon} />
               <div className={styles.limitationText}>
-                <strong>n=4 controlled dataset.</strong> This research evaluates MigrationGuard against a
-                controlled benchmark of four migration scenarios (two UNSAFE, two SAFE) across two
+                <strong>n=5 controlled dataset.</strong> This research evaluates MigrationGuard against a
+                controlled benchmark of five migration scenarios (three UNSAFE, two SAFE) across two
                 application stacks. These results confirm correct classification within the controlled
                 dataset. They do <em>not</em> establish generalized production accuracy, and no such claim
                 is made. The benchmark is a proof-of-concept evaluation, not a production validation suite.

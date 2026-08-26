@@ -29,7 +29,7 @@ export interface BenchmarkResult {
   faultType: string;
   groundTruth: 'SAFE' | 'UNSAFE';
   migrationguard: {
-    verdict: 'SAFE' | 'UNSAFE' | 'NOT_EVALUATED';
+    verdict: 'SAFE_VERIFIED' | 'SAFE_UNEXERCISED' | 'UNSAFE' | 'NOT_EVALUATED';
     confidence: string;
     evidenceFaultType: string;
   };
@@ -65,7 +65,8 @@ export class BenchmarkRunner {
       await sandbox.start();
 
       let atlasResult: AtlasResult;
-      let mgVerdict: 'SAFE' | 'UNSAFE' | 'NOT_EVALUATED' = 'NOT_EVALUATED';
+      let mgVerdict: 'SAFE_VERIFIED' | 'SAFE_UNEXERCISED' | 'UNSAFE' | 'NOT_EVALUATED' =
+        'NOT_EVALUATED';
       let mgConfidence = 'UNKNOWN';
       let mgEvidenceFaultType = 'NONE';
 
@@ -119,10 +120,10 @@ export class BenchmarkRunner {
         };
 
         const matrixEngine = new CompatibilityMatrixEngine(config);
-        const engineResult = await matrixEngine.executeMatrix(`BM-${test.testId}`);
-        const evidenceList = engineResult.runs.map((run: any) => ({
+        const matrix = await matrixEngine.executeMatrix(`BM-${test.testId}`);
+        const evidenceList = matrix.runs.map((run) => ({
           run,
-          ev: CompatibilityAnalyzer.analyze(run, v2MigrationSql, v2MigrationFile),
+          ev: CompatibilityAnalyzer.analyze(run, v2MigrationSql, v2MigrationFile, matrix),
         }));
 
         // A database migration is UNSAFE if it breaks the existing application (OLD APP + V2)
@@ -166,7 +167,16 @@ export class BenchmarkRunner {
             mgVerdict = 'NOT_EVALUATED';
             console.log(`[MigrationGuard] Matrix ran into infrastructure/execution failure.`);
           } else {
-            mgVerdict = 'SAFE';
+            // Check workload coverage to distinguish VERIFIED vs UNEXERCISED
+            let isUnexercised = false;
+            // A migration is UNEXERCISED if ANY of the runs found coverage gaps where affectedColumns > 0
+            for (const { ev } of evidenceList) {
+              if (ev.workloadCoverage && ev.workloadCoverage.coverageGaps.length > 0) {
+                isUnexercised = true;
+                break;
+              }
+            }
+            mgVerdict = isUnexercised ? 'SAFE_UNEXERCISED' : 'SAFE_VERIFIED';
           }
         }
 

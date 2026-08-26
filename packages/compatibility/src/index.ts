@@ -7,6 +7,8 @@ export interface NormalizedObservation {
   httpStatus?: number;
   databaseError?: string;
   isMissingColumn: boolean;
+  observedSql?: string;
+  executedQueries?: string[];
   missingColumnName?: string;
   durationMs: number;
 }
@@ -28,6 +30,8 @@ export class ObservationNormalizer {
     const defaultObs: NormalizedObservation = {
       isMissingColumn: false,
       durationMs: run.durationMs,
+      executedQueries: run.telemetry?.queries || [],
+      observedSql: run.telemetry?.errors?.find(e => e.message === (run.error || ''))?.statement || undefined,
     };
 
     if (!run.workloadResult || run.workloadResult.operations.length === 0) {
@@ -180,7 +184,27 @@ export class CausalAnalyzer {
         }
       }
 
-      chain.push(
+      // Check for native RENAME COLUMN
+      const nativeRenameRegex = new RegExp(
+        `ALTER\\s+TABLE\\s+(?:"?\\w+"?\\.)?"?\\w+"?\\s+RENAME\\s+COLUMN\\s+"?${missingCol}"?\\s+TO\\s+"?\\w+"?[^;]*;`,
+        'i'
+      );
+      const renameMatch = migrationSql.match(nativeRenameRegex);
+      if (renameMatch) {
+        matchedStatement = renameMatch[0].trim();
+        chain.push(`Migration V2 explicitly renamed column '\${missingCol}'.`);
+        chain.push(
+          `Database rejected the legacy query because the original column name no longer exists.`
+        );
+        return {
+          faultType: 'DESTRUCTIVE_RENAME',
+          confidence: 'CONFIRMED',
+          migrationStatement: matchedStatement,
+          causalChain: chain,
+        };
+      }
+
+chain.push(
         `Could not explicitly map '${missingCol}' to a DROP COLUMN statement in the migration.`,
       );
       return { faultType: classification.baseFaultType, confidence: 'LIKELY', causalChain: chain };
@@ -190,16 +214,41 @@ export class CausalAnalyzer {
   }
 }
 
+import * as crypto from 'crypto';
+
+export interface InputHashes {
+  schemaV1?: string;
+  schemaV2?: string;
+  migrationSql?: string;
+  workloadJson?: string;
+}
+
 export class EvidenceBuilder {
+  public static buildInputHashes(inputs: InputHashes): Record<string, string> {
+    const hashes: Record<string, string> = {};
+    const hash = (s: string) =>
+      crypto.createHash('sha256').update(s, 'utf8').digest('hex');
+    if (inputs.schemaV1 !== undefined) hashes['schemaV1'] = hash(inputs.schemaV1);
+    if (inputs.schemaV2 !== undefined) hashes['schemaV2'] = hash(inputs.schemaV2);
+    if (inputs.migrationSql !== undefined) hashes['migrationSql'] = hash(inputs.migrationSql);
+    if (inputs.workloadJson !== undefined) hashes['workloadJson'] = hash(inputs.workloadJson);
+    return hashes;
+  }
+
   public static build(
-    run: CompatibilityRun,
+    run: import('@migrationguard/matrix-engine').CompatibilityRun,
     obs: NormalizedObservation,
     cls: ClassifiedFault,
     causal: CausalAnalysis,
     migrationFile?: string,
-  ): EvidenceRecord {
-    return {
-      evidenceId: `EVD-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+    workloadCoverage?: {
+      affectedColumns: string[];
+      exercisedColumns: string[];
+      coverageGaps: string[];
+    },
+    inputHashes?: Record<string, string>,
+  ): import('@migrationguard/evidence').EvidenceRecord {
+    const rawEvidence = {
       runId: run.runId,
       timestamp: run.startedAt,
       applicationVersion: run.applicationVersion,
@@ -214,29 +263,142 @@ export class EvidenceBuilder {
         ? (obs.failedOperation as { response?: unknown }).response
         : run.error,
       databaseError: obs.databaseError,
+      observedSql: obs.observedSql,
+      executedQueries: obs.executedQueries,
       httpStatus: obs.httpStatus,
       durationMs: run.durationMs,
       failureCategory: cls.category,
       faultType: causal.faultType,
       confidence: causal.confidence,
       causalChain: causal.causalChain,
+      workloadCoverage,
+      inputHashes,
       reproducibility: {
         nodeVersion: process.version,
         osPlatform: process.platform,
       },
     };
+
+    // Deterministic full SHA-256 evidenceId.
+    // Identical inputs always produce the same evidenceId.
+    const provenanceHash = crypto
+      .createHash('sha256')
+      .update(JSON.stringify(rawEvidence))
+      .digest('hex');
+    
+    return {
+      evidenceId: `EVD-${provenanceHash}`,
+      ...rawEvidence,
+    } as any;
+  }
+}
+
+export class WorkloadCoverageAnalyzer {
+  public static analyze(
+    run: import('@migrationguard/matrix-engine').CompatibilityRun,
+    migrationSql?: string,
+  ): { affectedColumns: string[]; exercisedColumns: string[]; coverageGaps: string[] } | undefined {
+    if (!migrationSql || !run.workloadResult) return undefined;
+
+    const columns = new Set<string>();
+    const drops = [...migrationSql.matchAll(/DROP\s+COLUMN\s+"?(\w+)"?/gi)].map((m) => m[1]);
+    const adds = [...migrationSql.matchAll(/ADD\s+COLUMN\s+"?(\w+)"?/gi)].map((m) => m[1]);
+    const renames = [...migrationSql.matchAll(/RENAME\s+COLUMN\s+"?(\w+)"?\s+TO\s+"?(\w+)"?/gi)];
+
+    drops.forEach((c) => columns.add(c));
+    adds.forEach((c) => columns.add(c));
+    renames.forEach((m) => {
+      columns.add(m[1]);
+      columns.add(m[2]);
+    });
+
+    const affectedColumns = Array.from(columns);
+    if (affectedColumns.length === 0) return undefined;
+
+    const exercised = new Set<string>();
+
+    if (run.telemetry && run.telemetry.queries && run.telemetry.queries.length > 0) {
+      for (let q of run.telemetry.queries) {
+        if (q.includes('*') && run.schemaMetadata) {
+          const match = q.match(/SELECT\s+\*\s+FROM\s+"?(\w+)"?/i);
+          if (match) {
+            const table = match[1];
+            if (run.schemaMetadata[table]) {
+              const cols = run.schemaMetadata[table].map(c => `"${c}"`).join(', ');
+              q = q.replace('*', cols);
+            }
+          }
+        }
+
+        for (const col of affectedColumns) {
+          const colRegex = new RegExp(`(?:\\"${col}\\"|\\b${col}\\b)`, 'i');
+          if (colRegex.test(q)) {
+            exercised.add(col);
+          }
+        }
+      }
+    } else {
+      const payloadDump = JSON.stringify(run.workloadResult.operations);
+      for (const col of affectedColumns) {
+        if (payloadDump.includes(col)) {
+          exercised.add(col);
+        }
+      }
+    }
+
+    const exercisedColumns = Array.from(exercised);
+    const coverageGaps = affectedColumns.filter((c) => !exercised.has(c));
+
+    return { affectedColumns, exercisedColumns, coverageGaps };
+  }
+}
+
+export type RolloutSequence = 'INCOMPLETE' | 'NO_SAFE_ROLLOUT' | 'ROLL_OUT_ORDER_INDEPENDENT' | 'DB_FIRST_REQUIRED' | 'APP_FIRST_REQUIRED';
+
+export class TransitionAnalyzer {
+  public static analyze(matrix: import('@migrationguard/matrix-engine').CompatibilityMatrix): RolloutSequence {
+    const runs = matrix.runs;
+    if (runs.length < 4) return 'INCOMPLETE';
+
+    const v1v1 = runs.find((r) => r.applicationVersion === 'OLD' && r.databaseVersion === 'V1');
+    const v1v2 = runs.find((r) => r.applicationVersion === 'OLD' && r.databaseVersion === 'V2');
+    const v2v1 = runs.find((r) => r.applicationVersion === 'NEW' && r.databaseVersion === 'V1');
+    const v2v2 = runs.find((r) => r.applicationVersion === 'NEW' && r.databaseVersion === 'V2');
+
+    if (!v1v1 || !v1v2 || !v2v1 || !v2v2) return 'INCOMPLETE';
+
+    const p_v1v1 = v1v1.status === 'PASS';
+    const p_v1v2 = v1v2.status === 'PASS';
+    const p_v2v1 = v2v1.status === 'PASS';
+    const p_v2v2 = v2v2.status === 'PASS';
+
+    if (!p_v1v1 || !p_v2v2) return 'NO_SAFE_ROLLOUT';
+
+    if (p_v1v2 && p_v2v1) return 'ROLL_OUT_ORDER_INDEPENDENT';
+    if (p_v1v2 && !p_v2v1) return 'DB_FIRST_REQUIRED';
+    if (!p_v1v2 && p_v2v1) return 'APP_FIRST_REQUIRED';
+
+    return 'NO_SAFE_ROLLOUT';
   }
 }
 
 export class CompatibilityAnalyzer {
   public static analyze(
-    run: CompatibilityRun,
+    run: import('@migrationguard/matrix-engine').CompatibilityRun,
     migrationSql?: string,
     migrationFile?: string,
-  ): EvidenceRecord {
+    matrix?: import('@migrationguard/matrix-engine').CompatibilityMatrix,
+    inputHashes?: Record<string, string>,
+  ): import('@migrationguard/evidence').EvidenceRecord {
     const obs = ObservationNormalizer.normalize(run);
     const cls = FaultClassifier.classify(run, obs);
     const causal = CausalAnalyzer.analyze(run, obs, cls, migrationSql);
-    return EvidenceBuilder.build(run, obs, cls, causal, migrationFile);
+    const coverage = WorkloadCoverageAnalyzer.analyze(run, migrationSql);
+
+    const evidence = EvidenceBuilder.build(run, obs, cls, causal, migrationFile, coverage, inputHashes);
+    if (matrix) {
+      (evidence as any).rolloutSequence = TransitionAnalyzer.analyze(matrix);
+    }
+    return evidence;
   }
 }

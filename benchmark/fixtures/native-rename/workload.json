@@ -1,0 +1,12 @@
+{
+  "id": "wk-native-rename",
+  "name": "Native Rename Workload",
+  "operations": [
+    {
+      "id": "get-users",
+      "method": "GET",
+      "path": "/users",
+      "expectedStatus": 200
+    }
+  ]
+}

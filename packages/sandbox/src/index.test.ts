@@ -34,6 +34,75 @@ describe('PostgresSandbox M2', () => {
     expect(res.stdout.trim()).toBe(containerName);
   }, 60000);
 
+  it('should capture native log telemetry', async () => {
+    // Note: sandbox is already started from the previous test
+    sandbox.clearTelemetry();
+    
+    // Need a tiny delay to ensure reset marker is logged before subsequent queries
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    // Execute multiple queries including an error
+    spawnSync(
+      'docker',
+      [
+        'exec',
+        containerName, // From closure
+        'psql',
+        '-U',
+        'postgres',
+        '-d',
+        'migrationguard',
+        '-c',
+        "CREATE TABLE test_telemetry (id SERIAL PRIMARY KEY, name TEXT);",
+      ],
+      { encoding: 'utf-8' },
+    );
+
+    spawnSync(
+      'docker',
+      [
+        'exec',
+        containerName,
+        'psql',
+        '-U',
+        'postgres',
+        '-d',
+        'migrationguard',
+        '-c',
+        "SELECT name FROM test_telemetry;",
+      ],
+      { encoding: 'utf-8' },
+    );
+
+    spawnSync(
+      'docker',
+      [
+        'exec',
+        containerName,
+        'psql',
+        '-U',
+        'postgres',
+        '-d',
+        'migrationguard',
+        '-c',
+        "SELECT unknown_col FROM test_telemetry;",
+      ],
+      { encoding: 'utf-8' },
+    );
+
+    const telemetry = sandbox.getTelemetry();
+
+    expect(telemetry.queries.some((q) => q.includes('CREATE TABLE test_telemetry'))).toBe(true);
+    expect(telemetry.queries.some((q) => q.includes('SELECT name FROM test_telemetry'))).toBe(true);
+    expect(telemetry.queries.some((q) => q.includes('SELECT unknown_col FROM test_telemetry'))).toBe(true);
+
+    // Verify error is captured and associated with the statement
+    expect(telemetry.errors.length).toBeGreaterThanOrEqual(1);
+    const colError = telemetry.errors.find((e) => e.message.includes('column "unknown_col" does not exist'));
+    expect(colError).toBeDefined();
+    expect(colError?.statement).toContain('SELECT unknown_col FROM test_telemetry');
+  }, 30000);
+
   it('should stop cleanly', () => {
     sandbox.stop();
     const res = spawnSync(

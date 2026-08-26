@@ -31,6 +31,14 @@ export async function getFreePort(): Promise<number> {
   });
 }
 
+export interface SandboxTelemetry {
+  queries: string[];
+  errors: {
+    message: string;
+    statement?: string;
+  }[];
+}
+
 export class PostgresSandbox {
   private containerName: string;
   private port: number | null = null;
@@ -64,6 +72,12 @@ export class PostgresSandbox {
         '-p',
         `${this.port}:5432`,
         'postgres:15',
+        '-c',
+        'shared_preload_libraries=pg_stat_statements',
+        '-c',
+        'log_statement=all',
+        '-c',
+        'log_min_error_statement=error',
       ],
       { encoding: 'utf-8' },
     );
@@ -102,6 +116,128 @@ export class PostgresSandbox {
     return `postgresql://postgres:postgres@localhost:${this.port}/migrationguard?schema=public`;
   }
 
+  public clearTelemetry(): void {
+    if (!this.isReady) return;
+    spawnSync(
+      'docker',
+      [
+        'exec',
+        this.containerName,
+        'psql',
+        '-U',
+        'postgres',
+        '-d',
+        'migrationguard',
+        '-c',
+        "SELECT 'MIGRATIONGUARD_TELEMETRY_RESET';",
+      ],
+      { encoding: 'utf-8' },
+    );
+  }
+
+  public getTelemetry(): SandboxTelemetry {
+    if (!this.isReady) {
+      return { queries: [], errors: [] };
+    }
+
+    const logRes = spawnSync('docker', ['logs', this.containerName], { encoding: 'utf-8' });
+    const queries: string[] = [];
+    const errors: { message: string; statement?: string }[] = [];
+
+    if (logRes.status === 0 && logRes.stderr) {
+      const lines = logRes.stderr.split('\n');
+      
+      let currentError: string | null = null;
+      let currentStatement: string | null = null;
+
+      // Find the last reset marker to ignore previous test runs
+      let startIndex = 0;
+      for (let i = lines.length - 1; i >= 0; i--) {
+        if (lines[i].includes("statement: SELECT 'MIGRATIONGUARD_TELEMETRY_RESET';")) {
+          startIndex = i + 1;
+          break;
+        }
+      }
+
+      for (let i = startIndex; i < lines.length; i++) {
+        const line = lines[i];
+        
+        // Match standard query statements
+        const statementLogMatch = line.match(/LOG:\s+statement:\s+(.+)/);
+        if (statementLogMatch) {
+          const stmt = statementLogMatch[1].trim();
+          if (!stmt.includes('pg_stat_statements') && !stmt.includes('SELECT 1;')) {
+            queries.push(stmt);
+          }
+          currentStatement = stmt;
+        }
+        
+        // Match errors
+        const errorMatch = line.match(/ERROR:\s+(.+)/);
+        if (errorMatch) {
+          if (currentError) {
+            errors.push({ message: currentError, statement: currentStatement || undefined });
+          }
+          currentError = errorMatch[1].trim();
+        } else if (currentError && line.match(/STATEMENT:\s+(.+)/)) {
+          // Native postgres error logs sometimes output the exact statement that failed
+          const stmtMatch = line.match(/STATEMENT:\s+(.+)/);
+          currentStatement = stmtMatch![1].trim();
+          errors.push({ message: currentError, statement: currentStatement });
+          currentError = null;
+        } else if (currentError && line.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/)) {
+          // We hit the next log line, flush the accumulated error
+          errors.push({ message: currentError, statement: currentStatement || undefined });
+          currentError = null;
+        }
+      }
+
+      // Flush any trailing error
+      if (currentError) {
+        errors.push({ message: currentError, statement: currentStatement || undefined });
+      }
+    }
+
+    return { queries, errors };
+  }
+
+  public getSchemaMetadata(): Record<string, string[]> {
+    if (!this.isReady) {
+      return {};
+    }
+
+    const res = spawnSync(
+      'docker',
+      [
+        'exec',
+        this.containerName,
+        'psql',
+        '-U',
+        'postgres',
+        '-d',
+        'migrationguard',
+        '-t',
+        '-A',
+        '-c',
+        "SELECT table_name, column_name FROM information_schema.columns WHERE table_schema = 'public';",
+      ],
+      { encoding: 'utf-8' },
+    );
+
+    const schema: Record<string, string[]> = {};
+    if (res.status === 0 && res.stdout) {
+      const lines = res.stdout.split('\n').map((l) => l.trim()).filter((l) => l.length > 0);
+      for (const line of lines) {
+        const [table, col] = line.split('|');
+        if (table && col) {
+          if (!schema[table]) schema[table] = [];
+          schema[table].push(col);
+        }
+      }
+    }
+    return schema;
+  }
+
   private async waitForReadiness(): Promise<void> {
     console.log(`[Sandbox] Waiting for PostgreSQL container ${this.containerName} to be ready...`);
 
@@ -127,6 +263,23 @@ export class PostgresSandbox {
         { encoding: 'utf-8', stdio: 'pipe' },
       );
       if (res.status === 0 && res.stdout.includes('1')) {
+        // Initialize pg_stat_statements
+        spawnSync(
+          'docker',
+          [
+            'exec',
+            this.containerName,
+            'psql',
+            '-U',
+            'postgres',
+            '-d',
+            'migrationguard',
+            '-c',
+            'CREATE EXTENSION IF NOT EXISTS pg_stat_statements;',
+          ],
+          { encoding: 'utf-8', stdio: 'pipe' },
+        );
+
         console.log(`[Sandbox] PostgreSQL is ready.`);
         this.isReady = true;
         return;

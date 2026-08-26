@@ -118,7 +118,9 @@ describe('M10 API - Runs', () => {
   });
 });
 
-describe('M10 API - Presentations', () => {
+const runIntegrationTests = process.env.INTEGRATION_TESTS === 'true';
+
+describe.skipIf(!runIntegrationTests)('M10 API - Presentations (requires MinIO; set INTEGRATION_TESTS=true)', () => {
   let presentationId: string;
 
   it('POST /api/presentations/:id/versions should upload version', async () => {
@@ -165,6 +167,5 @@ describe('M10 API - Presentations', () => {
     const body = res.json();
     expect(body.id).toBe(presentationId);
     expect(body.versions).toBeDefined();
-    // Storage downloads are now served via a proxy endpoint and URLs are no longer statically provided
   });
 });

@@ -1,4 +1,5 @@
 import { WorkloadResult } from '@migrationguard/workload';
+import { SandboxTelemetry } from '@migrationguard/sandbox';
 
 export type AppVersionState = 'OLD' | 'NEW';
 export type DbVersionState = 'V1' | 'V2';
@@ -19,10 +20,12 @@ export interface CompatibilityRun {
   workloadId: string;
   status: MatrixRunStatus;
   workloadResult?: WorkloadResult;
+  telemetry?: SandboxTelemetry;
   startedAt: string;
   completedAt: string;
   durationMs: number;
   error?: string;
+  schemaMetadata?: Record<string, string[]>;
 }
 
 export interface CompatibilityMatrix {

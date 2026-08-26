@@ -7,7 +7,12 @@ import { WorkloadReplayEngine, Workload } from '@migrationguard/workload';
 
 describe('CompatibilityMatrixEngine M6', () => {
   it('should execute 4 quadrants and aggregate results', async () => {
-    const sandbox = { getDatabaseUrl: () => 'postgres://' } as unknown as PostgresSandbox;
+    const sandbox = {
+      getDatabaseUrl: () => 'postgres://',
+      getTelemetry: () => ({ queries: [], errors: [] }),
+      clearTelemetry: () => {},
+      getSchemaMetadata: () => ({}),
+    } as unknown as PostgresSandbox;
 
     const migrationEngine = {
       prepareWorkspace: vi.fn(),
@@ -69,7 +74,12 @@ describe('CompatibilityMatrixEngine M6', () => {
   });
 
   it('should propagate INFRASTRUCTURE_FAILURE if V1 setup fails', async () => {
-    const sandbox = { getDatabaseUrl: () => 'postgres://' } as unknown as PostgresSandbox;
+    const sandbox = {
+      getDatabaseUrl: () => 'postgres://',
+      getTelemetry: () => ({ queries: [], errors: [] }),
+      clearTelemetry: () => {},
+      getSchemaMetadata: () => ({}),
+    } as unknown as PostgresSandbox;
 
     const migrationEngine = {
       prepareWorkspace: vi.fn().mockImplementation(() => {
