@@ -18,7 +18,7 @@ Execution outcomes are analyzed by the **Evidence Engine**, which maps observed 
 MigrationGuard was rigorously evaluated against an explicit ground truth matrix comparing its causal analysis against the static capabilities of Atlas.
 
 - **Benchmark Results**: MigrationGuard achieved **100% Precision** and **100% Recall** (F1 = 1.00), successfully isolating injected structural faults while passing safe migrations.
-- **Limitation Statement (n=4)**: The evaluation utilized an explicitly constrained dataset (n=4) covering safe column additions, type narrowing, and destructive drops. While achieving perfect metrics within this set, this result does not imply generalized 100% accuracy on all arbitrary PostgreSQL schema changes.
+- **Limitation Statement (n=5)**: The evaluation utilized an explicitly constrained dataset (n=5) covering safe column additions, type narrowing, and destructive drops. While achieving perfect metrics within this set, this result does not imply generalized 100% accuracy on all arbitrary PostgreSQL schema changes.
 
 ## Running the Application
 

@@ -47,7 +47,7 @@ export default function Home() {
           <div className={styles.heroMetricsPane}>
             <div className={styles.paneHeader}>
               <span className={styles.paneLabel}>EVALUATION METRICS</span>
-              <span className={styles.paneScope}>n=4 dataset</span>
+              <span className={styles.paneScope}>n=5 dataset</span>
             </div>
             
             <div className={styles.metricsGrid}>
@@ -152,7 +152,7 @@ export default function Home() {
       <section className={styles.limitationSection}>
         <div className={styles.limitationBox}>
           <strong>Methodological Limitation:</strong> All performance metrics (F1 = 1.00) are 
-          derived strictly from the controlled n=4 benchmark dataset simulating standard fault classes. 
+          derived strictly from the controlled n=5 benchmark dataset simulating standard fault classes. 
           This is a research prototype and does not represent generalized production accuracy guarantees.
         </div>
       </section>
@@ -160,3 +160,4 @@ export default function Home() {
     </div>
   );
 }
+

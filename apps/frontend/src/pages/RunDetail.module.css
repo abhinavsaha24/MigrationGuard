@@ -359,3 +359,9 @@
     gap: 1rem;
   }
 }
+
+.flowContainer { display: flex; flex-direction: column; gap: 0.5rem; }
+.flowStep { border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--surface); overflow: hidden; }
+.flowHeader { background: var(--bg-elevated); padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-subtle); font-weight: 600; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.flowContent { padding: 1rem; }
+.flowArrow { text-align: center; color: var(--border-strong); font-weight: bold; font-size: 1.25rem; line-height: 1; }

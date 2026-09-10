@@ -43,6 +43,22 @@ export async function mutateCommandAction(repoRoot: string) {
       expectedLabel: 'SAFE_UNEXERCISED', // since the existing workload doesn't use it
       mutator: (p) => PrismaMutationEngine.addColumn(p, 'users', 'age Int?'),
     },
+    {
+      operator: 'ADD_REQUIRED_COLUMN',
+      expectedLabel: 'UNSAFE',
+      mutator: (p) =>
+        PrismaMutationEngine.addRequiredColumn(p, 'users', 'status String @default("active")'),
+    },
+    {
+      operator: 'MAKE_NON_NULL',
+      expectedLabel: 'UNSAFE',
+      mutator: (p) => PrismaMutationEngine.makeNonNull(p, 'users', 'bio'),
+    },
+    {
+      operator: 'DROP_USED_TABLE',
+      expectedLabel: 'UNSAFE',
+      mutator: (p) => PrismaMutationEngine.dropTable(p, 'users'),
+    },
   ];
 
   let tp = 0;
@@ -165,7 +181,14 @@ export async function mutateCommandAction(repoRoot: string) {
           if (hasInfraErr) {
             actualVerdict = 'NOT_EVALUATED';
           } else {
-            actualVerdict = 'SAFE'; // Simplifying for the experiment
+            let isUnexercised = false;
+            for (const { ev } of evidenceList) {
+              if (ev.workloadCoverage && ev.workloadCoverage.coverageGaps.length > 0) {
+                isUnexercised = true;
+                break;
+              }
+            }
+            actualVerdict = isUnexercised ? 'SAFE_UNEXERCISED' : 'SAFE_VERIFIED';
           }
         }
       }

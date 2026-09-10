@@ -156,7 +156,7 @@ export default function Results() {
             <p>
               MigrationGuard classified all four controlled benchmark cases correctly. These results do not 
               establish generalized production accuracy and are not a substitute for comprehensive testing. 
-              The benchmark is a proof-of-concept evaluation on a controlled n=4 dataset.
+              The benchmark is a proof-of-concept evaluation on a controlled n=5 dataset.
             </p>
           </div>
         </div>
@@ -165,3 +165,4 @@ export default function Results() {
     </div>
   );
 }
+

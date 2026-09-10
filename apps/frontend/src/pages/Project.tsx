@@ -88,7 +88,7 @@ export default function Project() {
         <div className={styles.sectionTitle}>Research Context</div>
         <div className={pStyles.researchGrid}>
           <div className={pStyles.researchCard}>
-            <div className={pStyles.researchNum}>n=4</div>
+            <div className={pStyles.researchNum}>n=5</div>
             <div className={pStyles.researchLabel}>Controlled benchmark cases</div>
           </div>
           <div className={pStyles.researchCard}>
@@ -105,7 +105,7 @@ export default function Project() {
           </div>
         </div>
         <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'var(--text-secondary)', maxWidth: 600 }}>
-          These figures are derived from a controlled n=4 benchmark and do not establish generalized
+          These figures are derived from a controlled n=5 benchmark and do not establish generalized
           production accuracy. The benchmark is a proof-of-concept evaluation explicitly scoped to
           the cases described in the research documentation.
         </p>
@@ -136,3 +136,4 @@ export default function Project() {
     </div>
   );
 }
+

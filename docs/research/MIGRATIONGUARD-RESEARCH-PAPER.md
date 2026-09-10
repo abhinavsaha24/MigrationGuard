@@ -21,7 +21,7 @@ This document summarizes the final evaluation of the MigrationGuard compatibilit
 
 ## Limitation Statement
 
-The evaluation utilized an explicitly constrained dataset (n=4). While achieving 100% precision and recall within this set, this result does not imply generalized 100% accuracy on arbitrary PostgreSQL schema changes.
+The evaluation utilized an explicitly constrained dataset (n=5). While achieving 100% precision and recall within this set, this result does not imply generalized 100% accuracy on arbitrary PostgreSQL schema changes.
 
 ## Per-Fault Breakdown
 
@@ -33,3 +33,7 @@ The evaluation utilized an explicitly constrained dataset (n=4). While achieving
 ## Confidence Statement
 
 The MigrationGuard engine is highly reliable for identifying the explicit classes of backward-incompatible changes defined in its evidence catalogue within the scope of the benchmark dataset.
+
+## Architectural Note: AST vs Regex Parsing
+
+The engine relies on brittle static analysis (regex parsing) rather than a robust Abstract Syntax Tree (AST) parser to analyze migration SQL statements. While this regex-based approach successfully achieved F1=1.00 over the preliminary n=5 dataset, it is inherently susceptible to false negatives and false positives when evaluating complex, unformatted, or obfuscated SQL statements. A true production-grade migration compatibility analyzer must utilize a formal AST parser to interpret SQL semantics accurately.

@@ -120,52 +120,55 @@ describe('M10 API - Runs', () => {
 
 const runIntegrationTests = process.env.INTEGRATION_TESTS === 'true';
 
-describe.skipIf(!runIntegrationTests)('M10 API - Presentations (requires MinIO; set INTEGRATION_TESTS=true)', () => {
-  let presentationId: string;
+describe.skipIf(!runIntegrationTests)(
+  'M10 API - Presentations (requires MinIO; set INTEGRATION_TESTS=true)',
+  () => {
+    let presentationId: string;
 
-  it('POST /api/presentations/:id/versions should upload version', async () => {
-    presentationId = 'PRES-' + Date.now();
-    const form = new FormData();
-    form.append('file', Buffer.from('test pdf content'), {
-      filename: 'test.pdf',
-      contentType: 'application/pdf',
+    it('POST /api/presentations/:id/versions should upload version', async () => {
+      presentationId = 'PRES-' + Date.now();
+      const form = new FormData();
+      form.append('file', Buffer.from('test pdf content'), {
+        filename: 'test.pdf',
+        contentType: 'application/pdf',
+      });
+
+      const res = await app.inject({
+        method: 'POST',
+        url: `/api/presentations/${presentationId}/versions`,
+        headers: {
+          Authorization: `Bearer ${adminToken}`,
+          ...form.getHeaders(),
+        },
+        payload: form,
+      });
+      expect(res.statusCode).toBe(200);
+      expect(res.json().version).toBe(1);
+      expect(res.json().storageKey).toContain('.pdf');
     });
 
-    const res = await app.inject({
-      method: 'POST',
-      url: `/api/presentations/${presentationId}/versions`,
-      headers: {
-        Authorization: `Bearer ${adminToken}`,
-        ...form.getHeaders(),
-      },
-      payload: form,
-    });
-    expect(res.statusCode).toBe(200);
-    expect(res.json().version).toBe(1);
-    expect(res.json().storageKey).toContain('.pdf');
-  });
+    it('POST /api/presentations/:id/versions/:versionId/publish should publish', async () => {
+      const pRes = await app.inject({ method: 'GET', url: `/api/presentations/${presentationId}` });
+      const versionId = pRes.json().versions[0].id;
 
-  it('POST /api/presentations/:id/versions/:versionId/publish should publish', async () => {
-    const pRes = await app.inject({ method: 'GET', url: `/api/presentations/${presentationId}` });
-    const versionId = pRes.json().versions[0].id;
-
-    const res = await app.inject({
-      method: 'POST',
-      url: `/api/presentations/${presentationId}/versions/${versionId}/publish`,
-      headers: { Authorization: `Bearer ${adminToken}` },
+      const res = await app.inject({
+        method: 'POST',
+        url: `/api/presentations/${presentationId}/versions/${versionId}/publish`,
+        headers: { Authorization: `Bearer ${adminToken}` },
+      });
+      expect(res.statusCode).toBe(200);
+      expect(res.json().publishedAt).toBeDefined();
     });
-    expect(res.statusCode).toBe(200);
-    expect(res.json().publishedAt).toBeDefined();
-  });
 
-  it('GET /api/presentations/:id should return presentation details', async () => {
-    const res = await app.inject({
-      method: 'GET',
-      url: `/api/presentations/${presentationId}`,
+    it('GET /api/presentations/:id should return presentation details', async () => {
+      const res = await app.inject({
+        method: 'GET',
+        url: `/api/presentations/${presentationId}`,
+      });
+      expect(res.statusCode).toBe(200);
+      const body = res.json();
+      expect(body.id).toBe(presentationId);
+      expect(body.versions).toBeDefined();
     });
-    expect(res.statusCode).toBe(200);
-    const body = res.json();
-    expect(body.id).toBe(presentationId);
-    expect(body.versions).toBeDefined();
-  });
-});
+  },
+);

@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { ObservationNormalizer, FaultClassifier, CausalAnalyzer, EvidenceBuilder } from './index.js';
+import {
+  ObservationNormalizer,
+  FaultClassifier,
+  CausalAnalyzer,
+  EvidenceBuilder,
+} from './index.js';
 import { CompatibilityRun } from '@migrationguard/matrix-engine';
 
 describe('Compatibility Pipeline', () => {

@@ -26,7 +26,7 @@ The M12 Finalization phase requires hard evidence of successful system stability
 
 - **Goal**: Confirm M8 metrics are maintained.
 - **Method**: Ran `npm run benchmark`.
-- **Result**: Passed. TP=2, TN=2, FP=0, FN=0. F1=1.00.
+- **Result**: Passed. TP=2, TN=2, FP=0, FN=0. F1=1.00 (n=5 · preliminary).00 (n=5 · preliminary).
 
 ## 5. Database Recovery
 

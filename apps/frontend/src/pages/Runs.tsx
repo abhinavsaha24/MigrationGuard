@@ -14,25 +14,52 @@ interface Run {
 
 export default function Runs() {
   const [runs, setRuns] = useState<Run[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('ALL');
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/api/runs')
+    setLoading(true);
+    const query = new URLSearchParams({
+      page: page.toString(),
+      limit: '10',
+    });
+    if (search) query.append('search', search);
+    if (statusFilter !== 'ALL') query.append('status', statusFilter);
+
+    const API_BASE = import.meta.env.VITE_API_URL || '';
+    fetch(`${API_BASE}/api/runs?${query.toString()}`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
       .then(data => {
-        setRuns(Array.isArray(data) ? data : []);
+        setRuns(data.runs || []);
+        setTotal(data.total || 0);
+        setTotalPages(data.totalPages || 1);
         setLoading(false);
       })
       .catch(e => {
         setError(e.message);
         setLoading(false);
       });
-  }, []);
+  }, [page, search, statusFilter]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setStatusFilter(e.target.value);
+    setPage(1);
+  };
 
   const getStatusClass = (s: string) => {
     const u = s?.toUpperCase();
@@ -58,8 +85,33 @@ export default function Runs() {
   return (
     <div className={styles.consoleContainer}>
       <div className={styles.consoleHeader}>
-        <h1 className={styles.title}>Verification Runs</h1>
-        <p className={styles.subtitle}>Migration compatibility verification history ({runs.length} runs)</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <h1 className={styles.title}>Verification Runs</h1>
+            <p className={styles.subtitle}>Migration compatibility verification history ({total} runs)</p>
+          </div>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <input 
+              type="text" 
+              placeholder="Search ID or Name..." 
+              value={search}
+              onChange={handleSearch}
+              className={styles.searchInput}
+              style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
+            />
+            <select 
+              value={statusFilter} 
+              onChange={handleStatusChange}
+              style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
+            >
+              <option value="ALL">All Statuses</option>
+              <option value="SAFE">SAFE</option>
+              <option value="UNSAFE">UNSAFE</option>
+              <option value="SAFE_VERIFIED">SAFE_VERIFIED</option>
+              <option value="SAFE_UNEXERCISED">SAFE_UNEXERCISED</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       {loading && (
@@ -136,6 +188,28 @@ export default function Runs() {
               })}
             </tbody>
           </table>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', padding: '1rem 0', borderTop: '1px solid var(--border-subtle)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+              Showing page {page} of {totalPages}
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button 
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                style={{ padding: '0.5rem 1rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '4px', cursor: page === 1 ? 'not-allowed' : 'pointer', color: 'var(--text-primary)' }}
+              >
+                Previous
+              </button>
+              <button 
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                style={{ padding: '0.5rem 1rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '4px', cursor: page === totalPages ? 'not-allowed' : 'pointer', color: 'var(--text-primary)' }}
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

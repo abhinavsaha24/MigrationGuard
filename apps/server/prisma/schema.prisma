@@ -86,6 +86,7 @@ model EvidenceRecord {
   operation      String?
   observedError  String?
   storageKey     String? // If full JSON report is stored in S3
+  inputHashes    Json?
   createdAt      DateTime        @default(now())
 }
 

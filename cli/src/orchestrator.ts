@@ -5,6 +5,7 @@ import { CompatibilityAnalyzer } from '@migrationguard/compatibility';
 import { WorkloadLoader, WorkloadReplayEngine } from '@migrationguard/workload';
 import { CompatibilityMatrixEngine } from '@migrationguard/matrix-engine';
 import { generateReport, EvidenceRecord } from '@migrationguard/evidence';
+import { EvidenceBuilder } from '@migrationguard/compatibility';
 import * as path from 'path';
 import * as fs from 'fs';
 import { VerifyConfig } from './verifyCommand.js';
@@ -43,6 +44,34 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
     return 2; // CONFIGURATION_ERROR
   }
 
+  let schemaV1 = '';
+  let schemaV2 = '';
+  let workloadJson = '';
+  try {
+    if (config.baseMigration && fs.existsSync(path.join(config.baseMigration, 'schema.prisma'))) {
+      schemaV1 = fs.readFileSync(path.join(config.baseMigration, 'schema.prisma'), 'utf-8');
+    } else if (config.schema && fs.existsSync(config.schema)) {
+      // Fallback if base schema doesn't exist in migration dir, we assume it's the main one?
+      // For testing, tests copy schema-v1 to schema.prisma
+      schemaV1 = fs.readFileSync(config.schema, 'utf-8');
+    }
+    if (config.schema && fs.existsSync(config.schema)) {
+      schemaV2 = fs.readFileSync(config.schema, 'utf-8');
+    }
+    if (config.workload && fs.existsSync(config.workload)) {
+      workloadJson = fs.readFileSync(config.workload, 'utf-8');
+    }
+  } catch (e) {
+    // Ignore read errors for hashing
+  }
+
+  const inputHashes = EvidenceBuilder.buildInputHashes({
+    schemaV1: schemaV1 || undefined,
+    schemaV2: schemaV2 || undefined,
+    migrationSql: v2MigrationSql || undefined,
+    workloadJson: workloadJson || undefined,
+  });
+
   try {
     await sandbox.start();
     const dbUrl = sandbox.getDatabaseUrl();
@@ -77,6 +106,8 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
         run,
         v2MigrationSql,
         path.join(config.migration, 'migration.sql'),
+        matrixResult,
+        inputHashes,
       );
       evidenceList.push(evidence);
 

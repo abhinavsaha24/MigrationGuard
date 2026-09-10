@@ -10,6 +10,13 @@ const runDecisionSchema = z.object({
   comment: z.string().optional(),
 });
 
+const runsQuerySchema = z.object({
+  page: z.coerce.number().min(1).default(1),
+  limit: z.coerce.number().min(1).max(100).default(10),
+  search: z.string().optional(),
+  status: z.string().optional(),
+});
+
 const runCreateSchema = z.object({
   runId: z.string().min(1),
   migrationName: z.string().min(1),
@@ -32,6 +39,7 @@ const runCreateSchema = z.object({
       confidence: z.string(),
       operation: z.string().optional(),
       observedError: z.string().optional(),
+      inputHashes: z.record(z.string(), z.string()).optional(),
     }),
   ),
 });
@@ -71,6 +79,7 @@ export async function setupRunRoutes(app: FastifyInstance) {
               confidence: e.confidence,
               operation: e.operation,
               observedError: e.observedError,
+              inputHashes: e.inputHashes,
             })),
           },
         },
@@ -112,12 +121,50 @@ export async function setupRunRoutes(app: FastifyInstance) {
     return reply.send({ artifactKey: storageKey, artifactHash: hash });
   });
 
-  // Get all Runs
+  // Get all Runs with Pagination and Filtering
   app.get('/', async (request, reply) => {
-    const runs = await prisma.verificationRun.findMany({
-      orderBy: { timestamp: 'desc' },
+    let query;
+    try {
+      query = runsQuerySchema.parse(request.query);
+    } catch (e) {
+      return reply
+        .status(400)
+        .send({ error: { code: 'VALIDATION_ERROR', message: 'Invalid query parameters' } });
+    }
+
+    const { page, limit, search, status } = query;
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+    if (status && status !== 'ALL') {
+      where.status = status;
+    }
+    if (search) {
+      where.OR = [
+        { id: { contains: search, mode: 'insensitive' } },
+        { migrationName: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
+    const [runs, total] = await Promise.all([
+      prisma.verificationRun.findMany({
+        where,
+        orderBy: { timestamp: 'desc' },
+        skip,
+        take: limit,
+      }),
+      prisma.verificationRun.count({ where }),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return reply.send({
+      runs,
+      total,
+      page,
+      limit,
+      totalPages,
     });
-    return reply.send(runs);
   });
 
   // Get specific Run with Evidence and Decisions

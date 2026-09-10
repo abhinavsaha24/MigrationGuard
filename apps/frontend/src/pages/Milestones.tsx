@@ -10,7 +10,7 @@ const MILESTONES = [
   { id: '06',  title: 'Compatibility Matrix Engine',  date: '06', status: 'COMPLETE', desc: 'Classifies the four OLD+V1, OLD+V2, NEW+V1, NEW+V2 cells into COMPATIBLE or INCOMPATIBLE.' },
   { id: '07',  title: 'Evidence Package',             date: '07', status: 'COMPLETE', desc: 'Captures request/response artifacts, computes SHA-256 integrity hashes, stores in MinIO.' },
   { id: '08',  title: 'Auth + RBAC',                  date: '08', status: 'COMPLETE', desc: 'JWT authentication, Argon2 password hashing, ADMIN and REVIEWER role enforcement.' },
-  { id: '09',  title: 'Benchmark Runner',             date: '09', status: 'COMPLETE', desc: 'Controlled n=4 evaluation suite. Ground truth frozen. MigrationGuard F1=1.00, Atlas F1=0.67.' },
+  { id: '09',  title: 'Benchmark Runner',             date: '09', status: 'COMPLETE', desc: 'Controlled n=5 evaluation suite. Ground truth frozen. MigrationGuard F1=1.00 (n=5 · preliminary).00 (n=5 · preliminary) (n=5 · preliminary).00 (n=5 · preliminary), Atlas F1=0.67.' },
   { id: '10',  title: 'Frontend — Public Site',       date: '10', status: 'COMPLETE', desc: 'React + Vite public website: Home, Project, Architecture, Research, Benchmark, Results, Milestones.' },
   { id: '11', title: 'Frontend — Dashboard',         date: '11', status: 'COMPLETE', desc: 'Protected dashboard with sidebar navigation, Runs list, RunDetail, compatibility matrix view.' },
   { id: '12', title: 'Docker Production Compose',    date: '12', status: 'COMPLETE', desc: 'docker-compose.prod.yml with Nginx, Fastify, PostgreSQL, MinIO. LOCAL_PRODUCTION_SIMULATION verified.' },
@@ -81,3 +81,5 @@ export default function Milestones() {
     </div>
   );
 }
+
+

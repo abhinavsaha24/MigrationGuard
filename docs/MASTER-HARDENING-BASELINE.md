@@ -8,7 +8,7 @@
 
 ## Benchmark Metrics
 
-All claims of `MigrationGuard F1 = 1.00` and `Atlas F1 = 0.67` found throughout this repository's documentation are strictly bounded by `(n=4, preliminary)`.
+All claims of `MigrationGuard F1 = 1.00` and `Atlas F1 = 0.67` found throughout this repository's documentation are strictly bounded by `(n=5, preliminary)`.
 The results represent a highly controlled matrix of specific fault types, not a generalized claim of universal safety.
 
 The dataset contains:

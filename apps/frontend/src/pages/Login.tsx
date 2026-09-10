@@ -17,9 +17,10 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setLoading(true);
+    const API_BASE = import.meta.env.VITE_API_URL || '';
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -36,7 +37,7 @@ export default function Login() {
         throw new Error(data?.error?.message || data?.message || 'Invalid credentials');
       }
 
-      const meRes = await fetch('/api/auth/me', {
+      const meRes = await fetch(`${API_BASE}/api/auth/me`, {
         headers: { 'Authorization': `Bearer ${data.token}` }
       });
       const meData = await meRes.json();

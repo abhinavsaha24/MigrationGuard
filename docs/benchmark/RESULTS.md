@@ -1,6 +1,6 @@
 # MigrationGuard M8 Benchmark Results
 
-**Execution Time:** 163180ms
+**Execution Time:** 117252ms
 
 ## Overall Metrics
 

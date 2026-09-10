@@ -28,7 +28,10 @@ export type FaultType =
   | 'UNSAFE_BACKFILL'
   | 'INDEX_LOCK_RISK'
   | 'TABLE_REWRITE_RISK'
-  | 'DATA_INTEGRITY_FAILURE';
+  | 'DATA_INTEGRITY_FAILURE'
+  | 'ADD_REQUIRED_COLUMN'
+  | 'MAKE_NON_NULL'
+  | 'DROP_USED_TABLE';
 
 export type Confidence = 'CONFIRMED' | 'LIKELY' | 'UNKNOWN';
 

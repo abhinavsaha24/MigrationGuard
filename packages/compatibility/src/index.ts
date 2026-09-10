@@ -7,9 +7,13 @@ export interface NormalizedObservation {
   httpStatus?: number;
   databaseError?: string;
   isMissingColumn: boolean;
+  isMissingTable?: boolean;
+  isNotNullViolation?: boolean;
   observedSql?: string;
   executedQueries?: string[];
   missingColumnName?: string;
+  missingTableName?: string;
+  notNullColumnName?: string;
   durationMs: number;
 }
 
@@ -31,7 +35,8 @@ export class ObservationNormalizer {
       isMissingColumn: false,
       durationMs: run.durationMs,
       executedQueries: run.telemetry?.queries || [],
-      observedSql: run.telemetry?.errors?.find(e => e.message === (run.error || ''))?.statement || undefined,
+      observedSql:
+        run.telemetry?.errors?.find((e) => e.message === (run.error || ''))?.statement || undefined,
     };
 
     if (!run.workloadResult || run.workloadResult.operations.length === 0) {
@@ -53,6 +58,18 @@ export class ObservationNormalizer {
         if (colMatch) {
           defaultObs.isMissingColumn = true;
           defaultObs.missingColumnName = colMatch[1];
+        }
+        const tableMatch = body.error.match(/relation [`"']?(\w+)[`"']? does not exist/i);
+        if (tableMatch) {
+          defaultObs.isMissingTable = true;
+          defaultObs.missingTableName = tableMatch[1];
+        }
+        const notNullMatch = body.error.match(
+          /null value in column [`"']?(\w+)[`"']?.*violates not-null constraint/i,
+        );
+        if (notNullMatch) {
+          defaultObs.isNotNullViolation = true;
+          defaultObs.notNullColumnName = notNullMatch[1];
         }
       }
     }
@@ -91,10 +108,15 @@ export class FaultClassifier {
       return { category: 'INFRASTRUCTURE_FAILURE', baseFaultType: 'NONE' };
     }
 
-    // If it's a workload failure, we must inspect the observation to see if it's a COMPATIBILITY_FAILURE
     if (run.status === 'WORKLOAD_FAILURE') {
       if (obs.isMissingColumn) {
         return { category: 'COMPATIBILITY_FAILURE', baseFaultType: 'COLUMN_REMOVAL' };
+      }
+      if (obs.isMissingTable) {
+        return { category: 'COMPATIBILITY_FAILURE', baseFaultType: 'DROP_USED_TABLE' };
+      }
+      if (obs.isNotNullViolation) {
+        return { category: 'COMPATIBILITY_FAILURE', baseFaultType: 'NOT_NULL_INCOMPATIBILITY' };
       }
 
       // If we got a 500 but it's not a recognized DB error, it's just a WORKLOAD_FAILURE
@@ -115,7 +137,7 @@ export class CausalAnalyzer {
     if (
       classification.category !== 'COMPATIBILITY_FAILURE' ||
       !migrationSql ||
-      !obs.missingColumnName
+      (!obs.missingColumnName && !obs.missingTableName && !obs.notNullColumnName)
     ) {
       return {
         faultType: classification.baseFaultType,
@@ -125,11 +147,17 @@ export class CausalAnalyzer {
     }
 
     const missingCol = obs.missingColumnName;
+    const missingTable = obs.missingTableName;
+    const notNullCol = obs.notNullColumnName;
     const chain: string[] = [];
 
     // Analyze SQL for dropped columns and added columns
-    const drops = [...migrationSql.matchAll(/DROP\s+COLUMN\s+"?(\w+)"?/gi)].map((m) => m[1]);
-    const adds = [...migrationSql.matchAll(/ADD\s+COLUMN\s+"?(\w+)"?/gi)].map((m) => m[1]);
+    const drops = [...migrationSql.matchAll(/DROP\s+COLUMN\s+"?(\w+)"?/gi)].map(
+      (m) => m[1] as string,
+    );
+    const adds = [...migrationSql.matchAll(/ADD\s+COLUMN\s+"?(\w+)"?/gi)].map(
+      (m) => m[1] as string,
+    );
 
     if (run.applicationVersion === 'NEW' && run.databaseVersion === 'V1') {
       // NEW app on OLD db. Missing column is because the column hasn't been created yet.
@@ -137,7 +165,7 @@ export class CausalAnalyzer {
       chain.push(`NEW application expects column '${missingCol}'.`);
       chain.push(`Database is still on V1 schema, where '${missingCol}' does not exist yet.`);
 
-      if (adds.includes(missingCol)) {
+      if (adds.includes(missingCol as string)) {
         chain.push(
           `Migration V2 adds this column, proving the query incompatibility is a known forward-dependency.`,
         );
@@ -160,7 +188,7 @@ export class CausalAnalyzer {
         matchedStatement = stmtMatch[0].trim();
       }
 
-      if (drops.includes(missingCol)) {
+      if (drops.includes(missingCol as string)) {
         chain.push(`Migration V2 executed a statement that dropped column '${missingCol}'.`);
         chain.push(`Database rejected the legacy query because the column no longer exists.`);
 
@@ -187,14 +215,14 @@ export class CausalAnalyzer {
       // Check for native RENAME COLUMN
       const nativeRenameRegex = new RegExp(
         `ALTER\\s+TABLE\\s+(?:"?\\w+"?\\.)?"?\\w+"?\\s+RENAME\\s+COLUMN\\s+"?${missingCol}"?\\s+TO\\s+"?\\w+"?[^;]*;`,
-        'i'
+        'i',
       );
       const renameMatch = migrationSql.match(nativeRenameRegex);
       if (renameMatch) {
         matchedStatement = renameMatch[0].trim();
         chain.push(`Migration V2 explicitly renamed column '\${missingCol}'.`);
         chain.push(
-          `Database rejected the legacy query because the original column name no longer exists.`
+          `Database rejected the legacy query because the original column name no longer exists.`,
         );
         return {
           faultType: 'DESTRUCTIVE_RENAME',
@@ -204,10 +232,66 @@ export class CausalAnalyzer {
         };
       }
 
-chain.push(
+      chain.push(
         `Could not explicitly map '${missingCol}' to a DROP COLUMN statement in the migration.`,
       );
       return { faultType: classification.baseFaultType, confidence: 'LIKELY', causalChain: chain };
+    }
+
+    if (run.applicationVersion === 'OLD' && run.databaseVersion === 'V2' && missingTable) {
+      chain.push(`OLD application queries table '${missingTable}'.`);
+      const dropTableRegex = new RegExp(`DROP\\s+TABLE\\s+"?${missingTable}"?`, 'i');
+      const stmtMatch = migrationSql.match(dropTableRegex);
+      if (stmtMatch) {
+        chain.push(`Migration V2 dropped table '${missingTable}'.`);
+        return {
+          faultType: 'DROP_USED_TABLE',
+          confidence: 'CONFIRMED',
+          migrationStatement: stmtMatch[0].trim(),
+          causalChain: chain,
+        };
+      }
+      return { faultType: 'DROP_USED_TABLE', confidence: 'LIKELY', causalChain: chain };
+    }
+
+    if (run.applicationVersion === 'OLD' && run.databaseVersion === 'V2' && notNullCol) {
+      chain.push(
+        `OLD application attempted to insert/update row omitting required column '${notNullCol}'.`,
+      );
+
+      const setNotNullRegex = new RegExp(
+        `ALTER\\s+COLUMN\\s+"?${notNullCol}"?\\s+SET\\s+NOT\\s+NULL`,
+        'i',
+      );
+      const addColumnRegex = new RegExp(`ADD\\s+COLUMN\\s+"?${notNullCol}"?\\s+(?!.*DEFAULT)`, 'i');
+
+      let stmtMatch = migrationSql.match(setNotNullRegex);
+      if (stmtMatch) {
+        chain.push(`Migration V2 altered column '${notNullCol}' to be NOT NULL.`);
+        return {
+          faultType: 'MAKE_NON_NULL',
+          confidence: 'CONFIRMED',
+          migrationStatement: stmtMatch[0].trim(),
+          causalChain: chain,
+        };
+      }
+
+      stmtMatch = migrationSql.match(addColumnRegex);
+      if (stmtMatch) {
+        chain.push(
+          `Migration V2 added column '${notNullCol}' as a required column without a default.`,
+        );
+        return {
+          faultType: 'ADD_REQUIRED_COLUMN',
+          confidence: 'CONFIRMED',
+          migrationStatement: stmtMatch[0].trim(),
+          causalChain: chain,
+        };
+      }
+
+      // If we couldn't match a statement exactly, we just output NOT_NULL_INCOMPATIBILITY
+      chain.push(`Migration V2 introduced a NOT NULL constraint on '${notNullCol}'.`);
+      return { faultType: 'NOT_NULL_INCOMPATIBILITY', confidence: 'LIKELY', causalChain: chain };
     }
 
     return { faultType: classification.baseFaultType, confidence: 'UNKNOWN', causalChain: chain };
@@ -226,8 +310,7 @@ export interface InputHashes {
 export class EvidenceBuilder {
   public static buildInputHashes(inputs: InputHashes): Record<string, string> {
     const hashes: Record<string, string> = {};
-    const hash = (s: string) =>
-      crypto.createHash('sha256').update(s, 'utf8').digest('hex');
+    const hash = (s: string) => crypto.createHash('sha256').update(s, 'utf8').digest('hex');
     if (inputs.schemaV1 !== undefined) hashes['schemaV1'] = hash(inputs.schemaV1);
     if (inputs.schemaV2 !== undefined) hashes['schemaV2'] = hash(inputs.schemaV2);
     if (inputs.migrationSql !== undefined) hashes['migrationSql'] = hash(inputs.migrationSql);
@@ -285,7 +368,7 @@ export class EvidenceBuilder {
       .createHash('sha256')
       .update(JSON.stringify(rawEvidence))
       .digest('hex');
-    
+
     return {
       evidenceId: `EVD-${provenanceHash}`,
       ...rawEvidence,
@@ -324,7 +407,7 @@ export class WorkloadCoverageAnalyzer {
           if (match) {
             const table = match[1];
             if (run.schemaMetadata[table]) {
-              const cols = run.schemaMetadata[table].map(c => `"${c}"`).join(', ');
+              const cols = run.schemaMetadata[table].map((c) => `"${c}"`).join(', ');
               q = q.replace('*', cols);
             }
           }
@@ -353,10 +436,17 @@ export class WorkloadCoverageAnalyzer {
   }
 }
 
-export type RolloutSequence = 'INCOMPLETE' | 'NO_SAFE_ROLLOUT' | 'ROLL_OUT_ORDER_INDEPENDENT' | 'DB_FIRST_REQUIRED' | 'APP_FIRST_REQUIRED';
+export type RolloutSequence =
+  | 'INCOMPLETE'
+  | 'NO_SAFE_ROLLOUT'
+  | 'ROLL_OUT_ORDER_INDEPENDENT'
+  | 'DB_FIRST_REQUIRED'
+  | 'APP_FIRST_REQUIRED';
 
 export class TransitionAnalyzer {
-  public static analyze(matrix: import('@migrationguard/matrix-engine').CompatibilityMatrix): RolloutSequence {
+  public static analyze(
+    matrix: import('@migrationguard/matrix-engine').CompatibilityMatrix,
+  ): RolloutSequence {
     const runs = matrix.runs;
     if (runs.length < 4) return 'INCOMPLETE';
 
@@ -395,7 +485,15 @@ export class CompatibilityAnalyzer {
     const causal = CausalAnalyzer.analyze(run, obs, cls, migrationSql);
     const coverage = WorkloadCoverageAnalyzer.analyze(run, migrationSql);
 
-    const evidence = EvidenceBuilder.build(run, obs, cls, causal, migrationFile, coverage, inputHashes);
+    const evidence = EvidenceBuilder.build(
+      run,
+      obs,
+      cls,
+      causal,
+      migrationFile,
+      coverage,
+      inputHashes,
+    );
     if (matrix) {
       (evidence as any).rolloutSequence = TransitionAnalyzer.analyze(matrix);
     }

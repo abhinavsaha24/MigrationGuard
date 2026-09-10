@@ -6,7 +6,9 @@ function getS3Client(): S3Client {
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
   if (!accessKeyId || !secretAccessKey) {
-    throw new Error('FATAL: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables are required.');
+    throw new Error(
+      'FATAL: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables are required.',
+    );
   }
 
   return new S3Client({

@@ -113,7 +113,8 @@ export class PostgresSandbox {
         'Cannot get database URL: Sandbox has not started or port is unbound.',
       );
     }
-    return `postgresql://postgres:postgres@localhost:${this.port}/migrationguard?schema=public`;
+    const host = process.env.SANDBOX_HOST || 'localhost';
+    return `postgresql://postgres:postgres@${host}:${this.port}/migrationguard?schema=public`;
   }
 
   public clearTelemetry(): void {
@@ -146,7 +147,7 @@ export class PostgresSandbox {
 
     if (logRes.status === 0 && logRes.stderr) {
       const lines = logRes.stderr.split('\n');
-      
+
       let currentError: string | null = null;
       let currentStatement: string | null = null;
 
@@ -161,7 +162,7 @@ export class PostgresSandbox {
 
       for (let i = startIndex; i < lines.length; i++) {
         const line = lines[i];
-        
+
         // Match standard query statements
         const statementLogMatch = line.match(/LOG:\s+statement:\s+(.+)/);
         if (statementLogMatch) {
@@ -171,7 +172,7 @@ export class PostgresSandbox {
           }
           currentStatement = stmt;
         }
-        
+
         // Match errors
         const errorMatch = line.match(/ERROR:\s+(.+)/);
         if (errorMatch) {
@@ -226,7 +227,10 @@ export class PostgresSandbox {
 
     const schema: Record<string, string[]> = {};
     if (res.status === 0 && res.stdout) {
-      const lines = res.stdout.split('\n').map((l) => l.trim()).filter((l) => l.length > 0);
+      const lines = res.stdout
+        .split('\n')
+        .map((l) => l.trim())
+        .filter((l) => l.length > 0);
       for (const line of lines) {
         const [table, col] = line.split('|');
         if (table && col) {
