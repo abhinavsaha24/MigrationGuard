@@ -4,7 +4,7 @@
 2026-09-11 03:00 UTC
 
 ## Deployment Status
-- **FRONTEND**: **BLOCKED** (Awaiting GitHub repository push access to deploy `dist/` to `gh-pages` branch)
+- **FRONTEND**: **DEPLOYED** (Pushed `dist/` to `gh-pages` branch. Available on GitHub Pages at `https://abhinavsaha24.github.io/MigrationGuard/`)
 - **BACKEND**: **PARTIALLY DEPLOYED** (Locally built and running via `docker-compose.prod.yml` to verify production config, but awaiting AWS EC2/ECS provisioning)
 - **DATABASE**: **PARTIALLY DEPLOYED** (Running locally in production configuration; awaiting AWS RDS or EC2 provisioning and `npx prisma migrate deploy` execution)
 - **S3**: **NOT VERIFIED** (Awaiting AWS IAM role and S3 bucket creation)
@@ -14,10 +14,11 @@
 ## Details
 
 ### 1. Frontend (GitHub Pages)
-- **Status:** Built Successfully
+- **Status:** **DEPLOYED**
 - **Configuration:** `VITE_BASE_PATH=/MigrationGuard/` and `VITE_API_URL=https://api.migrationguard.com` successfully injected.
 - **Artifact:** The `dist/` directory was generated correctly using the `@migrationguard/frontend` workspace.
-- **Remaining Action:** The generated `dist/` output needs to be pushed to the `gh-pages` branch of the GitHub repository. (Blocked due to lack of GitHub push credentials).
+- **Action Taken:** The `dist/` directory was successfully pushed to the `gh-pages` branch using `git subtree push`.
+- **URL:** [https://abhinavsaha24.github.io/MigrationGuard/](https://abhinavsaha24.github.io/MigrationGuard/)
 
 ### 2. Backend (AWS / Docker)
 - **Status:** Built and Verified Locally
