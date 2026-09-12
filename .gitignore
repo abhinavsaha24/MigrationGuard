@@ -5,6 +5,10 @@ coverage
 .DS_Store
 *.log
 
+# TypeScript build state — never commit these; they contain absolute paths from
+# the dev machine and cause tsc -b to skip rebuilds on a fresh clone.
+*.tsbuildinfo
+
 # Large binaries — download separately
 bin/
 
