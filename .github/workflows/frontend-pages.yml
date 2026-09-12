@@ -2,10 +2,7 @@ name: Deploy Frontend to GitHub Pages
 
 on:
   push:
-    branches: [master]
-    paths:
-      - 'apps/frontend/**'
-      - '.github/workflows/frontend-pages.yml'
+    branches: ['master']
   workflow_dispatch:
 
 permissions:
@@ -25,10 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: npm
 
       - name: Install dependencies
@@ -37,13 +34,9 @@ jobs:
       - name: Build frontend
         run: npm run build --workspace=@migrationguard/frontend
         env:
-          VITE_API_URL: https://migrationguard.abhinavsaha.me
-          VITE_BASE_PATH: /MigrationGuard/
+          VITE_API_URL: https://migrationguard-api.abhinavsaha.me
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: apps/frontend/dist
