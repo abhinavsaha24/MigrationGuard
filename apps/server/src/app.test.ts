@@ -5,6 +5,8 @@ import FormData from 'form-data';
 import { Buffer } from 'buffer';
 import { prisma } from './config/prisma.js';
 
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-jwt-secret-minimum-32-chars-for-testing';
+
 let app: FastifyInstance;
 let adminToken: string;
 let reviewerToken: string;
@@ -15,7 +17,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await app.close();
+  if (app) {
+    await app.close();
+  }
 });
 
 describe('M10 API - Auth & Health', () => {
