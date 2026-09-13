@@ -122,7 +122,7 @@ export async function setupRunRoutes(app: FastifyInstance) {
   });
 
   // Get all Runs with Pagination and Filtering
-  app.get('/', async (request, reply) => {
+  app.get('/', { preValidation: [(app as any).authenticate] }, async (request, reply) => {
     let query;
     try {
       query = runsQuerySchema.parse(request.query);
@@ -168,7 +168,7 @@ export async function setupRunRoutes(app: FastifyInstance) {
   });
 
   // Get specific Run with Evidence and Decisions
-  app.get('/:id', async (request, reply) => {
+  app.get('/:id', { preValidation: [(app as any).authenticate] }, async (request, reply) => {
     const { id } = paramIdSchema.parse(request.params);
     const run = await prisma.verificationRun.findUnique({
       where: { id },

@@ -2,19 +2,19 @@ import styles from './Milestones.module.css';
 import { GitCommit, CheckCircle2 } from 'lucide-react';
 
 const MILESTONES = [
-  { id: '01',  title: 'Repository Bootstrap',        date: '01', status: 'COMPLETE', desc: 'Monorepo scaffold, TypeScript configuration, ESLint, Prettier, initial GitHub Actions CI.' },
-  { id: '02',  title: 'Database Schema & API',        date: '02', status: 'COMPLETE', desc: 'Prisma schema (User, Run, MatrixCell, Evidence), Fastify API skeleton, authentication routes.' },
-  { id: '03',  title: 'Sandbox Package',              date: '03', status: 'COMPLETE', desc: 'Ephemeral PostgreSQL container lifecycle — create, seed, teardown using Docker SDK.' },
-  { id: '04',  title: 'Migration Engine',             date: '04', status: 'COMPLETE', desc: 'Applies pg_dump/restore and raw SQL migrations against sandbox instances.' },
-  { id: '05',  title: 'Application Runner',           date: '05', status: 'COMPLETE', desc: 'Executes HTTP workloads against containerized application versions and records responses.' },
-  { id: '06',  title: 'Compatibility Matrix Engine',  date: '06', status: 'COMPLETE', desc: 'Classifies the four OLD+V1, OLD+V2, NEW+V1, NEW+V2 cells into COMPATIBLE or INCOMPATIBLE.' },
-  { id: '07',  title: 'Evidence Package',             date: '07', status: 'COMPLETE', desc: 'Captures request/response artifacts, computes SHA-256 integrity hashes, stores in MinIO.' },
-  { id: '08',  title: 'Auth + RBAC',                  date: '08', status: 'COMPLETE', desc: 'JWT authentication, Argon2 password hashing, ADMIN and REVIEWER role enforcement.' },
-  { id: '09',  title: 'Benchmark Runner',             date: '09', status: 'COMPLETE', desc: 'Controlled n=5 evaluation suite. Ground truth frozen. MigrationGuard F1=1.00 (n=5 · preliminary).00 (n=5 · preliminary) (n=5 · preliminary).00 (n=5 · preliminary), Atlas F1=0.67.' },
-  { id: '10',  title: 'Frontend — Public Site',       date: '10', status: 'COMPLETE', desc: 'React + Vite public website: Home, Project, Architecture, Research, Benchmark, Results, Milestones.' },
-  { id: '11', title: 'Frontend — Dashboard',         date: '11', status: 'COMPLETE', desc: 'Protected dashboard with sidebar navigation, Runs list, RunDetail, compatibility matrix view.' },
-  { id: '12', title: 'Docker Production Compose',    date: '12', status: 'COMPLETE', desc: 'docker-compose.prod.yml with Nginx, Fastify, PostgreSQL, MinIO. LOCAL_PRODUCTION_SIMULATION verified.' },
-  { id: '13', title: 'Final Forensic Hardening',     date: '13', status: 'COMPLETE', desc: 'Repository audit, dead-code removal, security review, FINAL-RELEASE-AUDIT.md, DEMO-RUNBOOK.md.' },
+  { id: 'M00', title: 'Repository Bootstrap & Toolchain',       phase: 'CORE',       status: 'COMPLETE', desc: 'Monorepo scaffold, npm workspaces, strict TypeScript configuration, ESLint, Prettier, and CI.' },
+  { id: 'M01', title: 'Database Schema & Server API',          phase: 'BACKEND',    status: 'COMPLETE', desc: 'Prisma schema (User, VerificationRun, MatrixCell, Evidence), Fastify API server, and authentication routes.' },
+  { id: 'M02', title: 'Ephemeral Sandbox Engine',              phase: 'SANDBOX',    status: 'COMPLETE', desc: 'Dockerized PostgreSQL lifecycle management — dynamic provisioning, schema seeding, and teardown.' },
+  { id: 'M03', title: 'Migration & Schema Transition Engine',   phase: 'MIGRATION',  status: 'COMPLETE', desc: 'Applies pg_dump baseline snapshots and raw SQL migrations against isolated sandbox instances.' },
+  { id: 'M04', title: 'Application Workload Runner',           phase: 'EXECUTION',  status: 'COMPLETE', desc: 'Executes parameterized HTTP workloads against containerized application versions and records responses.' },
+  { id: 'M05', title: '2×2 Compatibility Matrix Engine',        phase: 'MATRIX',     status: 'COMPLETE', desc: 'Evaluates the 4 deployment permutations (OLD+V1, OLD+V2, NEW+V1, NEW+V2) to classify migration safety.' },
+  { id: 'M06', title: 'Evidence Artifact & Integrity Engine',   phase: 'EVIDENCE',   status: 'COMPLETE', desc: 'Captures request/response logs, computes SHA-256 integrity hashes, and persists artifacts in MinIO/S3.' },
+  { id: 'M07', title: 'Authentication & RBAC Enforcement',      phase: 'SECURITY',   status: 'COMPLETE', desc: 'JWT authentication, Argon2 password hashing, and server-enforced ADMIN and REVIEWER roles.' },
+  { id: 'M08', title: 'Controlled Comparative Benchmark',       phase: 'BENCHMARK',  status: 'COMPLETE', desc: 'Ground-truth evaluation suite (n=5). Confirmed MigrationGuard F1 = 1.00 (0 false positives) vs Atlas Static F1 = 0.75.' },
+  { id: 'M09', title: 'Research & Public Documentation Site',   phase: 'FRONTEND',   status: 'COMPLETE', desc: 'Technical web interface: System Overview, Architecture, Research Methodology, Benchmark, Results, and Changelog.' },
+  { id: 'M10', title: 'Operational Dashboard & Runs Explorer',  phase: 'DASHBOARD',  status: 'COMPLETE', desc: 'Protected telemetry console with search, filtering, run detail inspect, and evidence artifact download.' },
+  { id: 'M11', title: 'Production Containerization & Gateway',  phase: 'DEPLOYMENT', status: 'COMPLETE', desc: 'Production Docker Compose stack with Nginx reverse proxy, health checks, and Cloudflare Tunnel integration.' },
+  { id: 'M12', title: 'System Hardening & Pre-Deployment Audit',phase: 'AUDIT',      status: 'COMPLETE', desc: 'Full monorepo verification, dead-code elimination, security review, and reproducibility runbooks.' },
 ];
 
 export default function Milestones() {
@@ -25,7 +25,7 @@ export default function Milestones() {
         <div className={styles.headerLabel}>ENGINEERING CHANGELOG</div>
         <h1 className={styles.title}>Project Milestones</h1>
         <p className={styles.subtitle}>
-          M0 through M12 represent the complete engineering history of MigrationGuard.
+          M00 through M12 represent the complete engineering history of MigrationGuard.
           All milestones are closed and verified.
         </p>
       </header>
@@ -39,7 +39,7 @@ export default function Milestones() {
             <div key={m.id} className={styles.timelineNode}>
               
               <div className={styles.nodeDate}>
-                {m.date}
+                {m.phase}
               </div>
               
               <div className={styles.nodeMarker}>

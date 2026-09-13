@@ -56,30 +56,30 @@ export default function Login() {
     <div className={styles.authContainer}>
       
       <div className={styles.authBranding}>
-        <div className={styles.brandBadge}>SECURE TERMINAL</div>
+        <div className={styles.brandBadge}>OPERATIONAL CONSOLE</div>
         <h1 className={styles.brandTitle}>MigrationGuard</h1>
         <p className={styles.brandDesc}>
-          Access the controlled verification environment. Authenticate to view execution logs 
-          and structural compatibility metrics.
+          Access the verification console to inspect migration compatibility runs,
+          ground truth telemetry, and deterministic evidence artifacts.
         </p>
       </div>
 
       <div className={styles.authPanel}>
         <div className={styles.panelHeader}>
           <ShieldCheck size={28} className={styles.panelIcon} />
-          <h2>Authentication Required</h2>
+          <h2>Sign In</h2>
         </div>
         
         {error && (
           <div className={styles.errorBox}>
             <TerminalSquare size={16} />
-            <span>ERR: {error}</span>
+            <span>Error: {error}</span>
           </div>
         )}
         
         <form onSubmit={handleSubmit} className={styles.authForm}>
           <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Principal Identifier (Email)</label>
+            <label className={styles.formLabel}>Email Address</label>
             <input 
               type="email" 
               required 
@@ -92,7 +92,7 @@ export default function Login() {
           </div>
           
           <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Access Key (Password)</label>
+            <label className={styles.formLabel}>Password</label>
             <div className={styles.inputWrap}>
               <KeyRound size={16} className={styles.inputIcon} />
               <input 
@@ -116,7 +116,7 @@ export default function Login() {
           </div>
           
           <button type="submit" disabled={loading} className={styles.authButton}>
-            {loading ? 'NEGOTIATING CONNECTION...' : 'AUTHORIZE SESSION'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 

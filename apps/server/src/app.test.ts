@@ -100,7 +100,11 @@ describe('M10 API - Runs', () => {
   });
 
   it('GET /api/runs/:id should return run details', async () => {
-    const res = await app.inject({ method: 'GET', url: `/api/runs/${runId}` });
+    const res = await app.inject({
+      method: 'GET',
+      url: `/api/runs/${runId}`,
+      headers: { Authorization: `Bearer ${adminToken}` },
+    });
     expect(res.statusCode).toBe(200);
     expect(res.json().evidence.length).toBe(1);
     expect(res.json().compatibility.length).toBe(1);

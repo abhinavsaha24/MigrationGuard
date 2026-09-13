@@ -198,7 +198,10 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
 
             const artRes = await fetch(`${apiBase}/api/runs/artifact`, {
               method: 'POST',
-              headers: { Authorization: `Bearer ${token}` },
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'User-Agent': 'MigrationGuard-CLI/1.0',
+              },
               body: form,
             });
 
@@ -240,6 +243,7 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
+              'User-Agent': 'MigrationGuard-CLI/1.0',
             },
             body: JSON.stringify(payload),
           });

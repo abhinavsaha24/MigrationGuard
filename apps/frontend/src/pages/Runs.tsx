@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Activity, Database, CheckCircle, XCircle } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
 import styles from './Runs.module.css';
 
 interface Run {
@@ -13,6 +14,7 @@ interface Run {
 }
 
 export default function Runs() {
+  const { token } = useAuth();
   const [runs, setRuns] = useState<Run[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -34,7 +36,12 @@ export default function Runs() {
     if (statusFilter !== 'ALL') query.append('status', statusFilter);
 
     const API_BASE = import.meta.env.VITE_API_URL || '';
-    fetch(`${API_BASE}/api/runs?${query.toString()}`)
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    fetch(`${API_BASE}/api/runs?${query.toString()}`, { headers })
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -49,7 +56,7 @@ export default function Runs() {
         setError(e.message);
         setLoading(false);
       });
-  }, [page, search, statusFilter]);
+  }, [page, search, statusFilter, token]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -105,10 +112,8 @@ export default function Runs() {
               style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
             >
               <option value="ALL">All Statuses</option>
-              <option value="SAFE">SAFE</option>
-              <option value="UNSAFE">UNSAFE</option>
-              <option value="SAFE_VERIFIED">SAFE_VERIFIED</option>
-              <option value="SAFE_UNEXERCISED">SAFE_UNEXERCISED</option>
+              <option value="PASS">PASS (Safe)</option>
+              <option value="FAIL">FAIL (Unsafe)</option>
             </select>
           </div>
         </div>

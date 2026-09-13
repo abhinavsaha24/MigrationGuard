@@ -148,8 +148,8 @@ export default function RunDetail() {
         <div className={styles.metricBlock}>
           <span className={styles.metricLabel}>Result</span>
           <div className={styles.metricValue}>
-            {run.status === 'SAFE' || run.status === 'SAFE_VERIFIED' || run.status === 'SAFE_UNEXERCISED' ? <CheckCircle className={styles.badgeSafe} size={24} style={{ border: 'none', background: 'transparent', padding: 0 }} /> : 
-             run.status === 'UNSAFE' ? <XCircle className={styles.badgeUnsafe} size={24} style={{ border: 'none', background: 'transparent', padding: 0 }} /> : null}
+            {run.status === 'PASS' || run.status === 'SAFE' || run.status === 'COMPATIBLE' ? <CheckCircle className={styles.badgeSafe} size={24} style={{ border: 'none', background: 'transparent', padding: 0 }} /> : 
+             run.status === 'FAIL' || run.status === 'UNSAFE' || run.status === 'INCOMPATIBLE' ? <XCircle className={styles.badgeUnsafe} size={24} style={{ border: 'none', background: 'transparent', padding: 0 }} /> : null}
             {run.status}
           </div>
         </div>

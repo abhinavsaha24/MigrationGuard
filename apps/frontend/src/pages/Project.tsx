@@ -5,11 +5,11 @@ import { ShieldCheck, ArrowRight } from 'lucide-react';
 
 const TECH_STACK = [
   { layer: 'Frontend',    tech: 'React 19, Vite 8, React Router 7, TypeScript' },
-  { layer: 'Backend',     tech: 'Fastify 5, Prisma ORM, Zod validation, JWT auth' },
-  { layer: 'Database',    tech: 'PostgreSQL 17 (metadata), Prisma schema migrations' },
-  { layer: 'Storage',     tech: 'MinIO (S3-compatible object storage for evidence)' },
+  { layer: 'Backend',     tech: 'Fastify 4, Prisma ORM, Zod validation, JWT auth' },
+  { layer: 'Database',    tech: 'PostgreSQL 15 (metadata), Prisma schema migrations' },
+  { layer: 'Storage',     tech: 'MinIO / AWS S3 (S3-compatible object storage for evidence)' },
   { layer: 'Security',    tech: 'Argon2id password hashing, RBAC (ADMIN / REVIEWER)' },
-  { layer: 'Deployment',  tech: 'Docker Compose, Nginx reverse proxy, production simulation' },
+  { layer: 'Deployment',  tech: 'Docker Compose, Cloudflare Tunnel, Nginx reverse proxy' },
   { layer: 'CI/CD',       tech: 'GitHub Actions — build, lint, test, benchmark pipeline' },
 ];
 
@@ -29,15 +29,15 @@ export default function Project() {
       <section className={pStyles.statusRow}>
         <div className={pStyles.statusCard}>
           <div className={pStyles.statusKey}>Status</div>
-          <div className={pStyles.statusVal}>READY FOR LOCAL DEMONSTRATION</div>
+          <div className={pStyles.statusVal}>PRODUCTION & LOCAL VERIFIED</div>
         </div>
         <div className={pStyles.statusCard}>
           <div className={pStyles.statusKey}>Deployment</div>
-          <div className={pStyles.statusVal}>LOCAL_PRODUCTION_SIMULATION</div>
+          <div className={pStyles.statusVal}>AWS_EC2_CLOUDFLARE_TUNNEL</div>
         </div>
         <div className={pStyles.statusCard}>
           <div className={pStyles.statusKey}>Public URL</div>
-          <div className={pStyles.statusVal}><code>http://localhost/</code></div>
+          <div className={pStyles.statusVal}><code>https://migrationguard.abhinavsaha.me</code></div>
         </div>
         <div className={pStyles.statusCard}>
           <div className={pStyles.statusKey}>Milestones</div>
@@ -96,7 +96,7 @@ export default function Project() {
             <div className={pStyles.researchLabel}>MigrationGuard F1 (benchmark)</div>
           </div>
           <div className={pStyles.researchCard}>
-            <div className={pStyles.researchNum}>0.67</div>
+            <div className={pStyles.researchNum}>0.75</div>
             <div className={pStyles.researchLabel}>Atlas F1 (benchmark)</div>
           </div>
           <div className={pStyles.researchCard}>

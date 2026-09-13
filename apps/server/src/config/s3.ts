@@ -26,6 +26,7 @@ function getS3Client(): S3Client {
   return new S3Client(config);
 }
 
+export const s3 = getS3Client();
 export const BUCKET_NAME = process.env.S3_BUCKET || 'migrationguard-storage';
 
-export { PutObjectCommand, GetObjectCommand };
+export { getS3Client, PutObjectCommand, GetObjectCommand };

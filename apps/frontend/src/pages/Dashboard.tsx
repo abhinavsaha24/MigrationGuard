@@ -13,27 +13,32 @@ interface Run {
 }
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [runs, setRuns] = useState<Run[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const API_BASE = import.meta.env.VITE_API_URL || '';
-    fetch(`${API_BASE}/api/runs`)
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    fetch(`${API_BASE}/api/runs`, { headers })
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
       .then(data => {
-        setRuns(Array.isArray(data) ? data : []);
+        setRuns(Array.isArray(data.runs) ? data.runs : Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(e => {
         setError(e.message);
         setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   const total = runs.length;
   const passed = runs.filter(r => ['PASS', 'SAFE', 'COMPATIBLE'].includes(r.status?.toUpperCase())).length;
@@ -121,7 +126,7 @@ export default function Dashboard() {
               <div className={styles.emptyConsole}>
                 <Terminal size={32} className={styles.emptyIcon} />
                 <p>No verification logs found in current environment.</p>
-                <code>$ migrationguard verify --target=latest</code>
+                <code>$ npm run verify</code>
               </div>
             ) : (
               <div className={styles.runList}>

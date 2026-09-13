@@ -57,7 +57,7 @@ export default function Home() {
               </div>
               
               <div className={styles.metricBlock}>
-                <div className={styles.metricVal}>0.67</div>
+                <div className={styles.metricVal}>0.75</div>
                 <div className={styles.metricName}>Atlas Static Analysis F1</div>
               </div>
               

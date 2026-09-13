@@ -32,7 +32,7 @@ The frontend is a pure React SPA compiled by Vite. It is deployed statically to 
 ```bash
 cd apps/frontend
 export VITE_BASE_PATH=/MigrationGuard/
-export VITE_API_URL=https://api.yourdomain.com
+export VITE_API_URL=https://migrationguard.abhinavsaha.me
 npm run build
 ```
 

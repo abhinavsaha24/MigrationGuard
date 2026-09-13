@@ -20,21 +20,21 @@ MigrationGuard is a database migration safety tool. Given a Prisma migration, it
 ## Package Dependency Graph
 
 `
-core           (no internal deps)
-sandbox        (no internal deps — Docker via child_process)
-evidence       (no internal deps)
-workload       (no internal deps)
+core (no internal deps)
+sandbox (no internal deps — Docker via child_process)
+evidence (no internal deps)
+workload (no internal deps)
 mutation-engine (no internal deps)
 migration-engine (no internal deps — Prisma via execSync)
 
-matrix-engine   <- sandbox, migration-engine, application-runner, workload
-compatibility   <- workload, evidence, matrix-engine
+matrix-engine <- sandbox, migration-engine, application-runner, workload
+compatibility <- workload, evidence, matrix-engine
 benchmark-runner <- core, sandbox, matrix-engine, evidence, compatibility
-cli             <- sandbox, migration-engine, application-runner, compatibility,
-                  workload, matrix-engine, evidence, benchmark-runner
-poc-app         (standalone Prisma demo app — old.ts and new.ts versions)
-server          (Fastify API backend — separate from the CLI pipeline)
-frontend        (React/Vite dashboard — reads from server API)
+cli <- sandbox, migration-engine, application-runner, compatibility,
+workload, matrix-engine, evidence, benchmark-runner
+poc-app (standalone Prisma demo app — old.ts and new.ts versions)
+server (Fastify API backend — separate from the CLI pipeline)
+frontend (React/Vite dashboard — reads from server API)
 `
 
 Build order (as declared in root tsconfig.json references):
@@ -77,6 +77,7 @@ Do NOT use npm install on CI or EC2 — use npm ci to ensure lockfile versions.
 ### CLI / Engine (no .env required for basic use)
 
 No env vars needed for local CLI unless:
+
 - Uploading results: set MG_API_TOKEN and MG_API_URL
 - On EC2: set SANDBOX_HOST=host.docker.internal (lets sandbox containers reach the host)
 
@@ -87,15 +88,15 @@ No env vars needed for local CLI unless:
 
 Required variables (server):
 
-- DATABASE_URL      — PostgreSQL connection string for server's own DB
-- JWT_SECRET        — Strong random secret for JWT signing
-- FRONTEND_ORIGIN   — CORS allowed origin
-- S3_BUCKET         — S3/MinIO bucket name
-- AWS_REGION        — AWS region (us-east-1 for MinIO)
-- AWS_ENDPOINT      — MinIO: http://localhost:9000
-- AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY — MinIO credentials
-- SANDBOX_HOST      — EC2 only: host.docker.internal
-- MG_API_URL / MG_API_TOKEN — CLI upload target
+- DATABASE_URL — PostgreSQL connection string for server's own DB
+- JWT_SECRET — Strong random secret for JWT signing
+- FRONTEND_ORIGIN — CORS allowed origin
+- S3_BUCKET — S3/MinIO bucket name
+- AWS_REGION — AWS region (e.g. us-east-1)
+- AWS_ENDPOINT — Local/Dev MinIO only: http://minio:9000 (Docker) or http://localhost:9000 (local). Omitted on AWS S3 in production.
+- AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY — Storage credentials (omitted when using IAM roles on AWS)
+- SANDBOX_HOST — EC2/Docker only: host.docker.internal
+- MG_API_URL / MG_API_TOKEN — CLI upload target (Production: https://migrationguard.abhinavsaha.me)
 
 ---
 
@@ -104,8 +105,9 @@ Required variables (server):
     npm run generate --workspace=@migrationguard/poc-app
 
 Generates:
-- node_modules/@prisma/client-v1  (from fixtures/prisma/schema-v1.prisma)
-- node_modules/@prisma/client-v2  (from fixtures/prisma/schema-v2.prisma)
+
+- node_modules/@prisma/client-v1 (from fixtures/prisma/schema-v1.prisma)
+- node_modules/@prisma/client-v2 (from fixtures/prisma/schema-v2.prisma)
 
 ---
 
@@ -114,6 +116,7 @@ Generates:
     npm run build
 
 Runs:
+
 1. npm run generate --workspace=@migrationguard/poc-app
 2. tsc -b (builds all packages in dependency order)
 
@@ -150,16 +153,16 @@ Most common cause: stale tsconfig.tsbuildinfo files.
 
 ### Suites
 
-Suite                                Requires Docker  Description
-@migrationguard/compatibility        No               Fault classification, causal analysis
-@migrationguard/matrix-engine        No               Matrix execution with mocked runners
-@migrationguard/workload             No               Workload loader and replay engine
-@migrationguard/server               No               Fastify API endpoint tests
-@migrationguard/sandbox              YES              PostgreSQL sandbox lifecycle
-@migrationguard/migration-engine     YES              Prisma migration apply/seed
-@migrationguard/application-runner   YES              App process lifecycle
-@migrationguard/cli verify.test.ts   YES              Full E2E verification run
-@migrationguard/cli provenance.test  No               Evidence ID determinism
+Suite Requires Docker Description
+@migrationguard/compatibility No Fault classification, causal analysis
+@migrationguard/matrix-engine No Matrix execution with mocked runners
+@migrationguard/workload No Workload loader and replay engine
+@migrationguard/server No Fastify API endpoint tests
+@migrationguard/sandbox YES PostgreSQL sandbox lifecycle
+@migrationguard/migration-engine YES Prisma migration apply/seed
+@migrationguard/application-runner YES App process lifecycle
+@migrationguard/cli verify.test.ts YES Full E2E verification run
+@migrationguard/cli provenance.test No Evidence ID determinism
 
 Without Docker: 34 tests pass.
 With Docker running: all 40+ tests pass.
@@ -285,7 +288,7 @@ Docker not running:
 
     docker info
     sudo systemctl start docker
-    sudo usermod -aG docker 
+    sudo usermod -aG docker
     newgrp docker
 
 ### "Expected verify script to exit with code 1, but got 4"

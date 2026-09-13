@@ -1,52 +1,106 @@
 # MigrationGuard
 
-MigrationGuard is a dynamic, application-aware database migration verification engine. Unlike static analysis tools (e.g., Atlas or Prisma Migrate), MigrationGuard verifies migration safety by executing the actual application workload against isolated pre- and post-migration database states in an ephemeral Docker sandbox. This guarantees backward compatibility during rolling deployments.
+MigrationGuard is a dynamic, application-aware database migration verification engine. Unlike static analysis tools (e.g., Atlas or Prisma Migrate), MigrationGuard verifies migration safety by executing the actual application workload against isolated pre- and post-migration database states in an ephemeral Docker sandbox. This guarantees backward compatibility during rolling and zero-downtime deployments.
+
+Production Dashboard: [https://migrationguard.abhinavsaha.me](https://migrationguard.abhinavsaha.me)
+
+---
 
 ## Architecture
 
-MigrationGuard orchestrates a 4-state Compatibility Matrix during CI:
+MigrationGuard orchestrates a 4-state Compatibility Matrix during CI/CD:
 
-1. **OLD APP + V1 DB**: Tests the pre-migration baseline.
-2. **NEW APP + V1 DB**: Tests backwards compatibility. A new application instance connecting to a database that has _not_ yet been migrated.
-3. **OLD APP + V2 DB**: Tests backwards compatibility. An old application instance connecting to a database that _has_ been migrated.
-4. **NEW APP + V2 DB**: Tests the post-migration baseline.
+1. **OLD APP + V1 DB**: Verifies the pre-migration baseline functionality.
+2. **NEW APP + V1 DB**: Verifies backward compatibility during rollout (new code against unmigrated database).
+3. **OLD APP + V2 DB**: **Critical test** — verifies whether existing application instances continue serving traffic without failure when the database is migrated.
+4. **NEW APP + V2 DB**: Verifies post-migration target state functionality.
 
 Execution outcomes are analyzed by the **Evidence Engine**, which maps observed HTTP failures directly to underlying PostgreSQL schema constraints (e.g., `COLUMN_REMOVAL`, `DESTRUCTIVE_RENAME`, `TYPE_NARROWING`).
 
+---
+
+## Quick Start & Verification
+
+### 1. Verification Example (Local Fixture)
+
+Verify a database migration against an application workload in an ephemeral PostgreSQL container:
+
+```bash
+# Clone and build
+git clone https://github.com/abhinavsaha24/MigrationGuard.git
+cd MigrationGuard
+npm ci
+npm run build
+
+# Run real migration verification fixture
+npm run verify
+```
+
+The CLI executes the 4-cell matrix, captures HTTP responses, and outputs forensic evidence in `reports/MG-VERIFY-<timestamp>.json` and `.md`.
+
+### 2. Uploading Results to Hosted Production Dashboard
+
+Set the API configuration and pass `--upload`:
+
+```bash
+export MG_API_URL="https://migrationguard.abhinavsaha.me"
+export MG_API_TOKEN="<YOUR_JWT_TOKEN>"
+
+npx migrationguard verify --config migrationguard.json --upload
+```
+
+View results, matrix states, and database exception traces on the hosted web console:
+[https://migrationguard.abhinavsaha.me/#/dashboard/runs](https://migrationguard.abhinavsaha.me/#/dashboard/runs)
+
+---
+
 ## Research Methodology & Benchmark Results
 
-MigrationGuard was rigorously evaluated against an explicit ground truth matrix comparing its causal analysis against the static capabilities of Atlas.
+MigrationGuard was evaluated against an explicit ground truth matrix comparing its dynamic causal analysis against static schema linters.
 
-- **Benchmark Results**: MigrationGuard achieved **100% Precision** and **100% Recall** (F1 = 1.00), successfully isolating injected structural faults while passing safe migrations.
-- **Limitation Statement (n=5)**: The evaluation utilized an explicitly constrained dataset (n=5) covering safe column additions, type narrowing, and destructive drops. While achieving perfect metrics within this set, this result does not imply generalized 100% accuracy on all arbitrary PostgreSQL schema changes.
+- **Benchmark Evaluation**: MigrationGuard achieved **100% Precision** and **100% Recall** (F1 = 1.00) across structural fault scenarios, successfully isolating destructive changes while passing safe additive migrations.
+- **Limitation Statement (n=5)**: The evaluation utilized a controlled dataset (n=5) covering safe column additions, type narrowing, and destructive drops. While achieving high precision within this benchmark suite, this does not imply generalized 100% accuracy on arbitrary external database topologies.
 
-## Running the Application
+Run the benchmark suite:
+```bash
+node cli/dist/index.js benchmark
+```
 
-### Local Demonstration
+---
 
-To launch the full stack (Frontend, Backend, PostgreSQL, MinIO) locally for demonstration:
+## Running the Application Locally
+
+To launch the local development stack (Frontend, Backend, PostgreSQL, MinIO) for local testing:
 
 ```bash
 docker compose up -d --build
 ```
 
-For detailed instructions, see the [Local Demo Runbook](docs/LOCAL-DEMO-RUNBOOK.md).
+- Frontend: `http://localhost:5173` or `http://localhost:8080`
+- Backend API: `http://localhost:3000`
 
-### Production Deployment
+---
 
-MigrationGuard is engineered for secure deployment via an Nginx reverse proxy. For VPS deployment configuration, environment variables, and certificate handling, see the [Production Deployment Runbook](docs/PRODUCTION-DEPLOYMENT.md).
+## Scope & Limitations
+
+- **Database Support**: PostgreSQL (versions 14, 15, and 16).
+- **Application Runner**: Node.js applications (Express, Fastify, NestJS) using Prisma or raw SQL migrations.
+- **Execution Model**: Ephemeral Docker sandboxes run locally or on CI runners with Docker daemon access.
+- **Hosted Platform**: `https://migrationguard.abhinavsaha.me` serves as a telemetry, review, and audit console; it does not execute arbitrary remote customer containers.
+
+---
 
 ## Documentation Index
 
-The repository contains extensive architectural, research, and audit documentation:
-
+- **Customer Guide**
+  - [Customer Usage Guide](docs/CUSTOMER-GUIDE.md) — Complete installation, configuration, matrix interpretation, and CI/CD setup.
 - **Architecture & System Design**
   - [Final Architecture](docs/architecture/FINAL-ARCHITECTURE.md)
   - [System Specifications](MIGRATIONGUARD_SPEC.md)
 - **Deployment & Runbooks**
-  - [Deployment Readiness Status](docs/DEPLOYMENT-READINESS.md)
-  - [Production Deployment](docs/PRODUCTION-DEPLOYMENT.md)
-  - [Local Demo Runbook](docs/LOCAL-DEMO-RUNBOOK.md)
+  - [Production Deployment Guide](docs/DEPLOYMENT.md)
+  - [Developer & Operator Runbook](docs/RUNBOOK.md)
+  - [Pre-Deployment Audit](docs/FINAL-PREDEPLOYMENT-AUDIT.md)
 - **Research & Benchmarks**
   - [Research Paper & Summary](docs/research/MIGRATIONGUARD-RESEARCH-PAPER.md)
   - [Performance Metrics](docs/research/FINAL-PERFORMANCE.md)
@@ -56,7 +110,7 @@ The repository contains extensive architectural, research, and audit documentati
   - [Benchmark Repository Selection](docs/benchmark/REPOSITORY-SELECTION.md)
   - [Baseline Methodology](docs/benchmark/BASELINE.md)
 - **Security & Final Reports**
-  - [Final Release Report](docs/FINAL-RELEASE-REPORT.md)
+  - [Final Deployment Result](docs/FINAL-DEPLOYMENT-RESULT.md)
   - [Final Security Review](docs/security/FINAL-SECURITY-REVIEW.md)
 - **Historical Archive**
-  - Architectural milestones and early audit decisions are preserved in `docs/archive/`.
+  - Preserved architectural records in `docs/archive/`.

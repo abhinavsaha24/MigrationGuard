@@ -34,7 +34,7 @@ jobs:
       - name: Build frontend
         run: npm run build --workspace=@migrationguard/frontend
         env:
-          VITE_API_URL: https://migrationguard-api.abhinavsaha.me
+          VITE_API_URL: https://migrationguard.abhinavsaha.me
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

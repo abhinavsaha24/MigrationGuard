@@ -81,12 +81,12 @@ export default function Results() {
         <div className={styles.scoreBlock}>
           <div className={styles.scoreLabel}>MigrationGuard F1</div>
           <div className={styles.scoreValGreen}>1.00</div>
-          <div className={styles.scoreSub}>Zero False Positives</div>
+          <div className={styles.scoreSub}>Zero False Positives (n=5)</div>
         </div>
         <div className={styles.scoreDivider}></div>
         <div className={styles.scoreBlock}>
           <div className={styles.scoreLabel}>Atlas F1</div>
-          <div className={styles.scoreValRed}>0.67</div>
+          <div className={styles.scoreValRed}>0.75</div>
           <div className={styles.scoreSub}>Penalized by False Positives</div>
         </div>
       </section>
@@ -154,7 +154,7 @@ export default function Results() {
           <div className={styles.disclaimerText}>
             <strong>Research Boundary Acknowledgment</strong>
             <p>
-              MigrationGuard classified all four controlled benchmark cases correctly. These results do not 
+              MigrationGuard classified all five controlled benchmark cases correctly (n=5). These results do not 
               establish generalized production accuracy and are not a substitute for comprehensive testing. 
               The benchmark is a proof-of-concept evaluation on a controlled n=5 dataset.
             </p>
