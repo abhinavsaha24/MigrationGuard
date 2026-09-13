@@ -77,8 +77,10 @@ jobs:
         # Exit code 1 from this step means the verifier is working correctly,
         # NOT that CI is broken. Codes 2, 3, 4 indicate real failures.
         run: |
+          set +e
           npm run verify > output.txt 2>&1
           exit_code=$?
+          set -e
           cat output.txt
 
           echo "# MigrationGuard Verification" >> $GITHUB_STEP_SUMMARY
