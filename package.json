@@ -8,7 +8,7 @@
     "cli"
   ],
   "scripts": {
-    "build": "npm run generate --workspace=@migrationguard/poc-app && tsc -b",
+    "build": "npm run generate --workspace=@migrationguard/poc-app && npm run generate --workspace=@migrationguard/server && tsc -b",
     "test": "vitest run",
     "lint": "eslint .",
     "format": "prettier --write .",
