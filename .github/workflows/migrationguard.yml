@@ -2,9 +2,9 @@ name: MigrationGuard Verification
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'master']
   pull_request:
-    branches: ['main']
+    branches: ['main', 'master']
 
 # Minimal permissions — read-only by default, write only for step summary
 permissions:
