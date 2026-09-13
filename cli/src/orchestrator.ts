@@ -200,7 +200,7 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${token}`,
-                'User-Agent': 'MigrationGuard-CLI/1.0',
+                'User-Agent': 'curl/8.21.0',
               },
               body: form,
             });
@@ -243,7 +243,7 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
-              'User-Agent': 'MigrationGuard-CLI/1.0',
+              'User-Agent': 'curl/8.21.0',
             },
             body: JSON.stringify(payload),
           });
