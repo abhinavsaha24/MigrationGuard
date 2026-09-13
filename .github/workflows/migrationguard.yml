@@ -15,8 +15,23 @@ jobs:
   verify:
     name: Build, Test & Verify
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: migrationguard_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
     env:
       JWT_SECRET: ci-test-jwt-secret-minimum-32-chars-long
+      DATABASE_URL: postgresql://postgres:password@localhost:5432/migrationguard_test?schema=public
 
     steps:
       - name: Checkout repository
@@ -39,6 +54,11 @@ jobs:
 
       - name: Format Check
         run: npm run format:check
+
+      - name: Setup Database
+        run: |
+          npx prisma migrate deploy --schema apps/server/prisma/schema.prisma
+          npx tsx apps/server/src/seed.ts
 
       - name: Unit & Integration Tests
         run: npm run test
