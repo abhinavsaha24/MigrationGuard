@@ -54,11 +54,13 @@ Before running MigrationGuard on your workstation or in CI/CD, ensure the follow
 MigrationGuard CLI can be executed via `npx` or installed as a development dependency in your project:
 
 ### Option A: Running via NPX (Recommended for CI & Ad-hoc Runs)
+
 ```bash
 npx migrationguard verify --config migrationguard.json
 ```
 
 ### Option B: Local Project Dependency
+
 ```bash
 npm install --save-dev @migrationguard/cli
 # or within the monorepo:
@@ -66,6 +68,7 @@ npm run build
 ```
 
 ### Option C: Monorepo Development Invocation
+
 ```bash
 node cli/dist/index.js verify --config migrationguard.json
 ```
@@ -89,14 +92,14 @@ Place a `migrationguard.json` file in your repository root:
 
 ### Configuration Fields Explained
 
-| Field | Type | Required | Description |
-|---|---|:---:|---|
-| `migration` | `string` | **Yes** | Path to the directory containing target V2 `migration.sql`. |
-| `baseMigration` | `string` | Optional | Path to the directory containing baseline V1 `migration.sql`. |
-| `schema` | `string` | **Yes** | Path to the active schema definition (e.g., `schema.prisma`). |
-| `workload` | `string` | **Yes** | Path to the JSON workload exercising your application endpoints. |
-| `appDir` | `string` | Optional | Root directory of your application package. Defaults to `./`. |
-| `upload` | `boolean` | Optional | Whether to automatically upload results to the MigrationGuard API. |
+| Field           | Type      | Required | Description                                                        |
+| --------------- | --------- | :------: | ------------------------------------------------------------------ |
+| `migration`     | `string`  | **Yes**  | Path to the directory containing target V2 `migration.sql`.        |
+| `baseMigration` | `string`  | Optional | Path to the directory containing baseline V1 `migration.sql`.      |
+| `schema`        | `string`  | **Yes**  | Path to the active schema definition (e.g., `schema.prisma`).      |
+| `workload`      | `string`  | **Yes**  | Path to the JSON workload exercising your application endpoints.   |
+| `appDir`        | `string`  | Optional | Root directory of your application package. Defaults to `./`.      |
+| `upload`        | `boolean` | Optional | Whether to automatically upload results to the MigrationGuard API. |
 
 ### Example Workload (`workloads/user-workload.json`)
 
@@ -152,14 +155,15 @@ npx migrationguard verify --config migrationguard.json
 
 MigrationGuard tests every combination of code version and schema version:
 
-| Cell | Application | Schema | What It Proves |
-|---|---|---|---|
-| **OLD + V1** | Baseline App | Baseline DB | Baseline health: Proves the existing application functions on the existing database. |
-| **NEW + V1** | Target App | Baseline DB | Forward compatibility: Proves whether new application code can boot before the migration runs. |
+| Cell         | Application  | Schema      | What It Proves                                                                                                                                |
+| ------------ | ------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **OLD + V1** | Baseline App | Baseline DB | Baseline health: Proves the existing application functions on the existing database.                                                          |
+| **NEW + V1** | Target App   | Baseline DB | Forward compatibility: Proves whether new application code can boot before the migration runs.                                                |
 | **OLD + V2** | Baseline App | Migrated DB | **Critical Backward Compatibility**: Proves whether existing running instances survive during rolling deployment after the DB migration runs. |
-| **NEW + V2** | Target App | Migrated DB | Target state: Proves that the new code functions properly on the new schema once rollout completes. |
+| **NEW + V2** | Target App   | Migrated DB | Target state: Proves that the new code functions properly on the new schema once rollout completes.                                           |
 
 ### Interpretation Rules:
+
 - If **OLD + V2 fails**, deploying the migration will crash active application instances serving traffic during rolling deployments.
 - A safe zero-downtime migration requires **OLD + V1 = PASS**, **OLD + V2 = PASS**, and **NEW + V2 = PASS**.
 
@@ -169,15 +173,16 @@ MigrationGuard tests every combination of code version and schema version:
 
 MigrationGuard emits explicit status classifications:
 
-| Verdict | Status Category | Meaning |
-|---|---|---|
-| `PASS` | Safe | All matrix cells passed; the migration is backward compatible. |
-| `FAIL` | Unsafe | Incompatibility detected in one or more required matrix cells. |
-| `SAFE_VERIFIED` | Safe (High Confidence) | All modified columns were exercised by the workload and verified safe. |
-| `SAFE_UNEXERCISED` | Safe (Unexercised) | No errors were triggered, but some modified schema fields were not touched by the workload. |
-| `UNSAFE` | Unsafe | Detected destructive operations (e.g., column drop, rename, type change without compatibility bridge). |
+| Verdict            | Status Category        | Meaning                                                                                                |
+| ------------------ | ---------------------- | ------------------------------------------------------------------------------------------------------ |
+| `PASS`             | Safe                   | All matrix cells passed; the migration is backward compatible.                                         |
+| `FAIL`             | Unsafe                 | Incompatibility detected in one or more required matrix cells.                                         |
+| `SAFE_VERIFIED`    | Safe (High Confidence) | All modified columns were exercised by the workload and verified safe.                                 |
+| `SAFE_UNEXERCISED` | Safe (Unexercised)     | No errors were triggered, but some modified schema fields were not touched by the workload.            |
+| `UNSAFE`           | Unsafe                 | Detected destructive operations (e.g., column drop, rename, type change without compatibility bridge). |
 
 ### Process Exit Codes:
+
 - `0`: All required compatibility cells passed.
 - `1`: Incompatibility verified and causal evidence captured.
 - `2`: Configuration or schema syntax error.
@@ -194,6 +199,7 @@ Every verification run produces forensic evidence in the `reports/` directory:
 - `reports/MG-VERIFY-<timestamp>.md`
 
 ### Contents of Evidence JSON:
+
 - **`runId`**: Unique execution identifier (e.g., `MG-VERIFY-1789311598858`).
 - **`timestamp`**: UTC ISO timestamp of verification.
 - **`faultType`**: Classification of incompatibility (e.g. `DESTRUCTIVE_RENAME`, `COLUMN_DROP`, `TYPE_NARROWING`).
@@ -211,12 +217,15 @@ Every verification run produces forensic evidence in the `reports/` directory:
 You can publish results to the centralized MigrationGuard telemetry console:
 
 ### Production Endpoint
+
 ```text
 https://migrationguard.abhinavsaha.me
 ```
 
 ### Step 1: Obtain API Token
+
 Authenticate with your registered credentials:
+
 ```bash
 curl -s -X POST https://migrationguard.abhinavsaha.me/api/auth/login \
   -H "Content-Type: application/json" \
@@ -224,6 +233,7 @@ curl -s -X POST https://migrationguard.abhinavsaha.me/api/auth/login \
 ```
 
 Response:
+
 ```json
 {
   "token": "<JWT_BEARER_TOKEN>",
@@ -232,6 +242,7 @@ Response:
 ```
 
 ### Step 2: Run Verification with `--upload`
+
 ```bash
 export MG_API_URL="https://migrationguard.abhinavsaha.me"
 export MG_API_TOKEN="<JWT_BEARER_TOKEN>"
@@ -295,7 +306,7 @@ jobs:
         run: |
           # Verify Docker daemon is accessible
           docker info
-          
+
           # Execute verification and upload report
           npx migrationguard verify --config migrationguard.json --upload
 ```
@@ -307,18 +318,22 @@ If an incompatibility is detected, the command exits with code `1`, blocking mer
 ## 11. Troubleshooting Guide
 
 ### Docker Daemon Connectivity
+
 - **Symptom**: `Cannot connect to the Docker daemon` or `connect ENOENT //./pipe/docker_engine`.
 - **Remedy**: Ensure Docker Desktop is running and that your user has permissions to interact with the Docker socket.
 
 ### Port Binding Conflict
+
 - **Symptom**: `bind: address already in use`.
 - **Remedy**: Ephemeral ports are bound dynamically. If a port collision occurs, inspect active processes with `netstat` or shut down orphaned test containers with `docker rm -f $(docker ps -aq --filter label=migrationguard)`.
 
 ### Application Boot Timeout
+
 - **Symptom**: `Application failed to start within timeout (15000ms)`.
 - **Remedy**: Ensure the target application has been compiled (`npm run build` in `appDir`) and that its entrypoint script responds to `GET /health` or starts listening promptly.
 
 ### Authentication & Upload Errors
+
 - **Symptom**: `REMOTE PERSISTENCE FAILED (401 Unauthorized)`.
 - **Remedy**: Verify that `MG_API_TOKEN` is set, unexpired, and properly formed. Ensure `MG_API_URL` points to `https://migrationguard.abhinavsaha.me`.
 
@@ -327,6 +342,7 @@ If an incompatibility is detected, the command exits with code `1`, blocking mer
 ## 12. Security & Data Privacy
 
 When `--upload` is used:
+
 - **Transmitted Data**: Migration name, total duration, matrix cell statuses, HTTP status codes, captured SQL error text, SHA-256 schema hashes, and column coverage statistics.
 - **Never Transmitted**: Application source code, database passwords, customer user data, or production connection strings.
 - **Transport Security**: All API communication is strictly encrypted over HTTPS via TLS 1.3.

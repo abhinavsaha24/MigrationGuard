@@ -62,6 +62,7 @@ MigrationGuard was evaluated against an explicit ground truth matrix comparing i
 - **Limitation Statement (n=5)**: The evaluation utilized a controlled dataset (n=5) covering safe column additions, type narrowing, and destructive drops. While achieving high precision within this benchmark suite, this does not imply generalized 100% accuracy on arbitrary external database topologies.
 
 Run the benchmark suite:
+
 ```bash
 node cli/dist/index.js benchmark
 ```
