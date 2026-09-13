@@ -51,6 +51,7 @@ export class ApplicationRunner {
         },
         stdio: ['ignore', 'pipe', 'pipe'],
         shell: process.platform === 'win32',
+        detached: process.platform !== 'win32',
       });
     } else {
       const scriptName = this.version === 'OLD' ? 'old.js' : 'new.js';
@@ -63,6 +64,7 @@ export class ApplicationRunner {
           DATABASE_URL: databaseUrl,
         },
         stdio: ['ignore', 'pipe', 'pipe'],
+        detached: process.platform !== 'win32',
       });
     }
 
@@ -89,7 +91,21 @@ export class ApplicationRunner {
           stdio: 'ignore',
         });
       } else {
-        this.process.kill('SIGKILL');
+        try {
+          process.kill(-this.process.pid, 'SIGKILL');
+        } catch {
+          try {
+            this.process.kill('SIGKILL');
+          } catch {
+            // Process might have already exited
+          }
+        }
+      }
+      try {
+        this.process.stdout?.destroy();
+        this.process.stderr?.destroy();
+      } catch {
+        // Streams might already be closed
       }
       this.process = null;
     }
