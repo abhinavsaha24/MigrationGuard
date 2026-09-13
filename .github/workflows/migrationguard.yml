@@ -15,6 +15,7 @@ jobs:
   verify:
     name: Build, Test & Verify
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     services:
       postgres:
         image: postgres:15-alpine
@@ -116,6 +117,15 @@ jobs:
           else
             exit $exit_code
           fi
+
+      - name: Install Benchmark Dependencies
+        run: |
+          for dir in benchmark/fixtures/* benchmark/repositories/*; do
+            if [ -f "$dir/package.json" ]; then
+              echo "Installing in $dir..."
+              (cd "$dir" && npm install --no-audit --no-fund)
+            fi
+          done
 
       - name: Run Benchmark
         run: |

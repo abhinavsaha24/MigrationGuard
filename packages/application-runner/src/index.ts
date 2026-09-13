@@ -42,16 +42,27 @@ export class ApplicationRunner {
       const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
       this.process = spawn(npmCmd, ['run', scriptName], {
         cwd: this.repoPath,
-        env: { ...process.env, PORT: this.port.toString(), DATABASE_URL: databaseUrl },
-        stdio: 'pipe',
+        env: {
+          ...process.env,
+          CI: 'true',
+          npm_config_yes: 'true',
+          PORT: this.port.toString(),
+          DATABASE_URL: databaseUrl,
+        },
+        stdio: ['ignore', 'pipe', 'pipe'],
         shell: process.platform === 'win32',
       });
     } else {
       const scriptName = this.version === 'OLD' ? 'old.js' : 'new.js';
       const scriptPath = path.join(REPO_ROOT, 'apps', 'poc-app', 'dist', scriptName);
       this.process = spawn('node', [scriptPath], {
-        env: { ...process.env, PORT: this.port.toString(), DATABASE_URL: databaseUrl },
-        stdio: 'pipe',
+        env: {
+          ...process.env,
+          CI: 'true',
+          PORT: this.port.toString(),
+          DATABASE_URL: databaseUrl,
+        },
+        stdio: ['ignore', 'pipe', 'pipe'],
       });
     }
 
