@@ -62,7 +62,7 @@ npx migrationguard verify --config migrationguard.json
 ### Option B: Local Project Dependency
 
 ```bash
-npm install --save-dev @migrationguard/cli
+npm install --save-dev @abhinavsaha24/migrationguard
 # or within the monorepo:
 npm run build
 ```

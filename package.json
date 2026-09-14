@@ -8,13 +8,13 @@
     "cli"
   ],
   "scripts": {
-    "build": "npm run generate --workspace=@migrationguard/poc-app && npm run generate --workspace=@migrationguard/server && tsc -b",
+    "build": "npm run generate --workspace=@migrationguard/poc-app && npm run generate --workspace=@migrationguard/server && tsc -b && npm run build --workspace=@abhinavsaha24/migrationguard",
     "test": "vitest run",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "verify": "npm run verify --workspace=@migrationguard/cli",
-    "benchmark": "npm run benchmark --workspace=@migrationguard/cli",
+    "verify": "npm run verify --workspace=@abhinavsaha24/migrationguard",
+    "benchmark": "npm run benchmark --workspace=@abhinavsaha24/migrationguard",
     "experiment:mutate": "node cli/dist/mutate.js",
     "ci:verify": "npm run build && npm run lint && npm run format:check && npm run test && (npm run verify || true) && npm run benchmark && npm run experiment:mutate"
   },

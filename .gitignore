@@ -41,3 +41,6 @@ scratch/
 benchmark-baseline.log
 mutate-baseline.log
 run*.log
+
+# Tarball artifacts
+*.tgz

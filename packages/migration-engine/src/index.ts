@@ -3,6 +3,34 @@ import * as path from 'path';
 import * as os from 'os';
 import { execSync } from 'child_process';
 import { randomBytes } from 'crypto';
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
+
+function getPrismaCommand(extraDirs: string[] = []): string {
+  const searchDirs = [...extraDirs, process.cwd()];
+  try {
+    const currentDir = path.dirname(fileURLToPath(import.meta.url));
+    searchDirs.push(currentDir);
+    searchDirs.push(path.resolve(currentDir, '..'));
+  } catch {
+    // ignore
+  }
+
+  for (const dir of searchDirs) {
+    if (!dir) continue;
+    try {
+      const req = createRequire(path.join(dir, 'package.json'));
+      const prismaPkgPath = req.resolve('prisma/package.json');
+      const binPath = path.join(path.dirname(prismaPkgPath), 'build', 'index.js');
+      if (fs.existsSync(binPath)) {
+        return `"${process.execPath}" "${binPath}"`;
+      }
+    } catch {
+      // continue to next search directory
+    }
+  }
+  return 'npx prisma';
+}
 
 export class MigrationError extends Error {
   constructor(message: string) {
@@ -44,8 +72,9 @@ export class MigrationEngine {
     fs.copyFileSync(path.join(sourceDir, 'migration.sql'), path.join(targetDir, 'migration.sql'));
 
     try {
+      const prismaCmd = getPrismaCommand([this.workspaceDir]);
       execSync(
-        `npx prisma migrate deploy --schema "${path.join(this.workspaceDir, 'schema.prisma')}"`,
+        `${prismaCmd} migrate deploy --schema "${path.join(this.workspaceDir, 'schema.prisma')}"`,
         {
           env: { ...process.env, DATABASE_URL: this.databaseUrl },
           stdio: 'pipe',
@@ -63,8 +92,9 @@ export class MigrationEngine {
   public seedRawSql(sqlPath: string): void {
     if (!this.workspaceDir) throw new MigrationError('Workspace not prepared.');
     try {
+      const prismaCmd = getPrismaCommand([this.workspaceDir]);
       execSync(
-        `npx prisma db execute --file "${sqlPath}" --schema "${path.join(this.workspaceDir, 'schema.prisma')}"`,
+        `${prismaCmd} db execute --file "${sqlPath}" --schema "${path.join(this.workspaceDir, 'schema.prisma')}"`,
         {
           env: { ...process.env, DATABASE_URL: this.databaseUrl },
           stdio: 'pipe',
