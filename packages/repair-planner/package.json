@@ -1,5 +1,5 @@
 {
-  "name": "@migrationguard/compatibility",
+  "name": "@migrationguard/repair-planner",
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,9 +8,6 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@migrationguard/evidence": "^0.1.0",
-    "@migrationguard/workload": "^0.1.0",
-    "@migrationguard/matrix-engine": "^0.1.0",
     "@migrationguard/core": "^0.1.0"
   }
 }

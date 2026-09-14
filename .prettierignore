@@ -2,3 +2,4 @@ benchmark/tmp-prisma-examples/**
 benchmark/repositories/**
 benchmark/fixtures/**
 apps/frontend/**
+docs/benchmark/RESULTS.md

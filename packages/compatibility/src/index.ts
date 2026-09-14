@@ -500,3 +500,91 @@ export class CompatibilityAnalyzer {
     return evidence;
   }
 }
+
+import {
+  CompatibilityExplanationContext,
+  MigrationChange,
+  CompatibilityObservation,
+} from '@migrationguard/core';
+
+export class ExplanationContextBuilder {
+  public static build(
+    runId: string,
+    matrix: import('@migrationguard/matrix-engine').CompatibilityMatrix,
+    evidenceList: import('@migrationguard/evidence').EvidenceRecord[],
+    migrationSql?: string,
+    inputHashes?: Record<string, string>,
+  ): CompatibilityExplanationContext {
+    const failedRuns = matrix.runs.filter((r) => r.status !== 'PASS');
+    const verdict = failedRuns.length === 0 ? 'PASS' : 'FAIL';
+    const failedStates = failedRuns.map(
+      (r) => `${r.applicationVersion}_APP_${r.databaseVersion}_DB`,
+    );
+
+    const migrationChanges: MigrationChange[] = [];
+    if (migrationSql) {
+      const dropMatches = [
+        ...migrationSql.matchAll(/ALTER\s+TABLE\s+"?(\w+)"?\s+DROP\s+COLUMN\s+"?(\w+)"?/gi),
+      ];
+      for (const m of dropMatches) {
+        migrationChanges.push({ type: 'DROP_COLUMN', table: m[1], column: m[2] });
+      }
+      const addMatches = [
+        ...migrationSql.matchAll(
+          /ALTER\s+TABLE\s+"?(\w+)"?\s+ADD\s+COLUMN\s+"?(\w+)"?\s+([^;]+)/gi,
+        ),
+      ];
+      for (const m of addMatches) {
+        const isNullable =
+          !m[3].toUpperCase().includes('NOT NULL') || m[3].toUpperCase().includes('DEFAULT');
+        migrationChanges.push({
+          type: 'ADD_COLUMN',
+          table: m[1],
+          column: m[2],
+          nullable: isNullable,
+        });
+      }
+      const renameMatches = [
+        ...migrationSql.matchAll(
+          /ALTER\s+TABLE\s+(?:"?\w+"?\.)?"?(\w+)"?\s+RENAME\s+COLUMN\s+"?(\w+)"?\s+TO\s+"?(\w+)"?/gi,
+        ),
+      ];
+      for (const m of renameMatches) {
+        migrationChanges.push({ type: 'RENAME_COLUMN', table: m[1], from: m[2], to: m[3] });
+      }
+    }
+
+    const observations: CompatibilityObservation[] = matrix.runs.map((r) => {
+      const failedOp = r.workloadResult?.operations.find((op) => !op.success);
+      return {
+        state: `${r.applicationVersion}_APP_${r.databaseVersion}_DB`,
+        operation: failedOp ? `${failedOp.method} ${failedOp.path}` : undefined,
+        result: r.status,
+        databaseError: r.error,
+      };
+    });
+
+    const primaryEvidence =
+      evidenceList.find((e) => e.failureCategory === 'COMPATIBILITY_FAILURE') || evidenceList[0];
+
+    return {
+      verificationId: runId,
+      verdict,
+      faultCategory:
+        primaryEvidence?.failureCategory || (verdict === 'PASS' ? 'NONE' : 'UNKNOWN_FAILURE'),
+      confidence: primaryEvidence?.confidence || 'UNKNOWN',
+      failedStates,
+      migrationChanges,
+      observations,
+      evidence: evidenceList.map((e) => ({
+        id: e.evidenceId,
+        faultType: e.faultType,
+        confidence: e.confidence,
+        operation: e.operationId,
+        observedError: e.databaseError,
+      })),
+      rolloutSequence: TransitionAnalyzer.analyze(matrix),
+      inputHashes,
+    };
+  }
+}

@@ -7,6 +7,8 @@ import rateLimit from '@fastify/rate-limit';
 import { setupAuthRoutes } from './routes/authRoutes.js';
 import { setupPresentationRoutes } from './routes/presentationRoutes.js';
 import { setupRunRoutes } from './routes/runRoutes.js';
+import { setupAssistantRoutes } from './routes/assistantRoutes.js';
+import { setupRepairRoutes } from './routes/repairRoutes.js';
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = fastify({
@@ -87,6 +89,8 @@ export async function buildApp(): Promise<FastifyInstance> {
   app.register(setupAuthRoutes, { prefix: '/api/auth' });
   app.register(setupPresentationRoutes, { prefix: '/api/presentations' });
   app.register(setupRunRoutes, { prefix: '/api/runs' });
+  app.register(setupAssistantRoutes, { prefix: '/api/assistant' });
+  app.register(setupRepairRoutes, { prefix: '/api/repair' });
 
   return app;
 }

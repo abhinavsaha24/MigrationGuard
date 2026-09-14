@@ -64,6 +64,7 @@ model VerificationRun {
   compatibility    CompatibilityRun[]
   evidence         EvidenceRecord[]
   ReviewerDecision ReviewerDecision[]
+  RepairProposals  RepairProposalRecord[]
 }
 
 model CompatibilityRun {
@@ -100,3 +101,31 @@ model ReviewerDecision {
   comment   String?
   timestamp DateTime        @default(now())
 }
+
+model RepairProposalRecord {
+  id                  String          @id
+  runId               String
+  run                 VerificationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  strategy            String
+  faultCategory       String
+  sourceSchemaHash    String
+  sourceMigrationHash String
+  beforeSchema        String
+  proposedSchema      String
+  proposalData        Json
+  status              String          @default("VALIDATED")
+  approvedBy          String?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+}
+
+model AssistantDocument {
+  id        String   @id @default(uuid())
+  topic     String   @unique
+  title     String
+  content   String
+  category  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

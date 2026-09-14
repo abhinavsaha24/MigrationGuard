@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
 import { verifyCommand } from './verifyCommand.js';
+import { repairCommand } from './repairCommand.js';
 import { benchmarkCommandAction } from './benchmark.js';
 import { storageReconcileAction } from './storageReconcile.js';
 import { evidenceVerifyAction } from './evidenceVerify.js';
 import * as path from 'path';
 
+declare const __CLI_VERSION__: string | undefined;
+const CLI_VERSION = typeof __CLI_VERSION__ !== 'undefined' ? __CLI_VERSION__ : '0.1.2';
+
 const program = new Command();
 
-program.name('migrationguard').description('MigrationGuard CLI').version('0.1.0');
+program.name('migrationguard').description('MigrationGuard CLI').version(CLI_VERSION);
 
 // ── verify ────────────────────────────────────────────────────────────────────
 program
@@ -26,6 +30,24 @@ program
     } catch (e: any) {
       console.error('Fatal CLI Error:', e.message || e);
       process.exit(4); // UNKNOWN_FAILURE
+    }
+  });
+
+// ── repair ────────────────────────────────────────────────────────────────────
+program
+  .command('repair')
+  .description('Propose, inspect, and apply compatibility-preserving repairs')
+  .option('-c, --config <path>', 'Path to JSON configuration file')
+  .option('--show', 'Display the repair proposal and exact diff without applying')
+  .option('--approve <proposalId>', 'Approve and apply a specific repair proposal')
+  .option('--reject <proposalId>', 'Reject a repair proposal')
+  .option('-y, --yes', 'Non-interactively approve and apply the proposal')
+  .action(async (options) => {
+    try {
+      await repairCommand(options, process.cwd());
+    } catch (e: any) {
+      console.error('Fatal CLI Error:', e.message || e);
+      process.exit(4);
     }
   });
 

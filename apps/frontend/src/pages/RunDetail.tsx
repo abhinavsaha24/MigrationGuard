@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { CheckCircle, XCircle, ArrowLeft, Download, Database, Activity, Code, FileJson, Hash } from 'lucide-react';
+import { CheckCircle, XCircle, ArrowLeft, Download, Database, Activity, Code, FileJson, Hash, Sparkles, Wrench } from 'lucide-react';
 import styles from './RunDetail.module.css';
+import { RepairReviewModal } from '../components/RepairReviewModal';
+import { AssistantDrawer } from '../components/AssistantDrawer';
 
 interface CompatibilityResult {
   id: string;
@@ -69,6 +71,42 @@ export default function RunDetail() {
   const [error, setError] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
 
+  // Repair Review & Assistant state
+  const [isRepairOpen, setIsRepairOpen] = useState(false);
+  const [isAssistantOpen, setIsAssistantOpen] = useState(false);
+  const [assistantQuestion, setAssistantQuestion] = useState<string | undefined>();
+  const [assistantCellState, setAssistantCellState] = useState<string | undefined>();
+  const [proposal, setProposal] = useState<any>(null);
+  const [loadingProposal, setLoadingProposal] = useState(false);
+
+  const handleOpenRepair = async () => {
+    setIsRepairOpen(true);
+    if (!proposal && run) {
+      setLoadingProposal(true);
+      try {
+        const API_BASE = import.meta.env.VITE_API_URL || '';
+        const res = await fetch(`${API_BASE}/api/repair/proposals`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            verificationId: run.id,
+            faultCategory: run.evidence?.[0]?.faultType || 'DESTRUCTIVE_RENAME',
+          }),
+        });
+        const data = await res.json();
+        if (data.success && data.data) {
+          setProposal(data.data);
+        }
+      } catch (e) {
+        console.error('Failed to load proposal', e);
+      } finally {
+        setLoadingProposal(false);
+      }
+    }
+  };
 
   const handleDownload = async () => {
     if (!run || !run.id) return;
@@ -141,7 +179,32 @@ export default function RunDetail() {
           <h1 className={styles.title}>{run.migrationName || 'Verification Run'}</h1>
           <p className={styles.subtitle}>ID: {run.id} • {new Date(run.timestamp).toLocaleString()}</p>
         </div>
-        <StatusBadge status={run.status} />
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.75rem' }}>
+          <StatusBadge status={run.status} />
+          {(run.status === 'FAIL' || run.status === 'UNSAFE' || run.status === 'INCOMPATIBLE') && (
+            <div className={styles.actionButtons}>
+              <button
+                type="button"
+                className={styles.btnAssistant}
+                onClick={() => {
+                  setAssistantCellState(undefined);
+                  setAssistantQuestion('Why did this migration verification fail, and what evidence was observed?');
+                  setIsAssistantOpen(true);
+                }}
+              >
+                <Sparkles size={14} /> Explain this result
+              </button>
+              <button
+                type="button"
+                className={styles.btnRepair}
+                onClick={handleOpenRepair}
+                disabled={loadingProposal}
+              >
+                <Wrench size={14} /> {loadingProposal ? 'Loading proposal...' : 'Review repair proposal'}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className={styles.metricsGrid}>
@@ -250,6 +313,19 @@ export default function RunDetail() {
                     {c.error && (
                       <div className={styles.matrixError} style={{ fontSize: '0.7rem', marginTop: '0.25rem' }}>{c.error}</div>
                     )}
+                    {!isPass && (
+                      <button
+                        type="button"
+                        className={styles.explainCellBtn}
+                        onClick={() => {
+                          setAssistantCellState(`${c.appVersion}+${c.dbVersion}`);
+                          setAssistantQuestion(`Why did state ${c.appVersion}+${c.dbVersion} fail during verification?`);
+                          setIsAssistantOpen(true);
+                        }}
+                      >
+                        <Sparkles size={12} /> [Explain this state]
+                      </button>
+                    )}
                   </div>
                 );
               })}
@@ -295,6 +371,22 @@ export default function RunDetail() {
         </div>
       </div>
 
+      {proposal && (
+        <RepairReviewModal
+          proposal={proposal}
+          isOpen={isRepairOpen}
+          onClose={() => setIsRepairOpen(false)}
+          token={token || undefined}
+        />
+      )}
+
+      <AssistantDrawer
+        isOpen={isAssistantOpen}
+        onClose={() => setIsAssistantOpen(false)}
+        verificationId={run.id}
+        initialQuestion={assistantQuestion}
+        initialCellState={assistantCellState}
+      />
     </div>
   );
 }

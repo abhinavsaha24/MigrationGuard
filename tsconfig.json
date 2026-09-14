@@ -10,6 +10,7 @@
     { "path": "packages/workload" },
     { "path": "packages/matrix-engine" },
     { "path": "packages/compatibility" },
+    { "path": "packages/repair-planner" },
     { "path": "packages/benchmark-runner" },
     { "path": "apps/poc-app" },
     { "path": "cli" }

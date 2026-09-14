@@ -126,6 +126,119 @@ describe('M10 API - Runs', () => {
   });
 });
 
+describe('Assistant & Repair API', () => {
+  const testRunId = 'MG-TEST-ASSISTANT-' + Date.now();
+  let proposalId: string;
+
+  beforeAll(async () => {
+    // Create a test run with a destructive rename failure
+    await app.inject({
+      method: 'POST',
+      url: '/api/runs',
+      headers: { Authorization: `Bearer ${reviewerToken}` },
+      payload: {
+        runId: testRunId,
+        migrationName: '20240102000000_v2',
+        status: 'FAIL',
+        durationMs: 1200,
+        compatibility: [
+          {
+            appVersion: 'OLD',
+            dbVersion: 'V2',
+            status: 'FAIL',
+            durationMs: 400,
+            error: 'The column `users.name` does not exist in the current database.',
+          },
+        ],
+        evidence: [
+          {
+            faultType: 'DESTRUCTIVE_RENAME',
+            confidence: 'CONFIRMED',
+            operation: 'GET /users/1',
+            observedError: 'The column `users.name` does not exist in the current database.',
+          },
+        ],
+      },
+    });
+  });
+
+  it('GET /api/assistant/status should return status and provider name', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/assistant/status' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.status).toBe('ok');
+    expect(body.provider).toBeDefined();
+  });
+
+  it('POST /api/assistant/ask should answer documentation queries', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/assistant/ask',
+      headers: { Authorization: `Bearer ${reviewerToken}` },
+      payload: { query: 'How does the compatibility matrix work?' },
+    });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.success).toBe(true);
+    expect(body.data.answer).toContain('Compatibility Matrix');
+    expect(body.data.citations.length).toBeGreaterThan(0);
+  });
+
+  it('POST /api/assistant/ask with runId should explain failure using evidence', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/assistant/ask',
+      headers: { Authorization: `Bearer ${reviewerToken}` },
+      payload: { runId: testRunId },
+    });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.success).toBe(true);
+    expect(body.data.explanation).toContain('destructive column rename');
+    expect(body.data.remediation.strategy).toBe('EXPAND_CONTRACT');
+    expect(body.data.observations.length).toBeGreaterThan(0);
+  });
+
+  it('POST /api/repair/proposals should synthesize deterministic repair proposal', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/repair/proposals',
+      headers: { Authorization: `Bearer ${reviewerToken}` },
+      payload: { runId: testRunId },
+    });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.success).toBe(true);
+    expect(body.proposal.strategy).toBe('EXPAND_CONTRACT');
+    expect(body.proposal.proposalId).toBeDefined();
+    expect(body.proposal.affectedObjects.length).toBeGreaterThan(0);
+    expect(body.proposal.migrationPlan.length).toBe(4);
+    proposalId = body.proposal.proposalId;
+  });
+
+  it('GET /api/repair/proposals/:id should retrieve existing proposal', async () => {
+    const res = await app.inject({
+      method: 'GET',
+      url: `/api/repair/proposals/${proposalId}`,
+      headers: { Authorization: `Bearer ${reviewerToken}` },
+    });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.proposal.proposalId).toBe(proposalId);
+  });
+
+  it('POST /api/repair/proposals/:id/approve should update status to APPROVED', async () => {
+    const res = await app.inject({
+      method: 'POST',
+      url: `/api/repair/proposals/${proposalId}/approve`,
+      headers: { Authorization: `Bearer ${reviewerToken}` },
+    });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.proposal.status).toBe('APPROVED');
+  });
+});
+
 const runIntegrationTests = process.env.INTEGRATION_TESTS === 'true';
 
 describe.skipIf(!runIntegrationTests)(

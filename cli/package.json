@@ -1,6 +1,6 @@
 {
   "name": "@abhinavsaha24/migrationguard",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Autonomous continuous compatibility verifier for database migrations across application versions",
   "author": "Abhinav Saha <abhinavsaha24@gmail.com>",
   "license": "MIT",
@@ -38,8 +38,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -b && esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --external:commander --external:formdata-node --external:@aws-sdk/* --external:@prisma/client --external:prisma --outfile=dist/index.js",
+    "build": "tsc -b && esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --define:__CLI_VERSION__=\\\"0.1.2\\\" --external:commander --external:formdata-node --external:@aws-sdk/* --external:@prisma/client --external:prisma --outfile=dist/index.js",
     "verify": "node ./dist/index.js verify",
+    "repair": "node ./dist/index.js repair",
     "benchmark": "node ./dist/index.js benchmark"
   },
   "dependencies": {
@@ -57,6 +58,7 @@
     "@migrationguard/evidence": "^0.1.0",
     "@migrationguard/matrix-engine": "^0.1.0",
     "@migrationguard/migration-engine": "*",
+    "@migrationguard/repair-planner": "*",
     "@migrationguard/sandbox": "*",
     "@migrationguard/workload": "^0.1.0",
     "esbuild": "^0.21.5"

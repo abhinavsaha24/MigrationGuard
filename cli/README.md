@@ -104,7 +104,62 @@ npx migrationguard verify \
 
 ---
 
-## 6. Generated Evidence Reports
+## 6. Guided Repair Workflow (`migrationguard repair`)
+
+When verification fails due to a detected schema incompatibility (such as `DESTRUCTIVE_RENAME` or `NOT_NULL_INCOMPATIBILITY`), MigrationGuard provides a deterministic repair planning system.
+
+The repair engine computes a **minimal compatibility-preserving change set** (e.g. Expand/Contract intermediate representation, nullable backfill) with exact unified diffs, multi-phase migration rollout plans, and risk assessments.
+
+### Inspecting Repair Proposals (`--show`)
+
+To inspect a proposed repair without making any local modifications:
+
+```bash
+npx migrationguard repair --show
+```
+
+Output displays:
+
+- Fault taxonomy classification (e.g. `DESTRUCTIVE_RENAME`)
+- Directly affected and dependent schema objects
+- Unified schema diff (`+` / `-` additions and modifications)
+- Full proposed schema
+- 4-phase rollout plan (Expand, Dual Write, Backfill, Contract)
+- Compatibility risks, assumptions, and SHA-256 integrity digest
+
+### Interactive Review & Application
+
+```bash
+npx migrationguard repair
+```
+
+MigrationGuard will present the complete proposal and prompt for explicit user authority approval:
+
+```
+Apply this compatibility repair to schema and re-verify? [y/N]
+```
+
+### Automation & CI Modes
+
+To approve and apply via flags:
+
+```bash
+# Non-interactive approval
+npx migrationguard repair --yes
+
+# Or explicitly by proposal ID:
+npx migrationguard repair --approve PRP-df721b242160d255
+```
+
+### Absolute Safety Guarantees
+
+1. **Zero Silent Edits**: Neither `verify` nor `repair --show` will ever modify local files. Files are touched only upon explicit authority approval (`--approve` or `--yes` or answering `y`).
+2. **Staleness Protection**: Every proposal is cryptographically bound to `sourceSchemaHash`. If the local schema is modified after proposal generation, application is rejected as stale (`CURRENT_SCHEMA_HASH != sourceSchemaHash`).
+3. **Independent Post-Repair Re-Verification**: Applying a repair automatically triggers an independent 4-cell matrix re-verification. Success is declared only when all 4 states pass deterministically.
+
+---
+
+## 7. Generated Evidence Reports
 
 Following verification, MigrationGuard generates structured artifacts in the local `reports/` directory:
 
@@ -126,7 +181,7 @@ Uploading is entirely optional. Local verification is 100% autonomous and requir
 
 ---
 
-## 7. Scope & Research-Prototype Limitations
+## 8. Scope & Research-Prototype Limitations
 
 - **Hash Integrity**: Artifact hashes are computed as SHA-256 cryptographic digests for tamper detection and evidence integrity. They represent content hashes, not asymmetric cryptographic digital signatures.
 - **Scope**: MigrationGuard currently evaluates schema migrations against specified synthetic workloads and application endpoints in isolated Docker sandboxes. It does not replace comprehensive integration testing or performance load testing.
@@ -134,6 +189,6 @@ Uploading is entirely optional. Local verification is 100% autonomous and requir
 
 ---
 
-## 8. License
+## 9. License
 
 MIT License. See [LICENSE](./LICENSE) for details.

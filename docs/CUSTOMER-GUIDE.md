@@ -265,10 +265,55 @@ Navigate to `https://migrationguard.abhinavsaha.me`:
    - Visual 4-cell compatibility matrix with execution durations for each cell.
    - Interactive evidence cards showing HTTP failures, PostgreSQL error traces, and causal analysis.
    - Engineering decisions: Record approval, rejection, or waiver notes for compliance auditing.
+   - **Assistant Drawer**: Click _"Explain this result"_ or any failed matrix cell's _"[Explain this state]"_ to query the MigrationGuard Assistant. The assistant explains observed errors, cites exact evidence IDs, and provides contextual remediation suggestions without ever altering deterministic verdicts.
+   - **Repair Review Modal**: Click _"Review repair proposal"_ to inspect the minimal compatibility-preserving change set, unified schema diffs, 4-phase rollout plan, and risks.
 
 ---
 
-## 10. CI/CD Pipeline Integration
+## 10. Guided Repair Workflow
+
+When a verification fails with an incompatibility (such as a destructive column rename or NOT NULL constraint addition), MigrationGuard's Guided Repair engine generates a non-breaking, minimal change proposal.
+
+### Workflow:
+
+1. **Failure Observation**:
+   Run verification:
+
+   ```bash
+   npx migrationguard verify
+   ```
+
+   If a backward compatibility failure occurs (e.g., in `OLD_APP + NEW_SCHEMA`), MigrationGuard flags the fault taxonomy.
+
+2. **Inspect Repair Proposal**:
+   Inspect proposed modifications without changing any files:
+
+   ```bash
+   npx migrationguard repair --show
+   ```
+
+   Displays:
+   - Current schema hash vs. proposed schema hash
+   - Affected schema models and properties
+   - Unified line-by-line diff (`+` / `-`)
+   - 4-phase rollout strategy (Phase 1 Expand, Phase 2 Backfill, Phase 3 Dual-Write, Phase 4 Contract)
+   - Identified operational risks and assumptions
+
+3. **Authority Approval & Application**:
+   To apply the repair to your local schema:
+
+   ```bash
+   npx migrationguard repair
+   ```
+
+   Review the prompt and confirm with `y`. For automated scripts, pass `--yes` or `--approve <proposalId>`.
+
+4. **Independent Post-Repair Re-Verification**:
+   The repair tool automatically re-executes the 4-cell matrix to confirm all states pass (`PASS / SAFE`). The repair is marked `VERIFIED` only if the deterministic engine independently validates it.
+
+---
+
+## 11. CI/CD Pipeline Integration
 
 Add MigrationGuard to GitHub Actions, GitLab CI, or Jenkins to block breaking migrations automatically:
 
