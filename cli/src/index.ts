@@ -6,9 +6,23 @@ import { benchmarkCommandAction } from './benchmark.js';
 import { storageReconcileAction } from './storageReconcile.js';
 import { evidenceVerifyAction } from './evidenceVerify.js';
 import * as path from 'path';
+import { readFileSync } from 'node:fs';
 
 declare const __CLI_VERSION__: string | undefined;
-const CLI_VERSION = typeof __CLI_VERSION__ !== 'undefined' ? __CLI_VERSION__ : '0.1.2';
+
+function getCliVersion(): string {
+  if (typeof __CLI_VERSION__ !== 'undefined') {
+    return __CLI_VERSION__;
+  }
+  try {
+    const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+    return pkg.version || '0.0.0';
+  } catch {
+    return '0.0.0';
+  }
+}
+
+const CLI_VERSION = getCliVersion();
 
 const program = new Command();
 

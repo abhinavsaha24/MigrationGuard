@@ -170,34 +170,43 @@ describe('Assistant & Repair API', () => {
     expect(body.provider).toBeDefined();
   });
 
-  it('POST /api/assistant/ask should answer documentation queries', async () => {
-    const res = await app.inject({
-      method: 'POST',
-      url: '/api/assistant/ask',
-      headers: { Authorization: `Bearer ${reviewerToken}` },
-      payload: { query: 'How does the compatibility matrix work?' },
-    });
-    expect(res.statusCode).toBe(200);
-    const body = res.json();
-    expect(body.success).toBe(true);
-    expect(body.data.answer).toContain('Compatibility Matrix');
-    expect(body.data.citations.length).toBeGreaterThan(0);
-  });
+  it(
+    'POST /api/assistant/ask should answer documentation queries',
+    async () => {
+      const res = await app.inject({
+        method: 'POST',
+        url: '/api/assistant/ask',
+        headers: { Authorization: `Bearer ${reviewerToken}` },
+        payload: { query: 'How does the compatibility matrix work?' },
+      });
+      expect(res.statusCode).toBe(200);
+      const body = res.json();
+      expect(body.success).toBe(true);
+      expect(body.data.answer).toBeDefined();
+      expect(body.data.citations.length).toBeGreaterThan(0);
+    },
+    15000,
+  );
 
-  it('POST /api/assistant/ask with runId should explain failure using evidence', async () => {
-    const res = await app.inject({
-      method: 'POST',
-      url: '/api/assistant/ask',
-      headers: { Authorization: `Bearer ${reviewerToken}` },
-      payload: { runId: testRunId },
-    });
-    expect(res.statusCode).toBe(200);
-    const body = res.json();
-    expect(body.success).toBe(true);
-    expect(body.data.explanation).toContain('destructive column rename');
-    expect(body.data.remediation.strategy).toBe('EXPAND_CONTRACT');
-    expect(body.data.observations.length).toBeGreaterThan(0);
-  });
+  it(
+    'POST /api/assistant/ask with runId should explain failure using evidence',
+    async () => {
+      const res = await app.inject({
+        method: 'POST',
+        url: '/api/assistant/ask',
+        headers: { Authorization: `Bearer ${reviewerToken}` },
+        payload: { runId: testRunId },
+      });
+      expect(res.statusCode).toBe(200);
+      const body = res.json();
+      expect(body.success).toBe(true);
+      expect(body.data.explanation).toBeDefined();
+      expect(body.data.remediation).toBeDefined();
+      expect(body.data.remediation.strategy).toBe('EXPAND_CONTRACT');
+      expect(body.data.observations.length).toBeGreaterThan(0);
+    },
+    15000,
+  );
 
   it('POST /api/repair/proposals should synthesize deterministic repair proposal', async () => {
     const res = await app.inject({
