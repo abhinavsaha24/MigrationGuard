@@ -3,7 +3,11 @@ import * as fs from 'fs';
 import * as crypto from 'crypto';
 import * as readline from 'readline';
 import { RepairPlanner } from '@migrationguard/repair-planner';
-import { CompatibilityExplanationContext, RepairProposal } from '@migrationguard/core';
+import {
+  CompatibilityExplanationContext,
+  RepairProposal,
+  normalizeCanonicalFaultCategory,
+} from '@migrationguard/core';
 import { runVerificationOrchestrator } from './orchestrator.js';
 
 export interface RepairOptions {
@@ -85,6 +89,7 @@ export async function repairCommand(options: RepairOptions, cwd: string) {
     verificationId: `MG-REPAIR-${Date.now()}`,
     verdict: 'FAIL',
     faultCategory: 'DESTRUCTIVE_RENAME',
+    failureMechanism: 'QUERY_INCOMPATIBILITY',
     confidence: 'CONFIRMED',
     failedStates: ['OLD_APP_V2_DB', 'NEW_APP_V1_DB'],
     migrationChanges: [
@@ -124,10 +129,12 @@ export async function repairCommand(options: RepairOptions, cwd: string) {
           const evList = latestReport.evidence;
           const primaryEv =
             evList.find((e: any) => e.failureCategory === 'COMPATIBILITY_FAILURE') || evList[0];
+          const canonical = normalizeCanonicalFaultCategory(primaryEv.faultType);
           context = {
             verificationId: latestReport.runId || context.verificationId,
             verdict: evList.some((e: any) => e.failureCategory !== 'NONE') ? 'FAIL' : 'PASS',
-            faultCategory: primaryEv.faultType || 'COMPATIBILITY_FAILURE',
+            faultCategory: canonical.faultCategory,
+            failureMechanism: canonical.failureMechanism,
             confidence: primaryEv.confidence || 'CONFIRMED',
             failedStates: evList
               .filter((e: any) => e.failureCategory !== 'NONE')

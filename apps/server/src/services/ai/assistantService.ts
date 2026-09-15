@@ -2,7 +2,11 @@ import { prisma } from '../../config/prisma.js';
 import { AIProvider, AssistantDocChunk } from './aiProvider.js';
 import { MockProvider } from './mockProvider.js';
 import { GeminiProvider } from './geminiProvider.js';
-import { CompatibilityExplanationContext, RepairProposal } from '@migrationguard/core';
+import {
+  CompatibilityExplanationContext,
+  RepairProposal,
+  normalizeCanonicalFaultCategory,
+} from '@migrationguard/core';
 import { RepairPlanner } from '@migrationguard/repair-planner';
 
 const BUILT_IN_DOCS: AssistantDocChunk[] = [
@@ -82,11 +86,15 @@ export class AssistantService {
     const failedRuns = run.compatibility.filter((c) => c.status !== 'PASS');
     const failedStates = failedRuns.map((c) => `${c.appVersion}_APP_${c.dbVersion}_DB`);
 
+    const canonical = normalizeCanonicalFaultCategory(
+      run.evidence[0]?.faultType || (run.status === 'PASS' ? 'NONE' : 'DESTRUCTIVE_RENAME'),
+    );
+
     const context: CompatibilityExplanationContext = {
       verificationId: run.id,
       verdict: run.status === 'PASS' ? 'PASS' : 'FAIL',
-      faultCategory:
-        run.evidence[0]?.faultType || (run.status === 'PASS' ? 'NONE' : 'COMPATIBILITY_FAILURE'),
+      faultCategory: canonical.faultCategory,
+      failureMechanism: canonical.failureMechanism,
       confidence: run.evidence[0]?.confidence || 'CONFIRMED',
       failedStates,
       migrationChanges: [],
@@ -118,10 +126,15 @@ export class AssistantService {
 
     if (!run) throw new Error(`Verification run [${runId}] not found.`);
 
+    const canonicalCell = normalizeCanonicalFaultCategory(
+      run.evidence[0]?.faultType || (run.status === 'PASS' ? 'NONE' : 'DESTRUCTIVE_RENAME'),
+    );
+
     const context: CompatibilityExplanationContext = {
       verificationId: run.id,
       verdict: run.status === 'PASS' ? 'PASS' : 'FAIL',
-      faultCategory: run.evidence[0]?.faultType || 'COMPATIBILITY_FAILURE',
+      faultCategory: canonicalCell.faultCategory,
+      failureMechanism: canonicalCell.failureMechanism,
       confidence: run.evidence[0]?.confidence || 'CONFIRMED',
       failedStates: [cellState],
       migrationChanges: [],

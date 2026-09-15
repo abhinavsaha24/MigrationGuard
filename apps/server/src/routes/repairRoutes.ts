@@ -2,7 +2,10 @@ import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { prisma } from '../config/prisma.js';
 import { RepairPlanner } from '@migrationguard/repair-planner';
-import { CompatibilityExplanationContext } from '@migrationguard/core';
+import {
+  CompatibilityExplanationContext,
+  normalizeCanonicalFaultCategory,
+} from '@migrationguard/core';
 
 const proposalCreateSchema = z.object({
   runId: z.string().min(1),
@@ -42,10 +45,13 @@ export async function setupRepairRoutes(app: FastifyInstance) {
     const failedStates = failedRuns.map((c) => `${c.appVersion}_APP_${c.dbVersion}_DB`);
     const primaryEvidence = run.evidence[0];
 
+    const canonical = normalizeCanonicalFaultCategory(primaryEvidence?.faultType);
+
     const context: CompatibilityExplanationContext = {
       verificationId: run.id,
       verdict: run.status === 'PASS' ? 'PASS' : 'FAIL',
-      faultCategory: primaryEvidence?.faultType || 'COMPATIBILITY_FAILURE',
+      faultCategory: canonical.faultCategory,
+      failureMechanism: canonical.failureMechanism,
       confidence: primaryEvidence?.confidence || 'CONFIRMED',
       failedStates,
       migrationChanges: [],

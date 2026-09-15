@@ -505,6 +505,7 @@ import {
   CompatibilityExplanationContext,
   MigrationChange,
   CompatibilityObservation,
+  normalizeCanonicalFaultCategory,
 } from '@migrationguard/core';
 
 export class ExplanationContextBuilder {
@@ -567,11 +568,15 @@ export class ExplanationContextBuilder {
     const primaryEvidence =
       evidenceList.find((e) => e.failureCategory === 'COMPATIBILITY_FAILURE') || evidenceList[0];
 
+    const canonical = primaryEvidence
+      ? normalizeCanonicalFaultCategory(primaryEvidence.faultType)
+      : normalizeCanonicalFaultCategory(verdict === 'PASS' ? 'NONE' : 'DESTRUCTIVE_RENAME');
+
     return {
       verificationId: runId,
       verdict,
-      faultCategory:
-        primaryEvidence?.failureCategory || (verdict === 'PASS' ? 'NONE' : 'UNKNOWN_FAILURE'),
+      faultCategory: canonical.faultCategory,
+      failureMechanism: canonical.failureMechanism,
       confidence: primaryEvidence?.confidence || 'UNKNOWN',
       failedStates,
       migrationChanges,

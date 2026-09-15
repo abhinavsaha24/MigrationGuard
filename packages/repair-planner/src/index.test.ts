@@ -23,7 +23,8 @@ ALTER TABLE "users" ADD COLUMN "full_name" TEXT NOT NULL;
   const sampleContext: CompatibilityExplanationContext = {
     verificationId: 'MG-TEST-100',
     verdict: 'FAIL',
-    faultCategory: 'COMPATIBILITY_FAILURE',
+    faultCategory: 'DESTRUCTIVE_RENAME',
+    failureMechanism: 'QUERY_INCOMPATIBILITY',
     confidence: 'CONFIRMED',
     failedStates: ['OLD_APP_V2_DB', 'NEW_APP_V1_DB'],
     migrationChanges: [
@@ -52,6 +53,8 @@ ALTER TABLE "users" ADD COLUMN "full_name" TEXT NOT NULL;
     const proposal = RepairPlanner.plan(sampleContext, sampleSchema, sampleMigration);
 
     expect(proposal.strategy).toBe('EXPAND_CONTRACT');
+    expect(proposal.faultCategory).toBe('DESTRUCTIVE_RENAME');
+    expect(proposal.failureMechanism).toBe('QUERY_INCOMPATIBILITY');
     expect(proposal.proposalId).toMatch(/^PRP-[a-f0-9]{16}$/);
     expect(proposal.affectedObjects.length).toBeGreaterThanOrEqual(2);
     expect(proposal.affectedObjects.some((o) => o.name === 'name')).toBe(true);
@@ -86,7 +89,8 @@ ALTER TABLE "users" ADD COLUMN "full_name" TEXT NOT NULL;
     const notNullContext: CompatibilityExplanationContext = {
       verificationId: 'MG-TEST-101',
       verdict: 'FAIL',
-      faultCategory: 'COMPATIBILITY_FAILURE',
+      faultCategory: 'NOT_NULL_ADDITION',
+      failureMechanism: 'MISSING_REQUIRED_COLUMN',
       confidence: 'CONFIRMED',
       failedStates: ['OLD_APP_V2_DB'],
       migrationChanges: [{ type: 'ADD_COLUMN', table: 'users', column: 'email', nullable: false }],

@@ -20,7 +20,8 @@ model users {
   const context: CompatibilityExplanationContext = {
     verificationId: 'MG-CLI-REPAIR-TEST',
     verdict: 'FAIL',
-    faultCategory: 'COMPATIBILITY_FAILURE',
+    faultCategory: 'DESTRUCTIVE_RENAME',
+    failureMechanism: 'QUERY_INCOMPATIBILITY',
     confidence: 'CONFIRMED',
     failedStates: ['OLD_APP_V2_DB'],
     migrationChanges: [{ type: 'RENAME_COLUMN', table: 'users', from: 'name', to: 'full_name' }],

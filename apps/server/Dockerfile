@@ -12,8 +12,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy package manifests
+# Copy package manifests and required workspace dependencies
 COPY package*.json ./
+COPY packages/core ./packages/core
+COPY packages/repair-planner ./packages/repair-planner
 COPY apps/server/package*.json ./apps/server/
 
 # Copy pre-compiled dist (built on host via tsc -b)
@@ -22,15 +24,10 @@ COPY apps/server/dist ./apps/server/dist
 # Copy Prisma schema for client generation
 COPY apps/server/prisma ./apps/server/prisma
 
-# Install dependencies natively inside Linux instead of copying from Windows host
-RUN npm ci --omit=dev
-RUN cd apps/server && npm ci --omit=dev
+# Install dependencies natively inside Linux
+RUN npm install --omit=dev
 
-# Re-install argon2 inside Linux to compile the correct native binary
-# (The Windows-compiled binary copied from the host does not work on Linux)
-RUN cd apps/server && npm rebuild argon2
-
-# Re-generate Prisma Client for linux-x64-openssl (correct native binary)
+# Re-generate Prisma Client for linux-x64-openssl
 RUN cd apps/server && npx prisma generate
 
 # Copy startup entrypoint (migrate + seed + start)

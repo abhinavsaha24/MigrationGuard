@@ -22,10 +22,78 @@ export interface CompatibilityObservation {
   databaseError?: string;
 }
 
+export type CanonicalFaultCategory =
+  | 'NOT_NULL_ADDITION'
+  | 'TYPE_NARROWING'
+  | 'DESTRUCTIVE_RENAME'
+  | 'SAFE_ADD_COLUMN'
+  | 'SAFE_ADD_TABLE'
+  | 'NONE';
+
+export type FailureMechanism =
+  | 'QUERY_INCOMPATIBILITY'
+  | 'MISSING_REQUIRED_COLUMN'
+  | 'TYPE_MISMATCH'
+  | 'TABLE_NOT_FOUND'
+  | 'NONE';
+
+export function normalizeCanonicalFaultCategory(faultTypeOrCategory?: string): {
+  faultCategory: CanonicalFaultCategory;
+  failureMechanism: FailureMechanism;
+} {
+  const upper = (faultTypeOrCategory || '').toUpperCase();
+  if (upper === 'DESTRUCTIVE_RENAME' || upper === 'COLUMN_REMOVAL' || upper === 'DROP_USED_TABLE') {
+    return {
+      faultCategory: 'DESTRUCTIVE_RENAME',
+      failureMechanism: 'QUERY_INCOMPATIBILITY',
+    };
+  }
+  if (
+    upper === 'NOT_NULL_ADDITION' ||
+    upper === 'NOT_NULL_INCOMPATIBILITY' ||
+    upper === 'MAKE_NON_NULL' ||
+    upper === 'ADD_REQUIRED_COLUMN'
+  ) {
+    return {
+      faultCategory: 'NOT_NULL_ADDITION',
+      failureMechanism: 'MISSING_REQUIRED_COLUMN',
+    };
+  }
+  if (upper === 'TYPE_NARROWING' || upper === 'TYPE_MISMATCH') {
+    return {
+      faultCategory: 'TYPE_NARROWING',
+      failureMechanism: 'TYPE_MISMATCH',
+    };
+  }
+  if (upper === 'SAFE_ADD_COLUMN') {
+    return {
+      faultCategory: 'SAFE_ADD_COLUMN',
+      failureMechanism: 'NONE',
+    };
+  }
+  if (upper === 'SAFE_ADD_TABLE') {
+    return {
+      faultCategory: 'SAFE_ADD_TABLE',
+      failureMechanism: 'NONE',
+    };
+  }
+  if (upper === 'NONE' || !upper) {
+    return {
+      faultCategory: 'NONE',
+      failureMechanism: 'NONE',
+    };
+  }
+  return {
+    faultCategory: 'DESTRUCTIVE_RENAME',
+    failureMechanism: 'QUERY_INCOMPATIBILITY',
+  };
+}
+
 export interface CompatibilityExplanationContext {
   verificationId: string;
   verdict: 'PASS' | 'FAIL';
-  faultCategory: string;
+  faultCategory: CanonicalFaultCategory | string;
+  failureMechanism?: FailureMechanism | string;
   confidence: string;
   failedStates: string[];
   migrationChanges: MigrationChange[];
@@ -83,6 +151,7 @@ export interface RepairProposal {
   sourceSchemaHash: string;
   sourceMigrationHash: string;
   faultCategory: string;
+  failureMechanism?: string;
   compatibilityState: string;
   strategy: RepairStrategy;
   affectedObjects: AffectedObject[];
