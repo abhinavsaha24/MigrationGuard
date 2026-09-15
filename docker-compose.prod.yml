@@ -30,6 +30,7 @@ services:
       - S3_BUCKET=${S3_BUCKET}
       - JWT_SECRET=${JWT_SECRET}
       - FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
+      - GIT_COMMIT=${GIT_COMMIT:-9310009}
       - SANDBOX_HOST=host.docker.internal
     depends_on:
       postgres:
