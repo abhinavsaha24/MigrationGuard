@@ -40,4 +40,39 @@ export async function setupAuthRoutes(app: FastifyInstance) {
     const user = request.user;
     return reply.send({ user });
   });
+
+  const changePasswordSchema = z.object({
+    currentPassword: z.string().min(1),
+    newPassword: z.string().min(8),
+  });
+
+  app.post(
+    '/change-password',
+    { preValidation: [(app as any).authenticate] },
+    async (request, reply) => {
+      try {
+        const userId = (request.user as any).id;
+        const { currentPassword, newPassword } = changePasswordSchema.parse(request.body);
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+          return reply
+            .status(404)
+            .send({ error: { code: 'NOT_FOUND', message: 'User not found' } });
+        }
+
+        const isValid = await argon2.verify(user.passwordHash, currentPassword);
+        if (!isValid) {
+          return reply
+            .status(401)
+            .send({ error: { code: 'UNAUTHORIZED', message: 'Current password invalid' } });
+        }
+
+        const newHash = await argon2.hash(newPassword);
+        await prisma.user.update({ where: { id: userId }, data: { passwordHash: newHash } });
+        return reply.send({ success: true, message: 'Password updated successfully' });
+      } catch (e: any) {
+        return reply.status(400).send({ error: { code: 'VALIDATION_ERROR', message: e.message } });
+      }
+    },
+  );
 }

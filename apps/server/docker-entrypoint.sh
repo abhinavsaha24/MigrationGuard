@@ -37,29 +37,28 @@ async function ensureBucket() {
 ensureBucket().catch(e => console.error('[startup] Bucket error (non-fatal):', e.message));
 EOF
 
-# Seed default admin and reviewer users (upsert — idempotent)
+# Seed admin user only if explicitly configured via environment variable (No hardcoded credentials)
 node << 'EOF'
 const { PrismaClient } = require('/app/node_modules/@prisma/client');
 const argon2 = require('/app/node_modules/argon2');
 const p = new PrismaClient();
 
 async function seed() {
-  const adminHash = await argon2.hash('admin123!');
-  const reviewerHash = await argon2.hash('reviewer123!');
+  const adminPassword = process.env.INITIAL_ADMIN_PASSWORD || process.env.ADMIN_PASSWORD;
+  if (!adminPassword) {
+    console.log('[startup] No INITIAL_ADMIN_PASSWORD configured. Skipping default user seeding.');
+    await p.$disconnect();
+    return;
+  }
+  const adminHash = await argon2.hash(adminPassword);
 
   await p.user.upsert({
     where: { email: 'admin@migrationguard.dev' },
-    update: {},
+    update: { passwordHash: adminHash },
     create: { email: 'admin@migrationguard.dev', passwordHash: adminHash, role: 'ADMIN' },
   });
 
-  await p.user.upsert({
-    where: { email: 'reviewer@migrationguard.dev' },
-    update: {},
-    create: { email: 'reviewer@migrationguard.dev', passwordHash: reviewerHash, role: 'REVIEWER' },
-  });
-
-  console.log('[startup] Users seeded');
+  console.log('[startup] Admin user initialized with environment-provided password.');
   await p.$disconnect();
 }
 

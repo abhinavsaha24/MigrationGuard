@@ -308,8 +308,8 @@ When a verification fails with an incompatibility (such as a destructive column 
 
    Review the prompt and confirm with `y`. For automated scripts, pass `--yes` or `--approve <proposalId>`.
 
-4. **Independent Post-Repair Re-Verification**:
-   The repair tool automatically re-executes the 4-cell matrix to confirm all states pass (`PASS / SAFE`). The repair is marked `VERIFIED` only if the deterministic engine independently validates it.
+4. **Fresh Deterministic Post-Repair Verification**:
+   The repair tool automatically re-executes the 4-cell matrix to confirm all states pass (`PASS / SAFE`). The repair is marked `VERIFIED` only if a fresh deterministic post-repair verification confirms zero incompatibilities.
 
 ---
 

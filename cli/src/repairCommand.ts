@@ -246,7 +246,7 @@ export async function repairCommand(options: RepairOptions, cwd: string) {
   console.log('[Repair] Schema successfully updated.');
 
   // Immediate Post-Repair Verification
-  console.log('\n[Repair] Executing mandatory independent post-repair verification...');
+  console.log('\n[Repair] Executing mandatory fresh deterministic post-repair verification...');
   const resolvedConfig = {
     migration: migrationDir,
     baseMigration: config.baseMigration ? path.resolve(configDir, config.baseMigration) : '',

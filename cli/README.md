@@ -155,7 +155,7 @@ npx migrationguard repair --approve PRP-df721b242160d255
 
 1. **Zero Silent Edits**: Neither `verify` nor `repair --show` will ever modify local files. Files are touched only upon explicit authority approval (`--approve` or `--yes` or answering `y`).
 2. **Staleness Protection**: Every proposal is cryptographically bound to `sourceSchemaHash`. If the local schema is modified after proposal generation, application is rejected as stale (`CURRENT_SCHEMA_HASH != sourceSchemaHash`).
-3. **Independent Post-Repair Re-Verification**: Applying a repair automatically triggers an independent 4-cell matrix re-verification. Success is declared only when all 4 states pass deterministically.
+3. **Fresh Deterministic Post-Repair Verification**: Applying a repair automatically triggers a fresh deterministic 4-cell matrix post-repair verification. Success is declared only when all 4 states pass deterministically.
 
 ---
 

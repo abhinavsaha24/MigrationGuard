@@ -75,13 +75,14 @@ export async function buildApp(): Promise<FastifyInstance> {
   });
 
   app.get('/api/health', async (request, reply) => {
+    const commit = process.env.GIT_COMMIT || '03082d8';
     try {
       const { prisma } = await import('./config/prisma.js');
       await prisma.$queryRaw`SELECT 1`;
-      return { status: 'ok', database: 'connected' };
+      return { status: 'ok', version: '0.1.2', commit, database: 'connected' };
     } catch (e) {
       reply.status(503);
-      return { status: 'error', database: 'disconnected' };
+      return { status: 'error', version: '0.1.2', commit, database: 'disconnected' };
     }
   });
 
