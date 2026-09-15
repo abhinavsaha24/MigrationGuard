@@ -61,6 +61,7 @@ jobs:
       - name: Setup Database
         run: |
           npx prisma migrate deploy --schema apps/server/prisma/schema.prisma
+          npx prisma db push --schema apps/server/prisma/schema.prisma --skip-generate
           npx tsx apps/server/src/seed.ts
 
       - name: Unit & Integration Tests
