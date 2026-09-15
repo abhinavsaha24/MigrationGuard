@@ -9,6 +9,7 @@ export interface VerifyConfig {
   workload?: string;
   appDir?: string;
   upload?: boolean;
+  json?: boolean;
 }
 
 export async function verifyCommand(options: any, cwd: string) {
@@ -85,6 +86,7 @@ export async function verifyCommand(options: any, cwd: string) {
   if (options.schema) config.schema = path.resolve(cwd, options.schema);
   if (options.appDir) config.appDir = path.resolve(cwd, options.appDir);
   if (options.upload !== undefined) config.upload = options.upload;
+  if (options.json !== undefined) config.json = Boolean(options.json);
 
   // Validate presence
   const missing = [];
@@ -93,8 +95,22 @@ export async function verifyCommand(options: any, cwd: string) {
   if (!config.schema) missing.push('schema');
 
   if (missing.length > 0) {
-    console.error(`Missing required configuration: ${missing.join(', ')}`);
-    console.error('Please specify a configuration file via --config <path> or CLI flags.');
+    if (config.json) {
+      console.log(
+        JSON.stringify(
+          {
+            exitCode: 2,
+            result: 'CONFIGURATION ERROR',
+            error: `Missing required configuration: ${missing.join(', ')}`,
+          },
+          null,
+          2,
+        ),
+      );
+    } else {
+      console.error(`Missing required configuration: ${missing.join(', ')}`);
+      console.error('Please specify a configuration file via --config <path> or CLI flags.');
+    }
     process.exit(2);
   }
 
@@ -105,13 +121,28 @@ export async function verifyCommand(options: any, cwd: string) {
     workload: config.workload as string,
     appDir: config.appDir ? path.resolve(configDir, config.appDir) : cwd,
     upload: config.upload || false,
+    json: config.json || false,
   };
 
   // Validate files exist
   for (const [key, p] of Object.entries(resolvedConfig)) {
-    if (key === 'upload' || (key === 'baseMigration' && !p)) continue;
+    if (key === 'upload' || key === 'json' || (key === 'baseMigration' && !p)) continue;
     if (p && !fs.existsSync(p as string)) {
-      console.error(`[Configuration Error] ${key} path does not exist: ${p}`);
+      if (config.json) {
+        console.log(
+          JSON.stringify(
+            {
+              exitCode: 2,
+              result: 'CONFIGURATION ERROR',
+              error: `[Configuration Error] ${key} path does not exist: ${p}`,
+            },
+            null,
+            2,
+          ),
+        );
+      } else {
+        console.error(`[Configuration Error] ${key} path does not exist: ${p}`);
+      }
       process.exit(2); // CONFIGURATION_ERROR
     }
   }

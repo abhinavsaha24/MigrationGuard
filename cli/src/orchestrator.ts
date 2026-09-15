@@ -11,11 +11,21 @@ import * as fs from 'fs';
 import { VerifyConfig } from './verifyCommand.js';
 
 export async function runVerificationOrchestrator(config: Required<VerifyConfig>): Promise<number> {
-  console.log('\nMigrationGuard');
-  console.log('────────────────────────────\n');
+  const originalLog = console.log;
+  const isJson = Boolean(config.json);
+  if (isJson) {
+    console.log = (...args: any[]) => {
+      process.stderr.write(args.map(String).join(' ') + '\n');
+    };
+  }
 
-  console.log(`Migration:\n${path.basename(config.migration)}\n`);
-  console.log(`Environment:\nPostgreSQL\nNode.js\nPrisma\n`);
+  if (!isJson) {
+    console.log('\nMigrationGuard');
+    console.log('────────────────────────────\n');
+
+    console.log(`Migration:\n${path.basename(config.migration)}\n`);
+    console.log(`Environment:\nPostgreSQL\nNode.js\nPrisma\n`);
+  }
 
   const sandbox = new PostgresSandbox(`mg-cli-${Date.now()}`);
   const oldRunner = new ApplicationRunner('OLD', config.appDir);
@@ -27,6 +37,20 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
     workload = WorkloadLoader.load(config.workload);
   } catch (e: any) {
     console.error(`[Configuration Error] Failed to load workload: ${e.message}`);
+    if (config.json) {
+      console.log = originalLog;
+      process.stdout.write(
+        JSON.stringify(
+          {
+            exitCode: 2,
+            result: 'CONFIGURATION ERROR',
+            error: `Failed to load workload: ${e.message}`,
+          },
+          null,
+          2,
+        ) + '\n',
+      );
+    }
     return 2; // CONFIGURATION_ERROR
   }
 
@@ -41,6 +65,20 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
     }
   } catch (e: any) {
     console.error(`[Configuration Error] Failed to read migration.sql: ${e.message}`);
+    if (config.json) {
+      console.log = originalLog;
+      process.stdout.write(
+        JSON.stringify(
+          {
+            exitCode: 2,
+            result: 'CONFIGURATION ERROR',
+            error: `Failed to read migration.sql: ${e.message}`,
+          },
+          null,
+          2,
+        ) + '\n',
+      );
+    }
     return 2; // CONFIGURATION_ERROR
   }
 
@@ -51,8 +89,6 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
     if (config.baseMigration && fs.existsSync(path.join(config.baseMigration, 'schema.prisma'))) {
       schemaV1 = fs.readFileSync(path.join(config.baseMigration, 'schema.prisma'), 'utf-8');
     } else if (config.schema && fs.existsSync(config.schema)) {
-      // Fallback if base schema doesn't exist in migration dir, we assume it's the main one?
-      // For testing, tests copy schema-v1 to schema.prisma
       schemaV1 = fs.readFileSync(config.schema, 'utf-8');
     }
     if (config.schema && fs.existsSync(config.schema)) {
@@ -77,8 +113,6 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
     const dbUrl = sandbox.getDatabaseUrl();
     const migrationEngine = new MigrationEngine(dbUrl);
 
-    // M1 regression fixture doesn't have an explicit v1 config in standard CLI use cases,
-    // but our verifyCommand sets it up nicely. We just pass it through.
     const matrixEngine = new CompatibilityMatrixEngine({
       sandbox,
       migrationEngine,
@@ -100,7 +134,9 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
     let hasInfraFailure = false;
     let failingEvidence: EvidenceRecord | null = null;
 
-    console.log('Compatibility Matrix:\n');
+    if (!config.json) {
+      console.log('Compatibility Matrix:\n');
+    }
     for (const run of matrixResult.runs) {
       const evidence = CompatibilityAnalyzer.analyze(
         run,
@@ -114,14 +150,9 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
       const label = `${evidence.applicationVersion} + ${evidence.databaseVersion}`.padEnd(12, ' ');
 
       if (evidence.failureCategory === 'NONE') {
-        console.log(`${label} PASS`);
+        if (!config.json) console.log(`${label} PASS`);
       } else if (evidence.failureCategory === 'COMPATIBILITY_FAILURE') {
-        console.log(`${label} FAIL`);
-        // Ignore forward compatibility failures for NEW APP + V1 DB as they are expected by default
-        // But wait, the regression test explicitly asserts NEW + V1 is a FAIL.
-        // For general "Verified failure" exit status, we usually only care about OLD + V2 and NEW + V2 and OLD + V1.
-        // Actually, NEW + V1 is expected to fail. So it doesn't fail the *verification*.
-        // Only OLD + V2 failing means VERIFICATION FAILED (Regression found).
+        if (!config.json) console.log(`${label} FAIL`);
         if (evidence.applicationVersion === 'OLD' && evidence.databaseVersion === 'V2') {
           hasVerifiedCompatibilityFailure = true;
           if (!failingEvidence) failingEvidence = evidence;
@@ -130,39 +161,47 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
           if (!failingEvidence) failingEvidence = evidence;
         }
       } else if (evidence.failureCategory === 'MIGRATION_EXECUTION_FAILURE') {
-        console.log(`${label} FAIL`);
+        if (!config.json) console.log(`${label} FAIL`);
         hasVerifiedCompatibilityFailure = true;
         if (!failingEvidence) failingEvidence = evidence;
       } else {
-        console.log(`${label} FAIL`);
+        if (!config.json) console.log(`${label} FAIL`);
         hasInfraFailure = true;
         if (!failingEvidence) failingEvidence = evidence;
       }
     }
 
-    console.log('');
+    if (!config.json) {
+      console.log('');
+    }
 
     if (hasInfraFailure) {
-      console.log('Result:\nINFRASTRUCTURE FAILED\n');
-      console.log(`Fault:\n${failingEvidence?.failureCategory}\n`);
+      if (!config.json) {
+        console.log('Result:\nINFRASTRUCTURE FAILED\n');
+        console.log(`Fault:\n${failingEvidence?.failureCategory}\n`);
+      }
       exitCode = 3; // INFRASTRUCTURE_FAILURE
     } else if (hasVerifiedCompatibilityFailure) {
-      console.log('Result:\nVERIFICATION FAILED\n');
-      console.log(`Fault:\n${failingEvidence?.faultType}\n`);
-      console.log(`Confidence:\n${failingEvidence?.confidence}\n`);
-      if (failingEvidence?.operationId) {
-        console.log(`Evidence:\n${failingEvidence.operationId}\n`);
-      }
-      if (failingEvidence?.databaseError || failingEvidence?.actualResult) {
-        let obs = failingEvidence.databaseError;
-        if (!obs && failingEvidence.actualResult) {
-          obs = JSON.stringify(failingEvidence.actualResult);
+      if (!config.json) {
+        console.log('Result:\nVERIFICATION FAILED\n');
+        console.log(`Fault:\n${failingEvidence?.faultType}\n`);
+        console.log(`Confidence:\n${failingEvidence?.confidence}\n`);
+        if (failingEvidence?.operationId) {
+          console.log(`Evidence:\n${failingEvidence.operationId}\n`);
         }
-        console.log(`Observed:\n${obs}\n`);
+        if (failingEvidence?.databaseError || failingEvidence?.actualResult) {
+          let obs = failingEvidence.databaseError;
+          if (!obs && failingEvidence.actualResult) {
+            obs = JSON.stringify(failingEvidence.actualResult);
+          }
+          console.log(`Observed:\n${obs}\n`);
+        }
       }
       exitCode = 1; // VERIFIED_COMPATIBILITY_FAILURE
     } else {
-      console.log('Result:\nSUCCESS\n');
+      if (!config.json) {
+        console.log('Result:\nSUCCESS\n');
+      }
       exitCode = 0; // SUCCESS
     }
 
@@ -176,7 +215,10 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
     generateReport(evidenceList, reportsDir);
 
     const jsonReportPath = path.join(reportsDir, `${runId}.json`);
-    console.log(`Reports:\nreports/${runId}.json\nreports/${runId}.md\n`);
+    const mdReportPath = path.join(reportsDir, `${runId}.md`);
+    if (!config.json) {
+      console.log(`Reports:\nreports/${runId}.json\nreports/${runId}.md\n`);
+    }
 
     if (config.upload) {
       const token = process.env.MG_API_TOKEN;
@@ -261,12 +303,82 @@ export async function runVerificationOrchestrator(config: Required<VerifyConfig>
         }
       }
     }
+
+    if (config.json) {
+      console.log = originalLog;
+      const structuredOutput = {
+        runId,
+        exitCode,
+        result: hasInfraFailure
+          ? 'INFRASTRUCTURE FAILED'
+          : hasVerifiedCompatibilityFailure
+            ? 'VERIFICATION FAILED'
+            : 'SUCCESS',
+        fault: failingEvidence?.faultType || 'NONE',
+        confidence: failingEvidence?.confidence || 'UNKNOWN',
+        matrix: {
+          OLD_V1:
+            evidenceList.find((e) => e.applicationVersion === 'OLD' && e.databaseVersion === 'V1')
+              ?.failureCategory === 'NONE'
+              ? 'PASS'
+              : 'FAIL',
+          NEW_V1:
+            evidenceList.find((e) => e.applicationVersion === 'NEW' && e.databaseVersion === 'V1')
+              ?.failureCategory === 'NONE'
+              ? 'PASS'
+              : 'FAIL',
+          OLD_V2:
+            evidenceList.find((e) => e.applicationVersion === 'OLD' && e.databaseVersion === 'V2')
+              ?.failureCategory === 'NONE'
+              ? 'PASS'
+              : 'FAIL',
+          NEW_V2:
+            evidenceList.find((e) => e.applicationVersion === 'NEW' && e.databaseVersion === 'V2')
+              ?.failureCategory === 'NONE'
+              ? 'PASS'
+              : 'FAIL',
+        },
+        states: evidenceList.map((e) => ({
+          applicationVersion: e.applicationVersion,
+          databaseVersion: e.databaseVersion,
+          status: e.failureCategory === 'NONE' ? 'PASS' : 'FAIL',
+          failureCategory: e.failureCategory,
+          faultType: e.faultType,
+          confidence: e.confidence,
+          operationId: e.operationId,
+          observedError:
+            e.databaseError || (e.actualResult ? JSON.stringify(e.actualResult) : undefined),
+        })),
+        evidence: evidenceList,
+        reports: {
+          json: path.relative(process.cwd(), jsonReportPath).replace(/\\/g, '/'),
+          markdown: path.relative(process.cwd(), mdReportPath).replace(/\\/g, '/'),
+        },
+      };
+      process.stdout.write(JSON.stringify(structuredOutput, null, 2) + '\n');
+    }
   } catch (error: any) {
-    console.error('\nResult:\nVERIFICATION FAILED (Unexpected Error)\n');
-    console.error(error.message);
     exitCode = 4; // UNKNOWN_FAILURE
+    if (config.json) {
+      console.log = originalLog;
+      process.stdout.write(
+        JSON.stringify(
+          {
+            runId,
+            exitCode: 4,
+            result: 'VERIFICATION FAILED (Unexpected Error)',
+            error: error.message || String(error),
+          },
+          null,
+          2,
+        ) + '\n',
+      );
+    } else {
+      console.error('\nResult:\nVERIFICATION FAILED (Unexpected Error)\n');
+      console.error(error.message);
+    }
   } finally {
-    // Ensure all resources are cleaned up
+    console.log = originalLog;
     sandbox.stop();
   }
 

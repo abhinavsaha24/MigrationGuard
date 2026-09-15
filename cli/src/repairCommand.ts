@@ -254,6 +254,7 @@ export async function repairCommand(options: RepairOptions, cwd: string) {
     workload: path.resolve(configDir, config.workload),
     appDir: config.appDir ? path.resolve(configDir, config.appDir) : cwd,
     upload: false,
+    json: false,
   };
 
   const verifyExitCode = await runVerificationOrchestrator(resolvedConfig);

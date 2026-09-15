@@ -38,6 +38,7 @@ program
   .option('-s, --schema <path>', 'Path to Prisma schema (overrides config)')
   .option('-a, --app-dir <path>', 'Path to application root directory (overrides config)')
   .option('--upload', 'Upload results to MigrationGuard hosted service (requires MG_API_TOKEN)')
+  .option('--json', 'Output machine-readable JSON verification result to stdout')
   .action(async (options) => {
     try {
       await verifyCommand(options, process.cwd());

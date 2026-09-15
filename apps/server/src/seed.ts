@@ -4,7 +4,11 @@ import * as argon2 from 'argon2';
 async function main() {
   const adminPasswordRaw =
     process.env.INITIAL_ADMIN_PASSWORD ||
-    (process.env.NODE_ENV !== 'production' ? 'dev_admin_temp_only' : undefined);
+    (process.env.NODE_ENV === 'test'
+      ? 'admin123!'
+      : process.env.NODE_ENV !== 'production'
+        ? 'dev_admin_temp_only'
+        : undefined);
   if (!adminPasswordRaw) {
     throw new Error(
       'INITIAL_ADMIN_PASSWORD environment variable is required to seed users in production.',
@@ -24,7 +28,11 @@ async function main() {
 
   const reviewerPasswordRaw =
     process.env.INITIAL_REVIEWER_PASSWORD ||
-    (process.env.NODE_ENV !== 'production' ? 'dev_reviewer_temp_only' : undefined);
+    (process.env.NODE_ENV === 'test'
+      ? 'reviewer123!'
+      : process.env.NODE_ENV !== 'production'
+        ? 'dev_reviewer_temp_only'
+        : undefined);
   if (reviewerPasswordRaw) {
     const reviewerPassword = await argon2.hash(reviewerPasswordRaw);
     await prisma.user.upsert({
